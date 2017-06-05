@@ -1,0 +1,30 @@
+
+installation >>
+https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04
+
+security >>
+https://futurestud.io/tutorials/how-to-run-gitlab-with-self-signed-ssl-certificate
+https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/settings/nginx.md#enable-https
+
+jenkins-intergration >>
+https://docs.bitnami.com/bch/how-to/create-ci-pipeline/
+
+all-info >>
+https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/README.md
+
+
+
+
+gitlab-official >>
+https://docs.gitlab.com/
+https://about.gitlab.com/downloads/#ubuntu1604
+https://docs.gitlab.com/ce/README.html
+https://docs.gitlab.com/ee/integration/jenkins.html
+
+
+
+git local configuration >>
+
+https://www.digitalocean.com/community/tutorials/how-to-use-git-branches
+https://www.rosehosting.com/blog/how-to-install-configure-and-use-git-on-an-ubuntu-14-04-lts-vps/
+

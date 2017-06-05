@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html class="wf-ratio-n4-active wf-ratio-n3-active wf-ratio-n5-active wf-ratio-n7-active wf-ratio-i4-active wf-active" lang="en-US"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>How to Run GitLab with Self-Signed SSL Certificate</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Future Studio provides on-demand learning &amp; wants you to become a better Android (Retrofit, Gson, Glide) and Node.js/hapi.js developer!">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://futurestud.io/images/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="https://futurestud.io/images/favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://futurestud.io/images/favicons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://futurestud.io/images/favicons/manifest.json">
+    <link rel="mask-icon" href="https://futurestud.io/images/favicons/safari-pinned-tab.svg" color="#9b59b6">
+    <link rel="shortcut icon" href="https://futurestud.io/images/favicons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="Future Studio">
+    <meta name="application-name" content="Future Studio">
+    <meta name="msapplication-config" content="/images/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#9b59b6">
+
+    <link rel="publisher" href="https://plus.google.com/+FutureStudioUniversity">
+
+    <link rel="stylesheet" href="2%28a%29.Self-Signed-SSL-Certificate_files/bootstrap.css">
+    <link rel="stylesheet" href="2%28a%29.Self-Signed-SSL-Certificate_files/font-awesome.css">
+
+    <link rel="stylesheet" type="text/css" href="2%28a%29.Self-Signed-SSL-Certificate_files/main.css">
+
+    <link href="2%28a%29.Self-Signed-SSL-Certificate_files/video-js.css" rel="stylesheet">
+<style>
+    .hex.author > a, .hex-small.author > a {
+        background-image: url(//www.gravatar.com/avatar/8bdc80a9711edce0c9cf12684c185454?s=250&d=mm&r=x);
+    }
+
+    .affix-wrapper {
+        position: relative;
+    }
+</style><style type="text/css">.tk-ratio{font-family:"ratio",sans-serif;}</style><style type="text/css">@font-face{font-family:tk-ratio-n4;src:url(https://use.typekit.net/af/f4f660/000000000000000000010d53/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3) format("woff2"),url(https://use.typekit.net/af/f4f660/000000000000000000010d53/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3) format("woff"),url(https://use.typekit.net/af/f4f660/000000000000000000010d53/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3) format("opentype");font-weight:400;font-style:normal;}@font-face{font-family:tk-ratio-i4;src:url(https://use.typekit.net/af/7ca74e/000000000000000000010d54/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3) format("woff2"),url(https://use.typekit.net/af/7ca74e/000000000000000000010d54/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3) format("woff"),url(https://use.typekit.net/af/7ca74e/000000000000000000010d54/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3) format("opentype");font-weight:400;font-style:italic;}@font-face{font-family:tk-ratio-n3;src:url(https://use.typekit.net/af/ac47f4/000000000000000000010d51/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3) format("woff2"),url(https://use.typekit.net/af/ac47f4/000000000000000000010d51/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3) format("woff"),url(https://use.typekit.net/af/ac47f4/000000000000000000010d51/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3) format("opentype");font-weight:300;font-style:normal;}@font-face{font-family:tk-ratio-n5;src:url(https://use.typekit.net/af/acc372/000000000000000000010d55/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n5&v=3) format("woff2"),url(https://use.typekit.net/af/acc372/000000000000000000010d55/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n5&v=3) format("woff"),url(https://use.typekit.net/af/acc372/000000000000000000010d55/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n5&v=3) format("opentype");font-weight:500;font-style:normal;}@font-face{font-family:tk-ratio-n7;src:url(https://use.typekit.net/af/aba6af/000000000000000000010d57/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3) format("woff2"),url(https://use.typekit.net/af/aba6af/000000000000000000010d57/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3) format("woff"),url(https://use.typekit.net/af/aba6af/000000000000000000010d57/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3) format("opentype");font-weight:700;font-style:normal;}</style>
+
+<script type="text/javascript" async="" src="2%28a%29.Self-Signed-SSL-Certificate_files/embed.js"></script><style type="text/css">@font-face{font-family:ratio;src:url(https://use.typekit.net/af/f4f660/000000000000000000010d53/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3) format("woff2"),url(https://use.typekit.net/af/f4f660/000000000000000000010d53/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3) format("woff"),url(https://use.typekit.net/af/f4f660/000000000000000000010d53/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3) format("opentype");font-weight:400;font-style:normal;}@font-face{font-family:ratio;src:url(https://use.typekit.net/af/7ca74e/000000000000000000010d54/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3) format("woff2"),url(https://use.typekit.net/af/7ca74e/000000000000000000010d54/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3) format("woff"),url(https://use.typekit.net/af/7ca74e/000000000000000000010d54/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3) format("opentype");font-weight:400;font-style:italic;}@font-face{font-family:ratio;src:url(https://use.typekit.net/af/ac47f4/000000000000000000010d51/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3) format("woff2"),url(https://use.typekit.net/af/ac47f4/000000000000000000010d51/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3) format("woff"),url(https://use.typekit.net/af/ac47f4/000000000000000000010d51/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3) format("opentype");font-weight:300;font-style:normal;}@font-face{font-family:ratio;src:url(https://use.typekit.net/af/acc372/000000000000000000010d55/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n5&v=3) format("woff2"),url(https://use.typekit.net/af/acc372/000000000000000000010d55/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n5&v=3) format("woff"),url(https://use.typekit.net/af/acc372/000000000000000000010d55/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n5&v=3) format("opentype");font-weight:500;font-style:normal;}@font-face{font-family:ratio;src:url(https://use.typekit.net/af/aba6af/000000000000000000010d57/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3) format("woff2"),url(https://use.typekit.net/af/aba6af/000000000000000000010d57/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3) format("woff"),url(https://use.typekit.net/af/aba6af/000000000000000000010d57/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3) format("opentype");font-weight:700;font-style:normal;}</style><style type="text/css">#mc_embed_signup input.mce_inline_error { border-color:#6B0505; } #mc_embed_signup div.mce_inline_error { margin: 0 0 1em 0; padding: 5px 10px; background-color:#6B0505; font-weight: bold; z-index: 1; color:#fff; }</style><style id="fit-vids-style">.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style><link rel="prefetch" href="2%28a%29.Self-Signed-SSL-Certificate_files/a_data/lounge.css"><link rel="prefetch" href="2%28a%29.Self-Signed-SSL-Certificate_files/a_data/common.js"><link rel="prefetch" href="2%28a%29.Self-Signed-SSL-Certificate_files/a_data/lounge.js"><link rel="prefetch" href="2%28a%29.Self-Signed-SSL-Certificate_files/a_data/config.js"><script src="2%28a%29.Self-Signed-SSL-Certificate_files/alfie.js" async="" charset="UTF-8"></script></head>
+<body><div class="cc_banner-wrapper "><div class="cc_banner cc_container cc_container--open"><a href="#null" data-cc-event="click:dismiss" target="_blank" class="cc_btn cc_btn_accept_all">Got it!</a><p class="cc_message">Future Studio uses cookies to ensure you get the best experience on our website. <a data-cc-if="options.link" target="_self" class="cc_more_info" href="https://futurestud.io/privacy">Read our privacy policies here.</a></p><a class="cc_logo" target="_blank" href="http://silktide.com/cookieconsent">Cookie Consent plugin for the EU cookie law</a></div></div>
+<script type="text/javascript" async="" defer="defer" src="2%28a%29.Self-Signed-SSL-Certificate_files/piwik.js"></script><script src="2%28a%29.Self-Signed-SSL-Certificate_files/qbu4yjt.js"></script>
+<script>try {
+    Typekit.load({async: true});
+} catch (e) {
+}</script>
+
+
+<div class="h-wrapper">
+    <header class="main-header">
+    <nav class="navbar navbar-default">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="https://futurestud.io/">
+                    <img alt="Future Studio" src="2%28a%29.Self-Signed-SSL-Certificate_files/futurestudio-logo-transparent.png" class="pull-left">
+                    <div class="pull-left">Future Studio</div>
+                </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class=""><a href="https://futurestud.io/university">University</a></li>
+                    <li class="dropdown active">
+                        <a href="https://futurestud.io/tutorials" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tutorials <span class="caret"></span></a>
+                        <ul class="dropdown-menu dropdown-menu-indented">
+                            <li><a href="https://futurestud.io/tutorials">Overview</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="https://futurestud.io/tutorials/retrofit-getting-started-and-android-client">Retrofit</a></li>
+                            <li><a href="https://futurestud.io/tutorials/glide-getting-started">Glide</a></li>
+                            <li><a href="https://futurestud.io/tutorials/picasso-getting-started-simple-loading">Picasso</a></li>
+                            <li><a href="https://futurestud.io/tutorials/gson-getting-started-with-java-json-serialization-deserialization">Gson</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="https://futurestud.io/tutorials/hapi-get-your-server-up-and-running">hapi</a></li>
+                            <li><a href="https://futurestud.io/tutorials/coreos-platform-introduction-and-components">CoreOS</a></li>
+                            <li><a href="https://futurestud.io/tutorials/strider-getting-started-platform-overview">Strider</a></li>
+                            <li><a href="https://futurestud.io/tutorials/pm2-utility-overview-installation">PM2</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="https://futurestud.io/tutorials?filter=premium_tutorials&amp;filter=premium_videos">Premium Content</a></li>
+                            <li><a href="https://futurestud.io/tutorials?filter=video">Video Content</a></li>
+                        </ul>
+                    </li>
+                    <li class=""><a href="https://futurestud.io/books">Books</a></li>
+                    <li class=""><a href="https://futurestud.io/learningpaths">Learning Paths</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="https://futurestud.io/login">Sign in</a></li>
+                    <li><a href="https://futurestud.io/university" class="fs-btn fs-btn-premium">Enroll</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right navbar-socials">
+                    <li>
+                        <a href="https://www.youtube.com/channel/UCWIA0jryy_aEd9u6JTe1S9Q" title="Future Studio on YouTube" target="_blank">
+                            <i class="fa fa-youtube fa-lg"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/futurestud_io" title="Future Studio on Twitter" target="_blank">
+                            <i class="fa fa-twitter fa-lg"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://futurestud.io/search" title="Search" target="_blank">
+                            <i class="fa fa-search fa-lg"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+
+    </nav>
+</header>
+</div>
+
+    <div class="blog-filter">
+    <div class="container-lg">
+        <ol class="breadcrumb">
+            <li><a href="https://futurestud.io/"><i class="fa fa-home"></i></a></li>
+            <li><a href="https://futurestud.io/tutorials">Tutorials</a></li>
+            <li class="active">How to Run GitLab with Self-Signed SSL Certificate</li>
+        </ol>
+    </div>
+</div>
+
+<div class="container-lg">
+
+    
+
+<article role="main">
+
+    <div class="row">
+        <div class="col-md-offset-3 col-md-9">
+            <div class="tutorial-icons text-center">
+                <i class="fa fa-fw"></i>
+                <i class="fa fa-fw"></i>
+            </div>
+            <header>
+                <h1 class="post-title text-center" id="title">How to Run GitLab with Self-Signed SSL Certificate</h1>
+            </header>
+            <aside class="meta-author text-center">
+                    <div class="hex-small author">
+                        <a href="https://futurestud.io/tutorials/author/marcus" title="Future Studio Author Marcus Pöhls">
+                            <div class="hex-1"></div>
+                            <div class="hex-2"></div>
+                        </a>
+                    </div>
+                    <span>by <a href="https://futurestud.io/tutorials/author/marcus">Marcus Pöhls</a></span>
+                <span>
+                        on <time datetime="2014-09-18">September 18 2014</time>, tagged in
+ 
+                        <a href="https://futurestud.io/tutorials/tag/server" title="Server" class="tag-3 favorite-link">Server</a>, 
+                        <a href="https://futurestud.io/tutorials/tag/tools" title="Tools" class="tag-5 favorite-link">Tools</a>, 
+                        <a href="https://futurestud.io/tutorials/tag/nginx" title="Nginx" class="tag-34 favorite-link">Nginx</a>, 
+                        <a href="https://futurestud.io/tutorials/tag/gitlab" title="GitLab" class="tag-39 favorite-link">GitLab</a></span>
+                <span>, 7 min read</span>
+            </aside>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="moonshoot" class="hidden-xs hidden-sm col-md-3 scrollspy">
+            <div class="affix-wrapper affix-top" data-spy="affix" style="width: 253px;">
+                <h3>Moonshoot</h3>
+                <ul class="nav spoiler"><li class=""><a href="#title">Intro</a></li><li class=""><a href="#generateyourcertificate">Generate Your Certificate</a></li><li class=""><a href="#configurenginx">Configure Nginx</a></li><li class=""><a href="#configuregitlab">Configure GitLab</a></li><li class=""><a href="#configuregitlabshell">Configure GitLab-Shell</a></li><li class=""><a href="#restartgitlabandnginx">Restart GitLab and Nginx</a></li></ul><div class="feature-teaser">
+                                    <aside class="aside-info text-center fs-background">
+                                        <p><i class="fa fa-star fa-2x"></i></p>
+                                        <p>Moonshoot is a<br>Student Feature.</p>
+                                        <a href="https://futurestud.io/university#student-features" class="fs-btn fs-btn-real-black fs-btn-sm">Show more</a>
+                                    </aside>
+                                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div id="js-post-content" class="post-content">
+                <p><strong>Update 19th Sept 2014:</strong> We added a reference to the <a href="https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/README.md">GitLab Omnibus Readme</a> as additional resources at the bottom of this post.</p>
+
+<hr>
+
+<p>This post describes how to configure a running GitLab instance with a
+ (self-signed) SSL certificate. The following steps assume you already 
+have a running instance of GitLab available. Ok, let's start with the 
+generation of your SSL certificate.</p>
+
+<h2 id="generateyourcertificate">Generate Your Certificate</h2>
+
+<p>Before changing any GitLab configuration, you need a valid SSL 
+certificate. In case you already bought a certificate from a certificate
+ authority, you can go straight ahead to the next section. Else, you 
+probably need to generate your own certificate. When using a self-signed
+ certificate browsers will show a message that the page you're visiting 
+cannot be trusted. Make sure everybody who'll access the GitLab url 
+knows this.</p>
+
+<p>In order to generate the certificate, we use Ubuntu and OpenSSL. If 
+you don't already have OpenSSL installed, please do so. Additionally, 
+the following steps assume you're using nginx as webserver. The 
+following commands describe the steps to generate your certificate. If 
+you need further information, please find them in the <a href="https://serversforhackers.com/editions/2014/04/08/ssl-certs/">SSL Certificates post on Servers for Hackers</a>.</p>
+
+<pre class="  language-bash"><code class="  language-bash"><span class="token comment" spellcheck="true"># Create a 2048 bit private key</span>
+<span class="token comment" spellcheck="true"># If the ssl directory doesn't exist, please create it first</span>
+<span class="token function">sudo</span> openssl genrsa -out <span class="token string">"/etc/nginx/ssl/gitlab.key"</span> 2048
+
+<span class="token comment" spellcheck="true"># This command generates the certificate signing request</span>
+<span class="token function">sudo</span> openssl req -new -key <span class="token string">"/etc/nginx/ssl/gitlab.key"</span> -out <span class="token string">"/etc/nginx/ssl/gitlab.csr"</span>  
+</code></pre>
+
+<p>You'll be asked a lot of questions now.</p>
+
+<pre class="  language-bash"><code class="  language-bash">    Country Name <span class="token punctuation">(</span>2 letter code<span class="token punctuation">)</span> <span class="token punctuation">[</span>AU<span class="token punctuation">]</span>:DE
+State or Province Name <span class="token punctuation">(</span>full name<span class="token punctuation">)</span> <span class="token punctuation">[</span>Some-State<span class="token punctuation">]</span>:Saxony-Anhalt  
+Locality Name <span class="token punctuation">(</span>eg, city<span class="token punctuation">)</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>:Magdeburg  
+Organization Name <span class="token punctuation">(</span>eg, company<span class="token punctuation">)</span> <span class="token punctuation">[</span>Internet Widgits Pty Ltd<span class="token punctuation">]</span>:Future Studio  
+Organizational Unit Name <span class="token punctuation">(</span>eg, section<span class="token punctuation">)</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>:  
+Common Name <span class="token punctuation">(</span>e.g. server FQDN or YOUR name<span class="token punctuation">)</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>:gitlab.yourdomain.com  
+Email Address <span class="token punctuation">[</span><span class="token punctuation">]</span>:
+
+Please enter the following <span class="token string">'extra'</span> attributes  
+to be sent with your certificate request  
+A challenge password <span class="token punctuation">[</span><span class="token punctuation">]</span>:  
+An optional company name <span class="token punctuation">[</span><span class="token punctuation">]</span>:  
+</code></pre>
+
+<p>The code above has examples in the fields which you should fill for your certificate. Please set the <strong>Common Name/FQDN</strong> to the url you're running GitLab. If you run your GitLab instance on <code>git.yourdomain.com</code>, please your <code>git.yourdomain.com</code> as FQDN!</p>
+
+<p>Now you can finish this up and create the signed certificate:</p>
+
+<pre class="  language-bash"><code class="  language-bash"><span class="token function">sudo</span> openssl x509 -req -days 365 -in <span class="token string">"/etc/nginx/ssl/gitlab.csr"</span> -signkey <span class="token string">"/etc/nginx/ssl/gitlab.key"</span>  -out <span class="token string">"/etc/nginx/ssl/gitlab.crt"</span>  
+</code></pre>
+
+<p>This certificate is valid for one year (365 days).</p>
+
+<h2 id="configurenginx">Configure Nginx</h2>
+
+<p>The GitLab project provides a very useful and handy nginx 
+configuration file. This can be used with some adjustments. Please copy 
+the contents of the <a href="https://gitlab.com/gitlab-org/gitlab-ce/blob/7-0-stable/lib/support/nginx/gitlab-ssl">GitLab nginx configuration file</a> to your nginx configuration file.</p>
+
+<p>Update the following lines:</p>
+
+<pre class="  language-bash"><code class="  language-bash"><span class="token comment" spellcheck="true"># If you didn't install GitLab to the default path, update the line below to the path to your gitlab.socket</span>
+server unix:/home/git/gitlab/tmp/sockets/gitlab.socket<span class="token punctuation">;</span>  
+<span class="token comment" spellcheck="true"># your domain must be specified here; this is also the domain you chose for certificate FQDN</span>
+server_name git.example.com
+
+<span class="token comment" spellcheck="true"># specify the path to your certificate .crt and .key files</span>
+ssl_certificate /etc/nginx/ssl/gitlab.crt<span class="token punctuation">;</span>  
+ssl_certificate_key /etc/nginx/ssl/gitlab.key<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true"># Remove the files below from the nginx configuration</span>
+<span class="token comment" spellcheck="true"># ---</span>
+<span class="token comment" spellcheck="true">## Enable OCSP stapling to reduce the overhead and latency of running SSL.</span>
+<span class="token comment" spellcheck="true">## Replace with your ssl_trusted_certificate. For more info see:</span>
+<span class="token comment" spellcheck="true">## - https://medium.com/devops-programming/4445f4862461</span>
+<span class="token comment" spellcheck="true">## - https://www.ruby-forum.com/topic/4419319</span>
+ssl_stapling on<span class="token punctuation">;</span>  
+ssl_stapling_verify on<span class="token punctuation">;</span>  
+ssl_trusted_certificate /etc/nginx/ssl/stapling.trusted.crt<span class="token punctuation">;</span>  
+resolver 208.67.222.222 208.67.222.220 valid<span class="token operator">=</span>300s<span class="token punctuation">;</span>  
+resolver_timeout 10s<span class="token punctuation">;</span>  
+</code></pre>
+
+<h2 id="configuregitlab">Configure GitLab</h2>
+
+<p>Before changing the configuration of GitLab, stop the running instance.</p>
+
+<pre class="  language-bash"><code class="  language-bash"><span class="token function">sudo</span> <span class="token function">service</span> gitlab stop  
+</code></pre>
+
+<p>Now, navigate to your GitLab installation directory, default is <code>/home/git/gitlab</code>. Use your favorite editor and open <code>config/gitlab.yml</code> configuration file. Change the <code>port</code> to <strong>443</strong> and set <code>https</code> to <strong>true</strong>.</p>
+
+<p>If you're having trouble with Gravatar and the profile pictures 
+cannot be resolved correctly, please disable Gravatar support as well. </p>
+
+<h2 id="configuregitlabshell">Configure GitLab-Shell</h2>
+
+<p>The GitLab-Shell is responsible for any git interaction. You need to 
+update the configuration to the new HTTPS settings. Navigate to the 
+GitLab-Shell directory, default is <code>home/git/gitlab-shell</code>. Open the <code>config.yml</code> with your favorite editor and change the <code>gitlab_url</code> to use <strong>https://</strong> over <strong>http://</strong>. When using a self-signed certificate, you also have to set <code>self_signed_cert</code> to <strong>true</strong>. </p>
+
+<h2 id="restartgitlabandnginx">Restart GitLab and Nginx</h2>
+
+<p>The configuration is done. Restart GitLab and Nginx</p>
+
+<pre class="  language-bash"><code class="  language-bash"><span class="token function">sudo</span> <span class="token function">service</span> gitlab start  
+<span class="token function">sudo</span> <span class="token function">service</span> nginx restart  
+</code></pre>
+
+<p>Please make sure everything is running properly. Run the provided checks for GitLab and keep an eye on <strong>Check GitLab API access</strong> and it is <strong>OK</strong>.
+ Else the configuration is not correct and you have to recheck the 
+previously described steps. To run the checks, navigate to the GitLab 
+directory (default is <code>/home/git/gitlab</code>) and run the following command. </p>
+
+<pre class="  language-bash"><code class="  language-bash"><span class="token function">sudo</span> -u <span class="token function">git</span> -H bundle <span class="token function">exec</span> rake gitlab:check RAILS_ENV<span class="token operator">=</span>production  
+</code></pre>
+
+<p>You're done. Go to your domain and check if Gitlab is running. You'll
+ probably get the warning regarding insecure certificates in case of 
+self-signed certificate usage. </p>
+
+<hr>
+
+<h3 id="additionalresources">Additional Resources</h3>
+
+<ul>
+<li><a href="https://about.gitlab.com/gitlab-ce/">GitLab Community Edition</a></li>
+<li><a href="https://gitlab.com/gitlab-org/gitlab-ce/blob/7-0-stable/lib/support/nginx/gitlab-ssl">GitLab Nginx SSL Configuration</a></li>
+<li>Post about <a href="https://serversforhackers.com/editions/2014/04/08/ssl-certs/">SSL configuration for Apache and Nginx webserver</a></li>
+<li><a href="https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/README.md">GitLab Omnibus Readme</a> for package users</li>
+</ul>
+            </div>
+        </div>
+
+    </div>
+</article>
+<div class="row">
+    <div class="col-md-offset-3 col-md-9">
+        <div class="row">
+    <div class="col-xs-12">
+
+        <section class="newsletter-signup text-center">
+            <h2>
+                Get Notified on New Future Studio <br>
+                Content and Platform Updates
+            </h2>
+            <p>
+                Get your weekly push notification about new and trending <br>
+                Future Studio content and recent platform enhancements
+            </p>
+
+            <!-- Begin MailChimp Signup Form -->
+            <div class="row mc-field-group">
+                <form action="//futurestud.us10.list-manage.com/subscribe/post?u=379e055b1f73c9b53abc609f8&amp;id=78c150fcaa" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="novalidate">
+                    <div class="form-group col-sm-6 col-sm-offset-3">
+                        <input name="EMAIL" class="required email form-control" placeholder="Email address" id="mce-EMAIL" aria-required="true" type="email">
+                    </div>
+                    <div class="form-group col-sm-6 col-sm-offset-3">
+                        <input name="FNAME" class="form-control" id="mce-FNAME" placeholder="First Name (optional)" type="text">
+                    </div>
+                    <button type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="fs-btn fs-btn-success-inverse">Subscribe
+                    </button>
+
+                    <div id="mce-responses" class="clear">
+                        <div class="response" id="mce-error-response"></div>
+                        <div class="response" id="mce-success-response"></div>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+    </div>
+</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-offset-3 col-md-9">
+        <section class="share text-center">
+            <a class="fa fa-twitter tw" href="http://twitter.com/share?text=How%20to%20Run%20GitLab%20with%20Self-Signed%20SSL%20Certificate;url=http://futurestud.io/tutorials/how-to-run-gitlab-with-self-signed-ssl-certificate" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');_paq.push(['trackEvent', 'Share', 'http://futurestud.io/tutorials/how-to-run-gitlab-with-self-signed-ssl-certificate', 'Twitter']);return false;">
+                <span class="hidden">Twitter</span>
+            </a>
+            <a class="fa fa-facebook fb" href="https://www.facebook.com/sharer/sharer.php?u=http://futurestud.io/tutorials/how-to-run-gitlab-with-self-signed-ssl-certificate" onclick="window.open(this.href, 'facebook-share','width=580,height=296');_paq.push(['trackEvent', 'Share', 'http://futurestud.io/tutorials/how-to-run-gitlab-with-self-signed-ssl-certificate', 'Facebook']);return false;">
+                <span class="hidden">Facebook</span>
+            </a>
+            <a class="fa fa-google-plus google" href="https://plus.google.com/share?url=http://futurestud.io/tutorials/how-to-run-gitlab-with-self-signed-ssl-certificate" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');_paq.push(['trackEvent', 'Share', 'http://futurestud.io/tutorials/how-to-run-gitlab-with-self-signed-ssl-certificate', 'Google+']);return false;">
+                <span class="hidden">Google+</span>
+            </a>
+        </section>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-offset-3 col-md-9">
+        <div class="post-author row">
+            <div class="col-xs-4 col-sm-2">
+
+                <div class="hex author">
+                    <a href="https://futurestud.io/tutorials/author/marcus" title="Future Studio Author Marcus Pöhls">
+                        <div class="hex-1"></div>
+                        <div class="hex-2"></div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-xs-8 col-sm-10">
+                <h4>
+                    <a href="https://futurestud.io/tutorials/author/marcus" class="url">Marcus Pöhls</a>
+                </h4>
+
+                <p>Marcus is an enthusiastic web developer and creates 
+web applications with hapi and RethinkDB. He’s also a typography and 
+coffee geek :)</p>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-offset-3 col-md-9">
+        <div class="post-navigation"></div>
+    </div>
+
+    <div id="disqus_thread" class="col-md-offset-3 col-md-9"><iframe id="dsq-app1" name="dsq-app1" allowtransparency="true" scrolling="no" tabindex="0" title="Disqus" style="width: 1px ! important; min-width: 100% ! important; border: medium none ! important; overflow: hidden ! important; height: 336px ! important;" src="2%28a%29.Self-Signed-SSL-Certificate_files/a.html" horizontalscrolling="no" verticalscrolling="no" width="100%" frameborder="0"></iframe></div>
+</div>
+
+</div>
+
+<div class="container explore">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="text-center">Explore the Library</h1>
+            <p class="lead text-center">Find interesting tutorials and solutions for your problems.</p>
+        </div>
+
+        <div class="col-xs-6 col-sm-3">
+            <h4>Android</h4>
+            <ul class="nav nav-pills nav-stacked">
+                <li role="presentation"><a href="https://futurestud.io/tutorials/tag/retrofit">Retrofit</a></li>
+                <li role="presentation"><a href="https://futurestud.io/tutorials/tag/gson">Gson</a></li>
+                <li role="presentation"><a href="https://futurestud.io/tutorials/tag/picasso">Picasso</a></li>
+                <li role="presentation"><a href="https://futurestud.io/tutorials/tag/glide">Glide</a></li>
+                <li role="presentation"><a href="https://futurestud.io/tutorials/tag/textview">TextView</a></li>
+                <li role="presentation"><a href="https://futurestud.io/tutorials/tag/android-studio">Android Studio</a></li>
+                <li role="presentation"><a href="https://futurestud.io/tutorials/tag/android-quick-tips">Android Quick Tips</a></li>
+            </ul>
+        </div>
+        <div class="col-xs-6 col-sm-3">
+            <h4>Node.js</h4>
+            <ul class="nav nav-pills nav-stacked">
+                <li role="presentation"><a href="https://futurestud.io/tutorials/tag/hapi">hapi</a></li>
+                <li role="presentation"><a href="https://futurestud.io/tutorials/tag/pm2">PM2</a></li>
+                <li role="presentation"><a href="https://futurestud.io/tutorials/tag/strider">Strider</a></li>
+                <li role="presentation"><a href="https://futurestud.io/tutorials/tag/npm">NPM</a></li>
+                <li role="presentation"><a href="https://futurestud.io/tutorials/tag/thinky">Thinky</a></li>
+            </ul>
+        </div>
+        <div class="col-xs-12 visible-xs"></div>
+        <div class="col-xs-6 col-sm-3">
+            <h4>Server</h4>
+            <ul class="nav nav-pills nav-stacked">
+                <li role="presentation"><a href="https://futurestud.io/tutorials/tag/rethinkdb">RethinkDB</a></li>
+                <li role="presentation"><a href="https://futurestud.io/tutorials/tag/coreos">CoreOS</a></li>
+                <li role="presentation"><a href="https://futurestud.io/tutorials/tag/nginx">nginx</a></li>
+                <li role="presentation"><a href="https://futurestud.io/tutorials/tag/mongodb">MongoDB</a></li>
+                <li role="presentation"><a href="https://futurestud.io/tutorials/tag/server">Various Server Posts</a></li>
+            </ul>
+        </div>
+        <div class="col-xs-6 col-sm-3">
+            <h4>Miscellaneous</h4>
+            <ul class="nav nav-pills nav-stacked">
+                <li role="presentation"><a href="https://futurestud.io/tutorials/tag/productivity">Productivity</a></li>
+                <li role="presentation"><a href="https://futurestud.io/tutorials/tag/tools">Tools</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<footer role="contentinfo">
+    <div class="inner container">
+        <a href="https://futurestud.io/tutorials/rss" id="btn_feed" class="fs-btn" title="Feed" target="_blank">
+            <i class="fa fa-rss"></i>
+            <strong>Feed</strong>
+        </a>
+
+        <div class="row">
+            <div class="col-md-5">
+                <h3>
+                    <img src="2%28a%29.Self-Signed-SSL-Certificate_files/futurestudio-logo-transparent.png" alt="Future Studio">
+                    Future Studio
+                </h3>
+                <p class="clearfix footer-fs-description">
+                    Future Studio is helping 5,000+ users daily to solve Android and Node.js problems
+                    with 300+ written tutorials and videos. We’re on a mission to provide new in-depth
+                    content every week.
+                </p>
+            </div>
+
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <h4>Future Studio</h4>
+                        <ul class="nav nav-pills nav-stacked">
+                            <li role="presentation"><a href="https://futurestud.io/">Home</a></li>
+                            <li role="presentation"><a href="https://futurestud.io/university">University</a></li>
+                            <li role="presentation"><a href="https://futurestud.io/tutorials">Tutorials</a></li>
+                            <li role="presentation"><a href="https://futurestud.io/learningpaths">Learning Paths</a></li>
+                            <li role="presentation"><a href="https://futurestud.io/about">About Us</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4">
+                        <h4>Books</h4>
+                        <ul class="nav nav-pills nav-stacked">
+                            <li role="presentation"><a href="https://futurestud.io/books/retrofit">Retrofit</a></li>
+                            <li role="presentation"><a href="https://futurestud.io/books/gson">Gson</a></li>
+                            <li role="presentation"><a href="https://futurestud.io/books/picasso">Picasso</a></li>
+                            <li role="presentation"><a href="https://futurestud.io/books/glide">Glide</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4">
+                        <h4>Extras</h4>
+                        <ul class="nav nav-pills nav-stacked">
+                            <li role="presentation"><a href="https://futurestud.io/downloads">Downloads</a></li>
+                            <li role="presentation"><a href="https://futurestud.io/galaxy-map">Galaxy Map</a></li>
+                            <li role="presentation"><a href="https://futurestud.io/favorites">Favorites</a></li>
+                            <li role="presentation"><a href="https://futurestud.io/search">Search</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row copyright">
+            <div class="col-sm-6">
+                <p>
+                    <a href="https://www.youtube.com/channel/UCWIA0jryy_aEd9u6JTe1S9Q" title="Future Studio on YouTube" target="_blank">
+                        <i class="fa fa-youtube fa-2x fa-fw"></i>
+                    </a>
+                    <a href="https://twitter.com/futurestud_io" title="Future Studio on Twitter" target="_blank">
+                        <i class="fa fa-twitter fa-2x fa-fw"></i>
+                    </a>
+                    <a href="https://www.facebook.com/FutureStudioUniversity/" title="Future Studio on Facebook" target="_blank">
+                        <i class="fa fa-facebook fa-2x fa-fw"></i>
+                    </a>
+                    <a href="https://plus.google.com/+FutureStudioUniversity" title="Future Studio on Google+" target="_blank">
+                        <i class="fa fa-google-plus fa-2x fa-fw"></i>
+                    </a>
+                    <a href="https://github.com/fs-opensource" title="Future Studio’s Open Source Projects" target="_blank">
+                        <i class="fa fa-github fa-2x fa-fw"></i>
+                    </a>
+                </p>
+            </div>
+            <div class="col-sm-6">
+                <p class="text-right">© 2017 <a href="https://futurestud.io/" title="Future Studio — we ♥ mobile and web">Future
+                    Studio</a>. All Rights reserved • <a href="https://futurestud.io/terms">Terms</a> • <a href="https://futurestud.io/privacy">Privacy</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script type="text/javascript" src="2%28a%29.Self-Signed-SSL-Certificate_files/jquery.js"></script>
+<script type="text/javascript" src="2%28a%29.Self-Signed-SSL-Certificate_files/bootstrap.js"></script>
+<script type="text/javascript" src="2%28a%29.Self-Signed-SSL-Certificate_files/cookieconsent.js"></script>
+
+<script type="text/javascript" src="2%28a%29.Self-Signed-SSL-Certificate_files/main.js"></script>
+
+<script type="text/javascript">
+    var _paq = _paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+
+
+    (function () {
+        var u = "//piwik.futurestud.io/";
+        _paq.push(['setTrackerUrl', u + 'piwik.php']);
+        _paq.push(['setSiteId', 2]);
+        var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+        g.type = 'text/javascript';
+        g.async = true;
+        g.defer = true;
+        g.src = u + 'piwik.js';
+        s.parentNode.insertBefore(g, s);
+    })();
+</script>
+<noscript><p><img src="//piwik.futurestud.io/piwik.php?idsite=2" style="border:0;" alt=""/></p></noscript>
+
+<script>
+    $("#mc-embedded-subscribe").click(function () {
+        $("[for='mce-EMAIL']").remove();
+    })
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        function affixWidth() {
+            $('.affix-wrapper').width($('#moonshoot').width());
+        }
+
+        $(window).resize(function () {
+            affixWidth()
+        })
+
+        $('body').scrollspy({
+            target: '.scrollspy'
+        })
+
+        $('.affix-wrapper').on('affixed.bs.affix', function () {
+            affixWidth()
+        })
+
+        $('.affix-wrapper').affix({
+            offset: {
+                top: function () {
+                    return $('#moonshoot').position().top;
+                },
+                bottom: function () {
+                    return $('article').outerWidth(true);
+                }
+            }
+        })
+
+        // jquery smooth scroll for links in Moonshoot
+        // found on "https://css-tricks.com/snippets/jquery/smooth-scrolling"}}
+        $(function () {
+            // only scroll for moonshoot links
+            $('#moonshoot ul li a').click(function () {
+                if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+                    let target = $(this.hash)
+                    target = target.length ? target : $('[name=' + this.hash.slice(1) + ']')
+
+                    if (target.length) {
+                        $('html, body').animate({
+                            scrollTop: target.offset().top
+                        }, 400)
+                        return false
+                    }
+                }
+            })
+        })
+    })
+</script>
+
+<script src="2%28a%29.Self-Signed-SSL-Certificate_files/prism.js"></script>
+
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'futurestudioblog'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+    Disqus.</a></noscript>
+
+<!-- Mailchimp JS import -->
+<script type="text/javascript" src="2%28a%29.Self-Signed-SSL-Certificate_files/mc-validate.js"></script>
+<script type="text/javascript">(function ($) {
+    window.fnames = new Array();
+    window.ftypes = new Array();
+    fnames[0] = 'EMAIL';
+    ftypes[0] = 'email';
+    fnames[1] = 'FNAME';
+    ftypes[1] = 'text';
+}(jQuery));
+var $mcj = jQuery.noConflict(true);</script>
+<!--End mc_embed_signup-->
+
+<script src="2%28a%29.Self-Signed-SSL-Certificate_files/video.js"></script>
+
+
+
+<iframe style="display: none;"></iframe></body></html>

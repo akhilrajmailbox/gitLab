@@ -1,0 +1,2346 @@
+<!DOCTYPE html>
+<html class="wf-proximanova-n6-active wf-proximanova-n4-active wf-proximanova-i4-active wf-proximanova-n3-active wf-active" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>How To Install and Configure GitLab on Ubuntu 16.04 | DigitalOcean</title>
+
+<meta name="description" content="GitLab primarily functions as a feature rich, open source host for Git repositories that can be self-hosted to serve the needs of projects of any size. Additional tools are included that sati are important to most modern software development This...">
+<meta name="keywords" content="Applications Git">
+
+<meta name="og:title" content="How To Install and Configure GitLab on Ubuntu 16.04 | DigitalOcean">
+<meta name="og:description" content="GitLab primarily functions as a feature rich, open source host for Git repositories that can be self-hosted to serve the needs of projects of any size. Additional tools are included that sati are important to most modern software development This...">
+<meta name="og:site_name" content="DigitalOcean">
+<meta name="og:type" content="article">
+
+<meta name="twitter:site" content="DigitalOcean">
+<meta name="twitter:title" content="How To Install and Configure GitLab on Ubuntu 16.04 | DigitalOcean">
+<meta name="twitter:description" content="GitLab primarily functions as a feature rich, open source host for Git repositories that can be self-hosted to serve the needs of projects of any size. Additional tools are included that sati are important to most modern software development This...">
+<meta name="twitter:creator" content="DigitalOcean">
+<meta name="twitter:card" content="photo">
+<meta name="twitter:url" content="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04">
+
+<meta property="og:image" content="https://community-cdn-digitalocean-com.global.ssl.fastly.net/assets/tutorials/images/large/GitLab_Configure_mostov-2_twitter-_-facebook.png?1476479865">
+<meta name="twitter:image" content="https://community-cdn-digitalocean-com.global.ssl.fastly.net/assets/tutorials/images/large/GitLab_Configure_mostov-2_twitter-_-facebook.png?1476479865">
+
+  <link rel="canonical" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04">
+
+
+    <link rel="stylesheet" media="all" href="1.Configure-GitLab-Ubuntu-16.04_files/application-2f5c8e75993329b20a1f9ceeb715a5d8.css">
+
+    
+    <meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="NjhZDMiP40IXkDKTnwGs6/WKWhgk4itjyWjOWIf4N3CARL7PN9Syzie8Lyf0i8Txn0Pwh8wzT/lkt4MtkM2MNg==">
+      <script type="text/javascript" async="" src="1.Configure-GitLab-Ubuntu-16.04_files/linkid.js"></script><script type="text/javascript" async="" src="1.Configure-GitLab-Ubuntu-16.04_files/munchkin_002.js"></script><script type="text/javascript" async="" src="1.Configure-GitLab-Ubuntu-16.04_files/analytics_002.js"></script><script async="" src="1.Configure-GitLab-Ubuntu-16.04_files/gtm.js"></script><script type="text/javascript" async="" src="1.Configure-GitLab-Ubuntu-16.04_files/analytics.js"></script><script src="1.Configure-GitLab-Ubuntu-16.04_files/izu1uqu.js"></script>
+      <style type="text/css">.tk-proxima-nova{font-family:"proxima-nova",sans-serif;}</style><style type="text/css">@font-face{font-family:tk-proxima-nova-n6;src:url(https://use.typekit.net/af/921f74/00000000000000003b9ad1bb/27/l?subset_id=2&fvd=n6&v=3) format("woff2"),url(https://use.typekit.net/af/921f74/00000000000000003b9ad1bb/27/d?subset_id=2&fvd=n6&v=3) format("woff"),url(https://use.typekit.net/af/921f74/00000000000000003b9ad1bb/27/a?subset_id=2&fvd=n6&v=3) format("opentype");font-weight:600;font-style:normal;}@font-face{font-family:tk-proxima-nova-n4;src:url(https://use.typekit.net/af/edab9a/00000000000000003b9ad1b9/27/l?subset_id=2&fvd=n4&v=3) format("woff2"),url(https://use.typekit.net/af/edab9a/00000000000000003b9ad1b9/27/d?subset_id=2&fvd=n4&v=3) format("woff"),url(https://use.typekit.net/af/edab9a/00000000000000003b9ad1b9/27/a?subset_id=2&fvd=n4&v=3) format("opentype");font-weight:400;font-style:normal;}@font-face{font-family:tk-proxima-nova-i4;src:url(https://use.typekit.net/af/1b9fb4/00000000000000003b9ad1ba/27/l?subset_id=2&fvd=i4&v=3) format("woff2"),url(https://use.typekit.net/af/1b9fb4/00000000000000003b9ad1ba/27/d?subset_id=2&fvd=i4&v=3) format("woff"),url(https://use.typekit.net/af/1b9fb4/00000000000000003b9ad1ba/27/a?subset_id=2&fvd=i4&v=3) format("opentype");font-weight:400;font-style:italic;}@font-face{font-family:tk-proxima-nova-n3;src:url(https://use.typekit.net/af/015ec8/00000000000000003b9ad1b5/27/l?subset_id=2&fvd=n3&v=3) format("woff2"),url(https://use.typekit.net/af/015ec8/00000000000000003b9ad1b5/27/d?subset_id=2&fvd=n3&v=3) format("woff"),url(https://use.typekit.net/af/015ec8/00000000000000003b9ad1b5/27/a?subset_id=2&fvd=n3&v=3) format("opentype");font-weight:300;font-style:normal;}</style><script>try{Typekit.load({ async: true });}catch(e){}</script>
+    <script src="1.Configure-GitLab-Ubuntu-16.04_files/bugsnag-2.js" data-apikey="9ffc01bc3e1fa7891bfd20909d1bfb0e">
+    </script>
+    <!--<script src="//cdn.optimizely.com/js/701281621.js"></script>-->
+    <script type="text/javascript">
+      if(window.analytics=window.analytics||[],window.analytics.included)window.console&&console.error&&console.error("analytics.js included twice");else{window.analytics.included=!0,window.analytics.methods=["identify","group","track","page","pageview","alias","ready","on","once","off","trackLink","trackForm","trackClick","trackSubmit"],window.analytics.factory=function(a){return function(){var n=Array.prototype.slice.call(arguments);return n.unshift(a),window.analytics.push(n),window.analytics}};for(var i=0;i<window.analytics.methods.length;i++){var key=window.analytics.methods[i];window.analytics[key]=window.analytics.factory(key)}window.analytics.load=function(a){var n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+a+"/analytics.min.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(n,t)},window.analytics.SNIPPET_VERSION="2.0.9",
+      window.analytics.load("puo3uv968t")}
+      window.analytics.page();
+    </script>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://www.digitalocean.com/community/tutorials/feed">
+    <script src="1.Configure-GitLab-Ubuntu-16.04_files/polyfill.js"></script>
+    <script>
+      window.comApp = {
+        prefix: '/community',
+        svgIconPath: 'https://www.digitalocean.com/assets/community/icon-sprite-d76eb75d70ccf8ffb4c0b47b7dbc88ca.svg',
+        railsEnv: 'production',
+        rootUrl: 'https://www.digitalocean.com/community'
+      };
+    </script>
+    
+    <script src="1.Configure-GitLab-Ubuntu-16.04_files/application-42f02f772423f1eb67ef6e6547fa530a.js"></script>
+  <style>.fluidvids {width: 100%; max-width: 100%; position: relative;}.fluidvids-item {position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;}</style><script id="twitter-wjs" src="1.Configure-GitLab-Ubuntu-16.04_files/widgets.js"></script><style type="text/css">@font-face{font-family:proxima-nova;src:url(https://use.typekit.net/af/921f74/00000000000000003b9ad1bb/27/l?subset_id=2&fvd=n6&v=3) format("woff2"),url(https://use.typekit.net/af/921f74/00000000000000003b9ad1bb/27/d?subset_id=2&fvd=n6&v=3) format("woff"),url(https://use.typekit.net/af/921f74/00000000000000003b9ad1bb/27/a?subset_id=2&fvd=n6&v=3) format("opentype");font-weight:600;font-style:normal;}@font-face{font-family:proxima-nova;src:url(https://use.typekit.net/af/edab9a/00000000000000003b9ad1b9/27/l?subset_id=2&fvd=n4&v=3) format("woff2"),url(https://use.typekit.net/af/edab9a/00000000000000003b9ad1b9/27/d?subset_id=2&fvd=n4&v=3) format("woff"),url(https://use.typekit.net/af/edab9a/00000000000000003b9ad1b9/27/a?subset_id=2&fvd=n4&v=3) format("opentype");font-weight:400;font-style:normal;}@font-face{font-family:proxima-nova;src:url(https://use.typekit.net/af/1b9fb4/00000000000000003b9ad1ba/27/l?subset_id=2&fvd=i4&v=3) format("woff2"),url(https://use.typekit.net/af/1b9fb4/00000000000000003b9ad1ba/27/d?subset_id=2&fvd=i4&v=3) format("woff"),url(https://use.typekit.net/af/1b9fb4/00000000000000003b9ad1ba/27/a?subset_id=2&fvd=i4&v=3) format("opentype");font-weight:400;font-style:italic;}@font-face{font-family:proxima-nova;src:url(https://use.typekit.net/af/015ec8/00000000000000003b9ad1b5/27/l?subset_id=2&fvd=n3&v=3) format("woff2"),url(https://use.typekit.net/af/015ec8/00000000000000003b9ad1b5/27/d?subset_id=2&fvd=n3&v=3) format("woff"),url(https://use.typekit.net/af/015ec8/00000000000000003b9ad1b5/27/a?subset_id=2&fvd=n3&v=3) format("opentype");font-weight:300;font-style:normal;}</style><script id="facebook-jssdk" src="1.Configure-GitLab-Ubuntu-16.04_files/all.js"></script><style type="text/css">.fb_hidden{position:absolute;top:-10000px;z-index:10001}.fb_reposition{overflow:hidden;position:relative}.fb_invisible{display:none}.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}.fb_reset>div{overflow:hidden}.fb_link img{border:none}@keyframes fb_transform{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}.fb_animate{animation:fb_transform .3s forwards}
+.fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}.fb_reset .fb_dialog_legacy{overflow:visible}.fb_dialog_advanced{padding:10px;-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px}.fb_dialog_content{background:#fff;color:#333}.fb_dialog_close_icon{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px}.fb_dialog_mobile .fb_dialog_close_icon{top:5px;left:5px;right:auto}.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}.fb_dialog_close_icon:hover{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent}.fb_dialog_close_icon:active{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent}.fb_dialog_loader{background-color:#f6f7f9;border:1px solid #606060;font-size:24px;padding:20px}.fb_dialog_top_left,.fb_dialog_top_right,.fb_dialog_bottom_left,.fb_dialog_bottom_right{height:10px;width:10px;overflow:hidden;position:absolute}.fb_dialog_top_left{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 0;left:-10px;top:-10px}.fb_dialog_top_right{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 -10px;right:-10px;top:-10px}.fb_dialog_bottom_left{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 -20px;bottom:-10px;left:-10px}.fb_dialog_bottom_right{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 -30px;right:-10px;bottom:-10px}.fb_dialog_vert_left,.fb_dialog_vert_right,.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{position:absolute;background:#525252;filter:alpha(opacity=70);opacity:.7}.fb_dialog_vert_left,.fb_dialog_vert_right{width:10px;height:100%}.fb_dialog_vert_left{margin-left:-10px}.fb_dialog_vert_right{right:0;margin-right:-10px}.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{width:100%;height:10px}.fb_dialog_horiz_top{margin-top:-10px}.fb_dialog_horiz_bottom{bottom:0;margin-bottom:-10px}.fb_dialog_iframe{line-height:0}.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #365899;color:#fff;font-size:14px;font-weight:bold;margin:0}.fb_dialog_content .dialog_title>span{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}body.fb_hidden{-webkit-transform:none;height:100%;margin:0;overflow:visible;position:absolute;top:-10000px;left:0;width:100%}.fb_dialog.fb_dialog_mobile.loading{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ya/r/3rhSv5V8j3o.gif) white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}.fb_dialog.fb_dialog_mobile.loading.centered{width:auto;height:auto;min-height:initial;min-width:initial;background:none}.fb_dialog.fb_dialog_mobile.loading.centered #fb_dialog_loader_spinner{width:100%}.fb_dialog.fb_dialog_mobile.loading.centered .fb_dialog_content{background:none}.loading.centered #fb_dialog_loader_close{color:#fff;display:block;padding-top:20px;clear:both;font-size:18px}#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .45);position:absolute;bottom:0;left:0;right:0;top:0;width:100%;min-height:100%;z-index:10000}#fb-root #fb_dialog_ipad_overlay.hidden{display:none}.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}.fb_dialog_content .dialog_header{-webkit-box-shadow:white 0 1px 1px -1px inset;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#738ABA), to(#2C4987));border-bottom:1px solid;border-color:#1d4088;color:#fff;font:14px Helvetica, sans-serif;font-weight:bold;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}.fb_dialog_content .dialog_header table{-webkit-font-smoothing:subpixel-antialiased;height:43px;width:100%}.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px}.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px}.fb_dialog_content .touchable_button{background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#4966A6), color-stop(.5, #355492), to(#2A4887));border:1px solid #29487d;-webkit-background-clip:padding-box;-webkit-border-radius:3px;-webkit-box-shadow:rgba(0, 0, 0, .117188) 0 1px 1px inset, rgba(255, 255, 255, .167969) 0 1px 0;display:inline-block;margin-top:3px;max-width:85px;line-height:18px;padding:4px 12px;position:relative}.fb_dialog_content .dialog_header .touchable_button input{border:none;background:none;color:#fff;font:12px Helvetica, sans-serif;font-weight:bold;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}.fb_dialog_content .dialog_content{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #555;border-bottom:0;border-top:0;height:150px}.fb_dialog_content .dialog_footer{background:#f6f7f9;border:1px solid #555;border-top-color:#ccc;height:40px}#fb_dialog_loader_close{float:left}.fb_dialog.fb_dialog_mobile .fb_dialog_close_button{text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}#fb_dialog_loader_spinner{animation:rotateSpinner 1.2s linear infinite;background-color:transparent;background-image:url(https://static.xx.fbcdn.net/rsrc.php/v3/yD/r/t-wz8gw1xG1.png);background-repeat:no-repeat;background-position:50% 50%;height:24px;width:24px}@keyframes rotateSpinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.fb_iframe_widget{display:inline-block;position:relative}.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}.fb_iframe_widget iframe{position:absolute}.fb_iframe_widget_fluid_desktop,.fb_iframe_widget_fluid_desktop span,.fb_iframe_widget_fluid_desktop iframe{max-width:100%}.fb_iframe_widget_fluid_desktop iframe{min-width:220px;position:relative}.fb_iframe_widget_lift{z-index:1}.fb_hide_iframes iframe{position:relative;left:-10000px}.fb_iframe_widget_loader{position:relative;display:inline-block}.fb_iframe_widget_fluid{display:inline}.fb_iframe_widget_fluid span{width:100%}.fb_iframe_widget_loader iframe{min-height:32px;z-index:2;zoom:1}.fb_iframe_widget_loader .FB_Loader{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/y9/r/jKEcVPZFk-2.gif) no-repeat;height:32px;width:32px;margin-left:-16px;position:absolute;left:50%;z-index:4}</style><script type="text/javascript" async="" src="1.Configure-GitLab-Ubuntu-16.04_files/munchkin.js"></script></head>
+  <body class="feature-filter-bar feature-upvotes tutorials-controller tutorial-single" data-env="production" data-prefix="/community" data-user-id="" data-facebook-app-id="694818843983011" data-completed-tutorial-id="" data-tutorial-id="2027" data-js="tutorial">
+    <script>
+//<![CDATA[
+
+//]]>
+</script>
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KHWBBT"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KHWBBT');</script>
+<!-- End Google Tag Manager -->
+
+    
+
+    <div class="outside_viewport">
+        <div id="contents-modal" class="modal fade mini-modal" style="display: none;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1>Contents</h1>
+          <button class="close-button icon icon-close-light" data-dismiss="modal" aria-label="close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="table-of-contents-modal tocify"><ul id="tocify-header0" class="tocify-header"><li class="tocify-item tocify-focus" data-unique="prerequisites"><a>Prerequisites</a></li></ul><ul id="tocify-header1" class="tocify-header"><li class="tocify-item" data-unique="installing-the-dependencies"><a>Installing the Dependencies</a></li></ul><ul id="tocify-header2" class="tocify-header"><li class="tocify-item" data-unique="install-gitlab"><a>Install GitLab</a></li></ul><ul id="tocify-header3" class="tocify-header"><li class="tocify-item" data-unique="adjusting-the-firewall-rules"><a>Adjusting the Firewall Rules</a></li></ul><ul id="tocify-header4" class="tocify-header"><li class="tocify-item" data-unique="performing-initial-configuration-through-the-web-interface"><a>Performing Initial Configuration Through the Web Interface</a></li></ul><ul id="tocify-header5" class="tocify-header"><li class="tocify-item" data-unique="restrict-or-disable-public-sign-ups-(optional)"><a>Restrict or Disable Public Sign-ups (Optional)</a></li></ul><ul id="tocify-header6" class="tocify-header"><li class="tocify-item" data-unique="conclusion"><a>Conclusion</a></li></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="share-modal" class="modal fade mini-modal" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1>Share</h1>
+        <button type="button" class="close-button icon icon-close-light" aria-label="close" data-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="social-sharing social-sharing-container">
+          <ul class="top ">
+            <li class="shareBtn" id="sbTwitter">
+              <a href="http://twitter.com/share?text=How%20To%20Install%20and%20Configure%20GitLab%20on%20Ubuntu%2016.04&amp;url=https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?utm_content=how-to-install-and-configure-gitlab-on-ubuntu-16-04&amp;utm_medium=community&amp;utm_source=twshare" class="share-icon share-popup" title="Share on Twitter">
+                <span class="sIcon icon-bird"></span>
+              </a>
+              <a href="http://twitter.com/share?text=How%20To%20Install%20and%20Configure%20GitLab%20on%20Ubuntu%2016.04&amp;url=https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?utm_content=how-to-install-and-configure-gitlab-on-ubuntu-16-04&amp;utm_medium=community&amp;utm_source=twshare" class="share-link share-popup" title="Share on Twitter">
+                Twitter
+              </a>
+            </li>
+            <li class="shareBtn" id="sbFacebook">
+              <a class="share-icon facebook-share" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?utm_content=how-to-install-and-configure-gitlab-on-ubuntu-16-04&amp;utm_medium=community&amp;utm_source=fbshare" onclick="" title="Share on Facebook">
+                <span class="sIcon icon-facebook-B"></span>
+              </a>
+
+              <a class="share-link facebook-share" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?utm_content=how-to-install-and-configure-gitlab-on-ubuntu-16-04&amp;utm_medium=community&amp;utm_source=fbshare" onclick="" title="Share on Facebook">
+                Facebook
+              </a>
+            </li>
+            <li class="shareBtn" id="sbGoogle">
+              <a href="https://plus.google.com/share?url=https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?utm_content=how-to-install-and-configure-gitlab-on-ubuntu-16-04&amp;utm_medium=community&amp;utm_source=gpshare" class="share-icon share-popup" title="Share on Google+">
+                <span class="sIcon icon-google-plus-B"></span>
+              </a>
+              <a href="https://plus.google.com/share?url=https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?utm_content=how-to-install-and-configure-gitlab-on-ubuntu-16-04&amp;utm_medium=community&amp;utm_source=gpshare" class="share-link share-popup" title="Share on Google+">
+                Google+
+              </a>
+            </li>
+            <li class="shareBtn" id="sbYC">
+              <a href="https://news.ycombinator.com/submitlink?t=How%20To%20Install%20and%20Configure%20GitLab%20on%20Ubuntu%2016.04&amp;u=https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?utm_content=how-to-install-and-configure-gitlab-on-ubuntu-16-04&amp;utm_medium=community&amp;utm_source=hnshare" class="share-icon share-popup" target="_blank" title="Submit to Hacker News">
+                <span class="sIcon icon-hacker-news"></span>
+              </a>
+              <a href="https://news.ycombinator.com/submitlink?t=How%20To%20Install%20and%20Configure%20GitLab%20on%20Ubuntu%2016.04&amp;u=https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?utm_content=how-to-install-and-configure-gitlab-on-ubuntu-16-04&amp;utm_medium=community&amp;utm_source=hnshare" class="share-link share-popup" target="_blank" title="Submit to Hacker News">
+                Hacker News
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="table-of-contents has-init sticky" style="top: 72px;">
+    <div data-js="tableOfContentsDesktop" class="tocify"><ul id="tocify-header0" class="tocify-header"><li class="tocify-item tocify-focus" data-unique="prerequisites" style="cursor: pointer;"><a>Prerequisites</a></li></ul><ul id="tocify-header1" class="tocify-header"><li class="tocify-item" data-unique="installing-the-dependencies" style="cursor: pointer;"><a>Installing the Dependencies</a></li></ul><ul id="tocify-header2" class="tocify-header"><li class="tocify-item" data-unique="install-gitlab" style="cursor: pointer;"><a>Install GitLab</a></li></ul><ul id="tocify-header3" class="tocify-header"><li class="tocify-item" data-unique="adjusting-the-firewall-rules" style="cursor: pointer;"><a>Adjusting the Firewall Rules</a></li></ul><ul id="tocify-header4" class="tocify-header"><li class="tocify-item" data-unique="performing-initial-configuration-through-the-web-interface" style="cursor: pointer;"><a>Performing Initial Configuration Through the Web Interface</a></li></ul><ul id="tocify-header5" class="tocify-header"><li class="tocify-item" data-unique="restrict-or-disable-public-sign-ups-(optional)" style="cursor: pointer;"><a>Restrict or Disable Public Sign-ups (Optional)</a></li></ul><ul id="tocify-header6" class="tocify-header"><li class="tocify-item" data-unique="conclusion" style="cursor: pointer;"><a>Conclusion</a></li></ul></div>
+    <button type="button" class="Button--reset Tutorial-button " data-js="markAsComplete" data-tutorialinteraction="" data-tutorialsingle=""><svg class="svg-icon svg-icon-completed"><use xlink:href="https://www.digitalocean.com/assets/community/icon-sprite-d76eb75d70ccf8ffb4c0b47b7dbc88ca.svg#icon-completed"></use></svg><span>Mark as Complete</span></button>
+  </div>
+  
+  <div id="share-modal" class="modal fade mini-modal" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1>Share</h1>
+        <button type="button" class="close-button icon icon-close-light" aria-label="close" data-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="social-sharing social-sharing-container">
+          <ul class="bottom ">
+            <li class="shareBtn" id="sbTwitter">
+              <a href="http://twitter.com/share?text=How%20To%20Install%20and%20Configure%20GitLab%20on%20Ubuntu%2016.04&amp;url=https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?utm_content=how-to-install-and-configure-gitlab-on-ubuntu-16-04&amp;utm_medium=community&amp;utm_source=twshare" class="share-icon share-popup" title="Share on Twitter">
+                <span class="sIcon icon-bird"></span>
+              </a>
+              <a href="http://twitter.com/share?text=How%20To%20Install%20and%20Configure%20GitLab%20on%20Ubuntu%2016.04&amp;url=https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?utm_content=how-to-install-and-configure-gitlab-on-ubuntu-16-04&amp;utm_medium=community&amp;utm_source=twshare" class="share-link share-popup" title="Share on Twitter">
+                Twitter
+              </a>
+            </li>
+            <li class="shareBtn" id="sbFacebook">
+              <a class="share-icon facebook-share" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?utm_content=how-to-install-and-configure-gitlab-on-ubuntu-16-04&amp;utm_medium=community&amp;utm_source=fbshare" onclick="" title="Share on Facebook">
+                <span class="sIcon icon-facebook-B"></span>
+              </a>
+
+              <a class="share-link facebook-share" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?utm_content=how-to-install-and-configure-gitlab-on-ubuntu-16-04&amp;utm_medium=community&amp;utm_source=fbshare" onclick="" title="Share on Facebook">
+                Facebook
+              </a>
+            </li>
+            <li class="shareBtn" id="sbGoogle">
+              <a href="https://plus.google.com/share?url=https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?utm_content=how-to-install-and-configure-gitlab-on-ubuntu-16-04&amp;utm_medium=community&amp;utm_source=gpshare" class="share-icon share-popup" title="Share on Google+">
+                <span class="sIcon icon-google-plus-B"></span>
+              </a>
+              <a href="https://plus.google.com/share?url=https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?utm_content=how-to-install-and-configure-gitlab-on-ubuntu-16-04&amp;utm_medium=community&amp;utm_source=gpshare" class="share-link share-popup" title="Share on Google+">
+                Google+
+              </a>
+            </li>
+            <li class="shareBtn" id="sbYC">
+              <a href="https://news.ycombinator.com/submitlink?t=How%20To%20Install%20and%20Configure%20GitLab%20on%20Ubuntu%2016.04&amp;u=https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?utm_content=how-to-install-and-configure-gitlab-on-ubuntu-16-04&amp;utm_medium=community&amp;utm_source=hnshare" class="share-icon share-popup" target="_blank" title="Submit to Hacker News">
+                <span class="sIcon icon-hacker-news"></span>
+              </a>
+              <a href="https://news.ycombinator.com/submitlink?t=How%20To%20Install%20and%20Configure%20GitLab%20on%20Ubuntu%2016.04&amp;u=https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?utm_content=how-to-install-and-configure-gitlab-on-ubuntu-16-04&amp;utm_medium=community&amp;utm_source=hnshare" class="share-link share-popup" target="_blank" title="Submit to Hacker News">
+                Hacker News
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+      
+    </div>
+
+      <div class="mobile-nav">
+  
+<div class="account-buttons">
+    <div id="entrance">
+      <a id="sign-up" class="button" href="https://www.digitalocean.com/community/auth/digitalocean?display=sessionless+register">Sign Up</a>
+      <a id="log-in" class="button" href="https://www.digitalocean.com/community/auth/digitalocean">Log In</a>
+    </div>
+</div>
+
+  <button type="button" aria-label="close" class="close-panel icon-close"></button>
+
+  <form class="mobile-search" role="search" action="/community/search" accept-charset="UTF-8" method="get"><input name="utf8" value="✓" type="hidden">
+    <span class="icon icon-search-thin"></span>
+    <input name="q" id="q" title="Search" placeholder="Search" type="text">
+    <button name="button" type="submit" class="icon-btn">submit</button>
+</form>
+  
+<nav>
+
+  <ul>
+    <li><a class="active" href="https://www.digitalocean.com/community/tutorials">Tutorials</a></li>
+    <li><a href="https://www.digitalocean.com/community/questions">Questions</a></li>
+    <li><a href="https://www.digitalocean.com/community/projects">Projects</a></li>
+    <li><a href="https://www.meetup.com/pro/digitalocean/?utm_source=do_community" target="_blank">Meetups</a></li>
+    <li class="mobile-nav-only"><a href="https://www.digitalocean.com/">Main Site</a></li>
+  </ul>
+</nav>
+
+  
+</div>
+
+      
+      <header>
+  <div class="flash-container"></div>
+
+  <div class="main-menu-container">
+    <div class="wrapper">
+      <div class="logo">
+        <a class="logo-icon" href="https://www.digitalocean.com/">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 190 32" class="do-icon">
+<title>DigitalOcean</title>
+<path class="path1" d="M16.016 32v-6.204c6.584 0 11.648-6.52 9.147-13.42-0.95-2.564-2.975-4.59-5.539-5.539-6.9-2.501-13.42 2.564-13.42 9.147 0 0 0 0 0 0l-6.204 0.032c0-10.477 10.129-18.643 21.112-15.225 4.811 1.488 8.609 5.317 10.097 10.097 3.418 10.983-4.716 21.112-15.193 21.112z"></path>
+<path class="path2" d="M16.016 25.828h-6.172v-6.172h6.172z"></path>
+<path class="path3" d="M9.844 30.576h-4.748v-4.748h4.748v4.748z"></path>
+<path class="path4" d="M5.096 25.828h-3.988v-3.988h3.988z"></path>
+<path class="path5" d="M56.973 9.242c-1.836-1.266-4.115-1.931-6.773-1.931h-5.792v18.39h5.792c2.659 0 4.938-0.665 6.773-2.026 1.013-0.696 1.804-1.709 2.342-2.944s0.823-2.69 0.823-4.336c0-1.614-0.285-3.070-0.823-4.305-0.538-1.203-1.329-2.152-2.342-2.849zM47.794 10.445h1.836c2.026 0 3.703 0.411 4.969 1.171 1.393 0.855 2.121 2.469 2.121 4.779 0 2.406-0.728 4.083-2.121 5.001v0c-1.203 0.791-2.88 1.203-4.938 1.203h-1.867v-12.154z"></path>
+<path class="path6" d="M64.19 7.122c-0.57 0-1.044 0.19-1.424 0.57s-0.601 0.855-0.601 1.393c0 0.57 0.19 1.044 0.601 1.424 0.38 0.38 0.855 0.601 1.424 0.601s1.044-0.19 1.424-0.601c0.38-0.38 0.601-0.886 0.601-1.424 0-0.57-0.19-1.044-0.601-1.393-0.38-0.38-0.886-0.57-1.424-0.57z"></path>
+<path class="path7" d="M62.512 12.787h3.26v12.977h-3.26v-12.977z"></path>
+<path class="path8" d="M77.642 13.864c-0.981-0.886-2.089-1.393-3.26-1.393-1.804 0-3.292 0.633-4.463 1.836s-1.741 2.785-1.741 4.653c0 1.836 0.57 3.387 1.741 4.653 1.171 1.203 2.659 1.836 4.463 1.836 1.266 0 2.342-0.348 3.228-1.044v0.285c0 1.076-0.285 1.899-0.855 2.5-0.57 0.57-1.361 0.855-2.342 0.855-1.519 0-2.437-0.601-3.608-2.152l-2.216 2.121 0.063 0.095c0.475 0.665 1.203 1.329 2.184 1.962s2.184 0.95 3.64 0.95c1.931 0 3.513-0.601 4.653-1.773 1.171-1.171 1.741-2.754 1.741-4.716v-11.743h-3.197v1.076zM76.787 21.523c-0.57 0.633-1.298 0.95-2.247 0.95s-1.678-0.317-2.216-0.95c-0.57-0.633-0.855-1.488-0.855-2.532s0.285-1.931 0.855-2.564c0.57-0.633 1.298-0.981 2.216-0.981 0.95 0 1.678 0.317 2.247 0.981 0.57 0.633 0.855 1.519 0.855 2.564s-0.317 1.899-0.855 2.532z"></path>
+<path class="path9" d="M83.624 12.787h3.26v12.977h-3.26v-12.977z"></path>
+<path class="path10" d="M85.302 7.122c-0.57 0-1.044 0.19-1.424 0.57s-0.601 0.855-0.601 1.393c0 0.57 0.19 1.044 0.601 1.424 0.38 0.38 0.855 0.601 1.424 0.601s1.044-0.19 1.424-0.601c0.38-0.38 0.601-0.886 0.601-1.424 0-0.57-0.19-1.044-0.601-1.393-0.38-0.38-0.886-0.57-1.424-0.57z"></path>
+<path class="path11" d="M94.038 9.274h-3.197v3.513h-1.867v2.975h1.867v5.381c0 1.678 0.348 2.88 1.013 3.577s1.836 1.044 3.513 1.044c0.538 0 1.076-0.032 1.583-0.063h0.158v-2.975l-1.108 0.063c-0.791 0-1.298-0.127-1.551-0.411s-0.38-0.855-0.38-1.709v-4.906h3.039v-2.975h-3.039v-3.513z"></path>
+<path class="path12" d="M112.364 7.343h3.26v18.39h-3.26v-18.39z"></path>
+<path class="path13" d="M148.574 21.112c-0.57 0.665-1.171 1.234-1.646 1.519v0c-0.443 0.285-1.013 0.443-1.678 0.443-0.95 0-1.741-0.348-2.374-1.076s-0.95-1.646-0.95-2.754 0.317-2.026 0.918-2.722c0.633-0.728 1.393-1.076 2.342-1.076 1.044 0 2.152 0.665 3.102 1.773l2.152-2.057c-1.393-1.836-3.197-2.69-5.349-2.69-1.804 0-3.355 0.665-4.621 1.931s-1.899 2.912-1.899 4.843 0.633 3.545 1.899 4.843c1.266 1.298 2.817 1.931 4.621 1.931 2.374 0 4.273-1.013 5.539-2.88l-2.057-2.026z"></path>
+<path class="path14" d="M161.962 14.591c-0.475-0.633-1.108-1.171-1.867-1.551-0.791-0.38-1.678-0.57-2.69-0.57-1.836 0-3.323 0.665-4.431 1.994-1.076 1.329-1.646 2.944-1.646 4.874 0 1.962 0.601 3.577 1.804 4.843 1.171 1.234 2.785 1.867 4.716 1.867 2.184 0 4.020-0.886 5.349-2.659l0.063-0.095-2.121-2.057c-0.19 0.253-0.475 0.506-0.728 0.76-0.317 0.317-0.633 0.538-0.95 0.696-0.475 0.253-1.044 0.348-1.646 0.348-0.918 0-1.646-0.253-2.216-0.791-0.538-0.475-0.855-1.139-0.918-1.962h8.641l0.032-1.203c0-0.855-0.127-1.646-0.348-2.406-0.222-0.728-0.57-1.456-1.044-2.089zM154.841 17.63c0.158-0.633 0.443-1.139 0.855-1.551 0.443-0.443 1.013-0.665 1.709-0.665 0.791 0 1.393 0.222 1.804 0.665 0.38 0.411 0.601 0.918 0.665 1.519h-5.033z"></path>
+<path class="path15" d="M174.497 13.737v0c-0.981-0.855-2.342-1.266-4.051-1.266-1.076 0-2.089 0.253-3.007 0.696-0.855 0.443-1.678 1.139-2.216 2.089l0.032 0.032 2.089 1.994c0.855-1.361 1.804-1.836 3.070-1.836 0.696 0 1.234 0.19 1.678 0.538s0.633 0.823 0.633 1.393v0.633c-0.823-0.253-1.614-0.38-2.406-0.38-1.614 0-2.944 0.38-3.925 1.139s-1.488 1.867-1.488 3.229c0 1.203 0.411 2.216 1.266 2.944 0.855 0.696 1.899 1.076 3.134 1.076s2.406-0.506 3.45-1.361v1.076h3.197v-8.324c0.063-1.583-0.443-2.817-1.456-3.672zM168.704 20.795c0.38-0.253 0.886-0.38 1.551-0.38 0.791 0 1.614 0.158 2.469 0.475v1.266c-0.696 0.665-1.646 0.981-2.817 0.981-0.57 0-1.013-0.127-1.298-0.38s-0.443-0.538-0.443-0.95c0-0.443 0.19-0.76 0.538-1.013z"></path>
+<path class="path16" d="M188.55 13.99c-0.918-1.013-2.184-1.519-3.798-1.519-1.298 0-2.342 0.38-3.134 1.108v-0.791h-3.197v12.977h3.26v-7.185c0-0.981 0.222-1.773 0.696-2.311 0.475-0.57 1.076-0.823 1.931-0.823 0.728 0 1.298 0.253 1.709 0.728 0.411 0.506 0.633 1.171 0.633 2.026v7.501h3.26v-7.47c0-1.804-0.443-3.229-1.361-4.241z"></path>
+<path class="path17" d="M108.281 13.737v0c-0.981-0.855-2.342-1.266-4.051-1.266-1.076 0-2.089 0.253-3.007 0.696-0.855 0.443-1.678 1.139-2.216 2.089l0.032 0.032 2.089 1.994c0.855-1.361 1.804-1.836 3.070-1.836 0.696 0 1.234 0.19 1.678 0.538s0.633 0.823 0.633 1.393v0.633c-0.823-0.253-1.614-0.38-2.406-0.38-1.614 0-2.944 0.38-3.925 1.139s-1.488 1.867-1.488 3.229c0 1.203 0.411 2.216 1.266 2.944 0.855 0.696 1.899 1.076 3.134 1.076s2.406-0.506 3.45-1.361v1.076h3.197v-8.324c0.032-1.583-0.475-2.817-1.456-3.672zM102.489 20.795c0.38-0.253 0.886-0.38 1.551-0.38 0.791 0 1.614 0.158 2.469 0.475v1.266c-0.696 0.665-1.646 0.981-2.817 0.981-0.57 0-1.013-0.127-1.298-0.38s-0.443-0.538-0.443-0.95c0-0.443 0.158-0.76 0.538-1.013z"></path>
+<path class="path18" d="M127.462 26.018c-5.223 0-9.496-4.241-9.496-9.496s4.241-9.496 9.496-9.496 9.496 4.241 9.496 9.496-4.273 9.496-9.496 9.496zM127.462 10.382c-3.387 0-6.14 2.754-6.14 6.14s2.754 6.14 6.14 6.14 6.14-2.754 6.14-6.14-2.754-6.14-6.14-6.14z"></path>
+</svg>
+
+          <span class="sr-only">DigitalOcean</span>
+</a>
+        <span class="logo-separator"></span>
+
+        <a class="home-link" href="https://www.digitalocean.com/community">
+          <span class="logo-community-text">Community</span>
+</a>      </div>
+
+      <a class="mobile-nav-toggle icon-menu-thin" data-role="left">
+        <span>Menu</span>
+      </a>
+
+      
+<nav>
+
+  <ul>
+    <li><a class="active" href="https://www.digitalocean.com/community/tutorials">Tutorials</a></li>
+    <li><a href="https://www.digitalocean.com/community/questions">Questions</a></li>
+    <li><a href="https://www.digitalocean.com/community/projects">Projects</a></li>
+    <li><a href="https://www.meetup.com/pro/digitalocean/?utm_source=do_community" target="_blank">Meetups</a></li>
+    <li class="mobile-nav-only"><a href="https://www.digitalocean.com/">Main Site</a></li>
+  </ul>
+</nav>
+
+
+      
+<div class="account-buttons">
+    <div id="entrance">
+      <a id="sign-up" class="button" href="https://www.digitalocean.com/community/auth/digitalocean?display=sessionless+register">Sign Up</a>
+      <a id="log-in" class="button" href="https://www.digitalocean.com/community/auth/digitalocean">Log In</a>
+    </div>
+</div>
+      <div class="header-search open">
+  <form action="/community/search" accept-charset="UTF-8" method="get"><input name="utf8" value="✓" type="hidden">
+    <span class="icon icon-search-thin"></span>
+    <input name="q" id="q" title="Search" placeholder="Search" autocomplete="off" spellcheck="false" class="header-search-input" data-algolia-application-id="6ZHEUVKJ88" data-algolia-api-key="c5470567eae7fa1177d43222e18ba086" type="text">
+    <button name="button" type="submit" class="icon-btn">submit</button>
+</form></div>
+
+<div class="search-results-dropdown dropdown" data-root-path="https://www.digitalocean.com/community">
+  <div class="container">
+    <div class="header-search-results-list"></div>
+
+    <div id="btn-wrap">
+      <a class="more-search-results" data-search-path="/community/search" href="https://www.digitalocean.com/community/search">
+        <span class="icon-mag"></span>
+        View All Results
+</a>    </div>
+  </div>
+</div>
+
+<script type="text/template" id="autocomplete-hits-template">
+  <div class="inner-search">
+    <ul>
+        {{#hits}}
+          <li>
+            <span class='icon icon-{{type}}'></span>
+            <a href='{{url}}'>{{title}}</a>
+          </li>
+        {{/hits}}
+    </ul>
+  </div>
+</script>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+
+  <div class="wrapper">
+    
+  </div>
+</header>
+
+
+      
+
+      <div class="wrapper layout-wrapper">
+
+        
+
+
+
+
+
+
+
+
+
+<div class="section-content section-content-growable content Tutorial-content content-has-mobile-image">
+  <div class="postable-info-bar-container">
+  <div class="postable-info-bar">
+    <div class="left-section">
+        <div class="tutorial-author-avatar">
+    <a href="https://www.digitalocean.com/community/users/jellingwood"><div class="mod-avatar mod-avatar-small"><img alt="jellingwood" class="avatar avatar-small" src="1.Configure-GitLab-Ubuntu-16.04_files/60d901f61a6146e14a3e989bc1f4ef11.png" width="80" height="80"><span class="mod-star" title="" data-toggle="tooltip" data-container="body" data-original-title="MOD"><span class="mod-star-icon"></span></span></div></a>
+  </div>
+  <div class="author-and-date">
+    <div class="tutorial-author">
+      <div class="by">By: </div>
+      <a href="https://www.digitalocean.com/community/users/jellingwood">Justin Ellingwood</a>
+    </div>
+  </div>
+
+      
+    </div>
+
+    <div class="right-section">
+      
+
+
+      <div class="section-item section-item-subscribe">
+  <span class="opt-in-switch off signed-out-subscribe">
+    <span class="subscribe-label">
+      <span class="icon icon-subscribe"></span>
+      <span class="subscription-label subscribe">Subscribe</span>
+      <span class="icon icon-subscribed"></span>
+      <span class="subscription-label subscribed">Subscribed</span>
+    </span>
+    <a data-toggle="modal" data-target="#sign-in-modal" class="mini-switch-container" href="javascript:void(0);"><div class="mini-switch off signed-out-subscribe"><div class="switch-handle"></div></div></a>
+  </span>
+</div>
+
+<div class="section-item social-sharing-item">
+  <div class="sharing">
+  <a class="share-button" href="#" data-toggle="modal" data-target="#share-modal">
+    <span class="icon icon-share-square"></span>
+    <span class="share-button-text">Share</span>
+  </a>
+</div>
+
+</div>
+
+        <div class="section-item table-of-contents-triggers"><div class="toc-trigger-mobile" data-toggle="modal" data-target="#contents-modal">
+  <a href="javascript:void(0);">
+    <span class="icon icon-contents"></span>
+    <span class="title">Contents</span>
+    <span class="icon icon-arrow-down"></span>
+  </a>
+</div>
+
+</div>
+
+    </div>
+  </div>
+</div>
+
+
+    <img alt="How To Install and Configure GitLab on Ubuntu 16.04" title="How To Install and Configure GitLab on Ubuntu 16.04" class="tutorial-image-mobile" src="1.Configure-GitLab-Ubuntu-16.04_files/GitLab_Configure_mostov-2_twitter-_-facebook.png">
+
+  <div class="container tutorial-header">
+      <img alt="How To Install and Configure GitLab on Ubuntu 16.04" title="How To Install and Configure GitLab on Ubuntu 16.04" class="tutorial-image" src="1.Configure-GitLab-Ubuntu-16.04_files/GitLab_Configure_mostov-2_twitter-_-facebook.png">
+
+      <div class="info-cta">
+    <a class="icon-close-light" href="javascript:void();"></a>
+    We hope you find this tutorial helpful. In addition to guides like 
+this one, we provide simple cloud infrastructure for developers. <a href="https://www.digitalocean.com/?utm_medium=community&amp;utm_source=community_gencta&amp;utm_campaign=needaserver&amp;utm_content=how-to-install-and-configure-gitlab-on-ubuntu-16-04">
+        Learn more →
+</a>  </div>
+
+
+    <button name="button" type="button" class="new-upvote-button" data-upvotable-id="2027" data-upvotable-type="Tutorial" data-include-caret="true"><span class="icon new-upvote-icon"><svg class="svg-icon svg-icon-upvote-empty"><use xlink:href="https://www.digitalocean.com/assets/community/icon-sprite-d76eb75d70ccf8ffb4c0b47b7dbc88ca.svg#icon-upvote-empty"></use></svg></span><span class="new-upvote-count">11</span></button>
+
+    <h1 class="content-title Tutorial-header">
+      <button type="button" class="Button--reset Tutorial-headerButton " data-toggle="tooltip" title="" data-js="markAsComplete" data-tutorialinteraction="" data-tutorialsingle="" data-original-title="Mark as Complete">
+        <svg class="svg-icon svg-icon-completed"><use xlink:href="https://www.digitalocean.com/assets/community/icon-sprite-d76eb75d70ccf8ffb4c0b47b7dbc88ca.svg#icon-completed"></use></svg>
+      </button> How To Install and Configure GitLab on Ubuntu 16.04
+    </h1>
+
+    <span class="meta-section timestamp"><span class="tutorial-date-text">Updated</span><span class="tutorial-date">October 14, 2016</span></span>
+
+    <span class="meta-section pageviews"><span class="icon icon-eye v-mid"></span><span class="views-count v-mid">57.5k</span><span class="sr-only"> views</span></span>
+
+    <span class="meta-section tags">
+      <a class="tag" href="https://www.digitalocean.com/community/tags/applications?type=tutorials">Applications</a> <a class="tag" href="https://www.digitalocean.com/community/tags/git?type=tutorials">Git</a>
+      <a class="tag" href="https://www.digitalocean.com/community/tags/ubuntu?type=tutorials">Ubuntu</a> <a class="tag" href="https://www.digitalocean.com/community/tags/ubuntu-16-04?type=tutorials">Ubuntu 16.04</a>
+    </span>
+  </div>
+    <div class="content-body tutorial-content" data-growable-markdown="">
+      <h3 id="introduction">Introduction</h3>
+
+<p>GitLab CE, or Community Edition, is an open source application 
+primarily used to host Git repositories, with additional 
+development-related features like issue tracking.  It is designed to be 
+hosted using your own infrastructure, and provides flexibility in 
+deploying as an internal repository store for your development team, 
+publicly as a way to interface with users, or even open as a way for 
+contributors to host their own projects.</p>
+
+<p>The GitLab project makes it relatively straight forward to set up a 
+GitLab instance on your own hardware with an easy installation 
+mechanism.  In this guide, we will cover how to install and configure 
+GitLab on an Ubuntu 16.04 server.</p>
+
+<div name="prerequisites" data-unique="prerequisites"></div><h2 id="prerequisites">Prerequisites</h2>
+
+<p>This tutorial will assume that you have access to a fresh Ubuntu 16.04 server.  The <a href="http://docs.gitlab.com/ee/install/requirements.html#hardware-requirements">published GitLab hardware requirements</a> recommend using a server with:</p>
+
+<ul>
+<li>2 cores</li>
+<li>4GB of RAM</li>
+</ul>
+
+<p>Although you may be able to get by with substituting some swap space 
+for RAM, it is not recommended.  For this guide we will assume that you 
+have the above resources as a minimum.</p>
+
+<p>In order to get started, you will a non-root user with <code>sudo</code>
+ access configured on the server.  It is also a good idea to set up a 
+basic firewall to provide an additional layer of security.  You can 
+follow the steps in our <a href="https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-16-04">Ubuntu 16.04 initial server setup guide</a> to get this setup.</p>
+
+<p>When you have satisfied the above prerequisites, continue on to start the installation procedure.</p>
+
+<div name="installing-the-dependencies" data-unique="installing-the-dependencies"></div><h2 id="installing-the-dependencies">Installing the Dependencies</h2>
+
+<p>Before we can install GitLab itself, it is important to install some 
+of the software that it leverages during installation and on an ongoing 
+basis.  Fortunately, all of the required software can be easily 
+installed from Ubuntu's default package repositories.</p>
+
+<p>Since this is our first time using <code>apt</code> during this session, we can refresh the local package index and then install the dependencies by typing:</p>
+<pre class="code-pre command"><code langs=""><ul class="prefixed"><li class="line" prefix="$">sudo apt-get update
+</li><li class="line" prefix="$">sudo apt-get install ca-certificates curl openssh-server postfix
+</li></ul></code></pre>
+<p>You will likely have some of this software installed already.  For the <code>postfix</code> installation, select <strong>Internet Site</strong> when prompted.  On the next screen, enter your server's domain name or IP address to configure how the system will send mail.</p>
+
+<div name="install-gitlab" data-unique="install-gitlab"></div><h2 id="install-gitlab">Install GitLab</h2>
+
+<p>Now that the dependencies are in place, we can install GitLab itself.
+  This is a straight forward process that leverages an installation 
+script to configure your system with the GitLab repositories.</p>
+
+<p>Move into the <code>/tmp</code> directory and then download the installation script:</p>
+<pre class="code-pre command"><code langs=""><ul class="prefixed"><li class="line" prefix="$">cd /tmp
+</li><li class="line" prefix="$">curl -LO https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh
+</li></ul></code></pre>
+<p>Feel free to examine the downloaded script to ensure that you are 
+comfortable with the actions that it will take.  You can also find a 
+hosted version of the script <a href="https://packages.gitlab.com/gitlab/gitlab-ce/install">here</a>:</p>
+<pre class="code-pre command"><code langs=""><ul class="prefixed"><li class="line" prefix="$">less /tmp/script.deb.sh
+</li></ul></code></pre>
+<p>Once you are satisfied with the safety of the script, run the installer:</p>
+<pre class="code-pre command"><code langs=""><ul class="prefixed"><li class="line" prefix="$">sudo bash /tmp/script.deb.sh
+</li></ul></code></pre>
+<p>The script will set up your server to use the GitLab maintained 
+repositories.  This lets you manage GitLab with the same package 
+management tools you use for your other system packages.  Once this is 
+complete, you can install the actual GitLab application with <code>apt</code>:</p>
+<pre class="code-pre command"><code langs=""><ul class="prefixed"><li class="line" prefix="$">sudo apt-get install gitlab-ce
+</li></ul></code></pre>
+<p>This will install the necessary components on your system.  Before 
+you can use the application, however, you need to run an initial 
+configuration command:</p>
+<pre class="code-pre command"><code langs=""><ul class="prefixed"><li class="line" prefix="$">sudo gitlab-ctl reconfigure
+</li></ul></code></pre>
+<p>This will initialize GitLab using information it can find about your 
+server.  This is a completely automated process, so you will not have to
+ answer any prompts.</p>
+
+<div name="adjusting-the-firewall-rules" data-unique="adjusting-the-firewall-rules"></div><h2 id="adjusting-the-firewall-rules">Adjusting the Firewall Rules</h2>
+
+<p>Before you can access the GitLab for the first time, you will need to
+ ensure that your firewall rules are permissive enough to allow normal 
+web traffic.  If you followed the guide linked in the prerequisites, you
+ will have a <code>ufw</code> firewall enabled.</p>
+
+<p>View the current status of your active firewall by typing:</p>
+<pre class="code-pre command"><code langs=""><ul class="prefixed"><li class="line" prefix="$">sudo ufw status
+</li></ul></code></pre><pre class="code-pre "><code langs=""><div class="secondary-code-label " title="Output">Output</div>Status: active
+
+To                         Action      From
+--                         ------      ----
+OpenSSH                    ALLOW       Anywhere                  
+OpenSSH (v6)               ALLOW       Anywhere (v6)
+</code></pre>
+<p>As you can see, the current rules allow SSH traffic through, but 
+access to other services is restricted.  Since GitLab is a web 
+application, we should allow HTTP access in.</p>
+
+<p>Since the protocol to port mapping for HTTP is available in the <code>/etc/services</code>
+ file, we can allow that traffic in by name.  If you didn't already have
+ OpenSSH traffic enabled, you should allow that traffic now too:</p>
+<pre class="code-pre command"><code langs=""><ul class="prefixed"><li class="line" prefix="$">sudo ufw allow http
+</li><li class="line" prefix="$">sudo ufw allow OpenSSH
+</li></ul></code></pre>
+<p>If you check the <code>ufw status</code> command again, you should see access configured to at least these two services:</p>
+<pre class="code-pre command"><code langs=""><ul class="prefixed"><li class="line" prefix="$">sudo ufw status
+</li></ul></code></pre><pre class="code-pre "><code langs=""><div class="secondary-code-label " title="Output">Output</div>Status: active
+
+To                         Action      From
+--                         ------      ----
+OpenSSH                    ALLOW       Anywhere                  
+80                         ALLOW       Anywhere                  
+OpenSSH (v6)               ALLOW       Anywhere (v6)             
+80 (v6)                    ALLOW       Anywhere (v6)
+</code></pre>
+<p>You should now be able to access the GitLab web interface.</p>
+
+<div name="performing-initial-configuration-through-the-web-interface" data-unique="performing-initial-configuration-through-the-web-interface"></div><h2 id="performing-initial-configuration-through-the-web-interface">Performing Initial Configuration Through the Web Interface</h2>
+
+<p>Now that GitLab is running and access is permitted, we can perform 
+some initial configuration of the application through the web interface.</p>
+
+<h3 id="logging-in-for-the-first-time">Logging In for the First Time</h3>
+
+<p>Visit the domain name of your GitLab server in your web browser:</p>
+<pre class="code-pre "><code langs="">http://<span class="highlight">gitlab_domain_or_IP</span>
+</code></pre>
+<p>On your first time visiting, you should see an initial prompt to set a password for the administrative account:</p>
+
+<p class="growable"><img src="1.Configure-GitLab-Ubuntu-16.04_files/gitlab_initial_password.png" alt="GitLab initial password set prompt"></p>
+
+<p>In the initial password prompt, supply and confirm a secure password for the administrative account.  Click on the <strong>Change your password</strong> button when you are finished.</p>
+
+<p>You will be redirected to the conventional GitLab login page:</p>
+
+<p class="growable"><img src="1.Configure-GitLab-Ubuntu-16.04_files/gitlab_first_signin.png" alt="GitLab first sign in prompt"></p>
+
+<p>Here, you can log in with the password you just set.  The credentials are:</p>
+
+<ul>
+<li>Username: <strong>root</strong></li>
+<li>Password: [the password you set]</li>
+</ul>
+
+<p>Enter these values into the fields for existing users and click the <strong>Sign in</strong> button.  You will be signed into the application and taken to a landing page that prompts you to begin adding projects:</p>
+
+<p class="growable"><img src="1.Configure-GitLab-Ubuntu-16.04_files/landing_page.png" alt="GitLab initial login landing page"></p>
+
+<p>You can now make some simple changes to get GitLab set up the way you'd like.</p>
+
+<h3 id="adjusting-your-profile-settings">Adjusting your Profile Settings</h3>
+
+<p>One of the first things that you should do after a fresh installation
+ is to get your profile into better shape.  GitLab selects some 
+reasonable defaults, but these are not usually appropriate once you 
+start using the software.</p>
+
+<p>To make the necessary modifications, click on the user icon in the 
+upper-right hand corner of the interface.  In the drop down menu that 
+appears, select <strong>Profile Settings</strong>:</p>
+
+<p><img src="1.Configure-GitLab-Ubuntu-16.04_files/profile_settings_button.png" alt="GitLab profile settings button"></p>
+
+<p>You will be taken to the <strong>Profile</strong> section of your settings:</p>
+
+<p class="growable"><img src="1.Configure-GitLab-Ubuntu-16.04_files/profile_settings.png" alt="GitLab profile settings page"></p>
+
+<p>Adjust the <strong>Name</strong> and <strong>Email</strong> address from "Administrator" and "<a href="mailto:admin@example.com">admin@example.com</a>"
+ to something more accurate.  The name you select will be displayed to 
+other users, while the email will be used for default avatar detection, 
+notifications, Git actions through the interface, etc.</p>
+
+<p>Click on the <strong>Update Profile settings</strong> button at the bottom when you are done:</p>
+
+<p><img src="1.Configure-GitLab-Ubuntu-16.04_files/update_profile_settings_button.png" alt="GitLab update profile settings button"></p>
+
+<p>A confirmation email will be sent to the address you provided.  
+Follow the instructions in the email to confirm your account so that you
+ can begin using it with GitLab.</p>
+
+<h3 id="changing-your-account-name">Changing Your Account Name</h3>
+
+<p>Next, click on the <strong>Account</strong> menu item at the top of the page:</p>
+
+<p><img src="1.Configure-GitLab-Ubuntu-16.04_files/account_menu_item.png" alt="GitLab account menu item"></p>
+
+<p>Here, you can find your private API token or configure two-factor 
+authentication.  However, the functionality we are interested in at the 
+moment is the <strong>Change username</strong> section.</p>
+
+<p>By default, the first administrative account is given the name <strong>root</strong>.
+  Since this is a known account name, its more secure to change this a 
+different name.  You will still have administrative privileges; the only
+ thing that will change is the name:</p>
+
+<p><img src="1.Configure-GitLab-Ubuntu-16.04_files/change_username.png" alt="GitLab change username section"></p>
+
+<p>Click on the <strong>Update username</strong> button to make the change:</p>
+
+<p><img src="1.Configure-GitLab-Ubuntu-16.04_files/update_username_button.png" alt="GitLab update username button"></p>
+
+<p>Next time you log in to the GitLab, remember to use your new username.</p>
+
+<h3 id="add-an-ssh-key-to-your-account">Add an SSH Key to your Account</h3>
+
+<p>In most cases, you will want to use SSH keys with Git to interact 
+with your GitLab projects.  To do this, you need to add your SSH public 
+key to your GitLab account.</p>
+
+<p>If you already have an SSH key pair created on your <strong>local computer</strong>, you can usually view the public key by typing:</p>
+<pre class="code-pre custom_prefix"><code langs=""><ul class="prefixed"><li class="line" prefix="local$">cat ~/.ssh/id_rsa.pub
+</li></ul></code></pre>
+<p>You should see a large chunk of text, like this:</p>
+<pre class="code-pre "><code langs=""><div class="secondary-code-label " title="Output">Output</div>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDMuyMtMl6aWwqBCvQx7YXvZd7bCFVDsyln3yh5/8Pu23LW88VXfJgsBvhZZ9W0rPBGYyzE/TDzwwITvVQcKrwQrvQlYxTVbqZQDlmsC41HnwDfGFXg+QouZemQ2YgMeHfBzy+w26/gg480nC2PPNd0OG79+e7gFVrTL79JA/MyePBugvYqOAbl30h7M1a7EHP3IV5DQUQg4YUq49v4d3AvM0aia4EUowJs0P/j83nsZt8yiE2JEYR03kDgT/qziPK7LnVFqpFDSPC3MR3b8B354E9Af4C/JHgvglv2tsxOyvKupyZonbyr68CqSorO2rAwY/jWFEiArIaVuDiR9YM5 sammy@mydesktop
+</code></pre>
+<p>Copy this text and head back to the Profile Settings page in GitLab's web interface.</p>
+
+<p>If, instead, you get a message that looks like this, you do not yet have an SSH key pair configured on your machine:</p>
+<pre class="code-pre "><code langs=""><div class="secondary-code-label " title="Output">Output</div>cat: /home/sammy/.ssh/id_rsa.pub: No such file or directory
+</code></pre>
+<p>If this is the case, you can create an SSH key pair by typing:</p>
+<pre class="code-pre custom_prefix"><code langs=""><ul class="prefixed"><li class="line" prefix="local$">ssh-keygen
+</li></ul></code></pre>
+<p>Accept the defaults and optionally provide a password to secure the key locally:</p>
+<pre class="code-pre "><code langs=""><div class="secondary-code-label " title="Output">Output</div>Generating public/private rsa key pair.
+Enter file in which to save the key (/home/sammy/.ssh/id_rsa): 
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /home/sammy/.ssh/id_rsa.
+Your public key has been saved in /home/sammy/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:I8v5/M5xOicZRZq/XRcSBNxTQV2BZszjlWaIHi5chc0 sammy@gitlab.docsthat.work
+The key's randomart image is:
++---[RSA 2048]----+
+|          ..%o==B|
+|           *.E =.|
+|        . ++= B  |
+|         ooo.o . |
+|      . S .o  . .|
+|     . + .. .   o|
+|      +   .o.o ..|
+|       o .++o .  |
+|        oo=+     |
++----[SHA256]-----+
+</code></pre>
+<p>Once you have this, you can display your public key as above by typing:</p>
+<pre class="code-pre custom_prefix"><code langs=""><ul class="prefixed"><li class="line" prefix="local$">cat ~/.ssh/id_rsa.pub
+</li></ul></code></pre><pre class="code-pre "><code langs=""><div class="secondary-code-label " title="Output">Output</div>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDMuyMtMl6aWwqBCvQx7YXvZd7bCFVDsyln3yh5/8Pu23LW88VXfJgsBvhZZ9W0rPBGYyzE/TDzwwITvVQcKrwQrvQlYxTVbqZQDlmsC41HnwDfGFXg+QouZemQ2YgMeHfBzy+w26/gg480nC2PPNd0OG79+e7gFVrTL79JA/MyePBugvYqOAbl30h7M1a7EHP3IV5DQUQg4YUq49v4d3AvM0aia4EUowJs0P/j83nsZt8yiE2JEYR03kDgT/qziPK7LnVFqpFDSPC3MR3b8B354E9Af4C/JHgvglv2tsxOyvKupyZonbyr68CqSorO2rAwY/jWFEiArIaVuDiR9YM5 sammy@mydesktop
+</code></pre>
+<p>Copy the block of text that's displayed and head back to your Profile Settings in GitLab's web interface.</p>
+
+<p>Click on the <strong>SSH Keys</strong> menu item in the top menu bar:</p>
+
+<p class="growable"><img src="1.Configure-GitLab-Ubuntu-16.04_files/ssh_keys_menu_item.png" alt="GitLab SSH Keys menu item"></p>
+
+<p>In the provides space paste the public key you copied from your local machine.  Give it a descriptive title, and click the <strong>Add key</strong> button:</p>
+
+<p class="growable"><img src="1.Configure-GitLab-Ubuntu-16.04_files/add_ssh_key.png" alt="GitLab add SSH Key"></p>
+
+<p>You should now be able to manage your GitLab projects and 
+repositories from your local machine without having to provide your 
+GitLab account credentials.</p>
+
+<div name="restrict-or-disable-public-sign-ups-(optional)" data-unique="restrict-or-disable-public-sign-ups-(optional)"></div><h2 id="restrict-or-disable-public-sign-ups-optional">Restrict or Disable Public Sign-ups (Optional)</h2>
+
+<p>You may have noticed that it is possible for anyone to sign up for an
+ account when you visit your GitLab instance's landing page.  This may 
+be what you want if you are looking to host public project.  However, 
+many times, more restrictive settings are desirable.</p>
+
+<p>To begin, make your way to the administrative area by clicking on the <strong>wrench icon</strong> in the upper-right corner:</p>
+
+<p><img src="1.Configure-GitLab-Ubuntu-16.04_files/admin_area_button.png" alt="GitLab administrative area button"></p>
+
+<p>On the page that follows, you can see an overview of your GitLab instance as a whole.  To adjust the settings, click on the <strong>gear icon</strong> in the upper-right corner and selecting <strong>Settings</strong> from the drop down menu that appears:</p>
+
+<span class="note"><p>
+<strong>Note</strong>: At the time of writing (August, 2016), there is an outstanding <a href="https://gitlab.com/gitlab-org/gitlab-ce/issues/19164">issue with GitLab</a>
+ that affects the visibility of the settings icon at narrow screen 
+widths.  If you do not see the settings menu, try adjusting your browser
+ window to full screen.  You can also work around this issue by visiting
+ your GitLab's setting page directly:</p>
+<pre class="code-pre "><code langs="">http://<span class="highlight">gitlab_domain_or_IP</span>/admin/application_settings
+</code></pre>
+<p></p></span>
+
+<p><img src="1.Configure-GitLab-Ubuntu-16.04_files/admin_settings_button.png" alt="GitLab administrative settings button"></p>
+
+<p>You will be taken to the global settings for your GitLab instance.  
+Here, you can adjust a number of settings that affect whether new users 
+can sign up and what their level of access will be.</p>
+
+<h3 id="disabling-sign-ups">Disabling Sign-ups</h3>
+
+<p>If you wish to disable sign-ups completely (you can still manually create accounts for new users), visit the <strong>Sign-up Restrictions</strong> section.</p>
+
+<p>Deselect the <strong>Sign-up enabled</strong> check box:</p>
+
+<p><img src="1.Configure-GitLab-Ubuntu-16.04_files/deselect_sign-ups_enabled.png" alt="GitLab deselect sign-ups enabled"></p>
+
+<p>Scroll down to the bottom and click on the <strong>Save</strong> button:</p>
+
+<p><img src="1.Configure-GitLab-Ubuntu-16.04_files/save_settings_button.png" alt="GitLab save settings button"></p>
+
+<p>The sign-up section should now be removed from the GitLab landing page.</p>
+
+<h3 id="restrict-sign-ups-by-domain">Restrict Sign-ups By Domain</h3>
+
+<p>If you are using GitLab as part of an organization that provides 
+email addresses associated with a domain, you can restrict sign-ups by 
+domain instead of completely disabling them.</p>
+
+<p>In the <strong>Sign-up Restrictions</strong> section, first select the <strong>Send confirmation email on sign-up</strong> box only allow users to log in after they've confirmed their email.</p>
+
+<p>Next, add your domain or domains to the <strong>Whitelisted domains for sign-ups</strong> box, one per line.  You can use the asterisk "*" to specify wildcard domains:</p>
+
+<p><img src="1.Configure-GitLab-Ubuntu-16.04_files/restrict_sign-ups_by_domain.png" alt="GitLab restrict sign-ups by domain"></p>
+
+<p>Scroll down to the bottom and click on the <strong>Save</strong> button:</p>
+
+<p><img src="1.Configure-GitLab-Ubuntu-16.04_files/save_settings_button.png" alt="GitLab save settings button"></p>
+
+<p>The sign-up section should now be removed from the GitLab landing page.</p>
+
+<h3 id="restricting-project-creation">Restricting Project Creation</h3>
+
+<p>By default, new users can create up to 10 projects.  If you wish to 
+allow new users from the outside for visibility and participation, but 
+want to restrict their access to creating new projects, you can do so in
+ the <strong>Account and Limit Settings</strong> section.</p>
+
+<p>Inside, you can change the <strong>Default projects limit</strong> to 0 to completely disable new users from creating projects:</p>
+
+<p><img src="1.Configure-GitLab-Ubuntu-16.04_files/set_projects_to_zero.png" alt="GitLab set projects to zero"></p>
+
+<p>New users can still be added to projects manually and will have access to internal or public projects created by other users.</p>
+
+<p>Scroll down to the bottom and click on the <strong>Save</strong> button:</p>
+
+<p><img src="1.Configure-GitLab-Ubuntu-16.04_files/save_settings_button.png" alt="GitLab save settings button"></p>
+
+<p>New users will now be able to create accounts, but unable to create projects.</p>
+
+<div name="conclusion" data-unique="conclusion"></div><h2 id="conclusion">Conclusion</h2>
+
+<p>You should now have a working GitLab instance hosted on your own 
+server.  You can begin to import or create new projects and configure 
+the appropriate level of access for your team.</p>
+
+<p>Before going much further, you should configure SSL encryption for 
+your GitLab server.  Without SSL protection, your passwords and private 
+details can be intercepted by anyone on the network.  Luckily, with 
+projects like Let's Encrypt, it is relatively straight forward to get a 
+free, SSL certificate trusted by browsers.  To learn how to get your 
+GitLab instance set up with an SSL certificate, follow our guide on <a href="https://www.digitalocean.com/community/tutorials/how-to-secure-gitlab-with-let-s-encrypt-on-ubuntu-16-04">how to secure GitLab with Let's Encrypt</a>.</p>
+
+    </div>
+</div>
+
+<div class="tutorial-footer">
+  <div class="tutorial-footer-details">
+
+  <div class="postable-info-bar-container">
+  <div class="postable-info-bar">
+    <div class="left-section">
+        <div class="tutorial-author-avatar">
+    <a href="https://www.digitalocean.com/community/users/jellingwood"><div class="mod-avatar mod-avatar-small"><img alt="jellingwood" class="avatar avatar-small" src="1.Configure-GitLab-Ubuntu-16.04_files/60d901f61a6146e14a3e989bc1f4ef11.png" width="80" height="80"><span class="mod-star" title="" data-toggle="tooltip" data-container="body" data-original-title="MOD"><span class="mod-star-icon"></span></span></div></a>
+  </div>
+  <div class="author-and-date">
+    <div class="tutorial-author">
+      <div class="by">By: </div>
+      <a href="https://www.digitalocean.com/community/users/jellingwood">Justin Ellingwood</a>
+    </div>
+  </div>
+
+    </div>
+    <div class="right-section">
+      <div class="upvote-container">
+        <button name="button" type="button" class="new-upvote-button" data-upvotable-id="2027" data-upvotable-type="Tutorial" data-include-caret="false"><span class="icon new-upvote-icon"><svg class="svg-icon svg-icon-heart"><use xlink:href="https://www.digitalocean.com/assets/community/icon-sprite-d76eb75d70ccf8ffb4c0b47b7dbc88ca.svg#icon-heart"></use></svg></span><span class="new-upvote-text">Upvote</span><span class="new-upvote-count">11</span></button>
+      </div>
+      <div class="section-item section-item-subscribe">
+  <span class="opt-in-switch off signed-out-subscribe">
+    <span class="subscribe-label">
+      <span class="icon icon-subscribe"></span>
+      <span class="subscription-label subscribe">Subscribe</span>
+      <span class="icon icon-subscribed"></span>
+      <span class="subscription-label subscribed">Subscribed</span>
+    </span>
+    <a data-toggle="modal" data-target="#sign-in-modal" class="mini-switch-container" href="javascript:void(0);"><div class="mini-switch off signed-out-subscribe"><div class="switch-handle"></div></div></a>
+  </span>
+</div>
+
+<div class="section-item social-sharing-item">
+  <div class="sharing">
+  <a class="share-button" href="#" data-toggle="modal" data-target="#share-modal">
+    <span class="icon icon-share-square"></span>
+    <span class="share-button-text">Share</span>
+  </a>
+</div>
+
+</div>
+
+    </div>
+  </div>
+</div>
+
+
+  <div class="section-content tutorial-contributors one">
+
+
+  </div>
+</div>
+
+
+  
+    <div class="tutorial-ctas" style="background-image:url(https://assets.digitalocean.com/test/commfooter_oneclickapps.png), linear-gradient(to bottom, #4e9afb 0%,#0b7fff 100%); background-position:bottom center; padding-top:-10px;">
+  <div class="section-content">
+    <div class="cta-description">
+      <h2 style="color: rgb(255, 255, 255);">Pre-built applications on DigitalOcean</h2>
+
+      <p style="color: rgb(255, 255, 255); padding: 15px 0px; line-height: 1.3em;">Get
+ straight to deploying your code using one of our pre-configured images 
+supporting Node.js, Rails, Redis, MongoDB, Cassandra, Docker, and many 
+more.</p>
+
+      <a class="cloud-tutorial-cta" href="https://www.digitalocean.com/products/one-click-apps/?utm_medium=btb_oneclickappsview-one-clicks" style="background:#FFF;color:#0069FF;">View One-Clicks</a>
+    </div>
+  </div>
+</div>
+    <div class="related-tutorials">
+    <div class="section-content">
+      <h2>Related Tutorials</h2>
+
+      <ul>
+        <li><a class="related-link" href="https://www.digitalocean.com/community/tutorials/how-to-install-moodle-on-ubuntu-16-04">How To Install Moodle on Ubuntu 16.04</a></li>
+<li><a class="related-link" href="https://www.digitalocean.com/community/tutorials/how-to-convert-an-owncloud-installation-to-nextcloud-on-ubuntu-14-04">How To Convert an ownCloud Installation to Nextcloud on Ubuntu 14.04</a></li>
+<li><a class="related-link" href="https://www.digitalocean.com/community/tutorials/how-to-install-git-on-freebsd-11-0">How To Install Git on FreeBSD 11.0</a></li>
+<li><a class="related-link" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-nextcloud-on-ubuntu-16-04">How To Install and Configure Nextcloud on Ubuntu 16.04</a></li>
+<li><a class="related-link" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-owncloud-on-centos-7">How To Install and Configure ownCloud on CentOS 7</a></li>
+
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<div class="content-comments">
+  <div class="section-content">
+    <div class="tutorial commentable" id="tutorial_2027">
+
+  <div class="comments-header">
+    <h4 class="comments-count"><span>16 Comments</span></h4>
+  </div>
+
+  <div class="response response-form no-avatar">
+  <div class="js-display-on-error flash error hidden"></div>
+
+
+  <form class="content-form disabled-form" id="new_comment" action="/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04/comments" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" value="✓" disabled="disabled" type="hidden">
+
+    <div class="meltdown_wrap" style="height: auto;"><div class="meltdown_topmargin"></div><div class="meltdown_bar"><ul class="meltdown_controls meltdown_controls_preview"><li class="meltdown_control-preview meltdown_control meltdown_controlbutton disabled" title="" data-original-title="Toggle Preview"><span>Preview</span></li></ul><div class="preview-header">Markdown Preview</div><ul class="meltdown_controls meltdown_controls_main"><li class="meltdown_control-bold meltdown_control meltdown_controlbutton disabled" title="" data-original-title="Bold"><span unselectable="on">B</span></li><li class="meltdown_control-italics meltdown_control meltdown_controlbutton disabled" title="" data-original-title="Italics"><span unselectable="on">I</span></li><li class="meltdown_control-h1 meltdown_control meltdown_controlbutton disabled" title="" data-original-title="Header 1"><span unselectable="on">H1</span></li><li class="meltdown_control-h2 meltdown_control meltdown_controlbutton disabled" title="" data-original-title="Header 2"><span unselectable="on">H2</span></li><li class="meltdown_control-h3 meltdown_control meltdown_controlbutton disabled" title="" data-original-title="Header 3"><span unselectable="on">H3</span></li><li class="meltdown_control-ul meltdown_control meltdown_controlbutton disabled" title="" data-original-title="Unordered List"><span unselectable="on">UL</span></li><li class="meltdown_control-ol meltdown_control meltdown_controlbutton disabled" title="" data-original-title="Ordered List"><span unselectable="on">OL</span></li><li class="meltdown_control-link meltdown_control meltdown_controlbutton disabled" title="" data-original-title="Link"><span unselectable="on">Link</span></li><li class="meltdown_control-code meltdown_control meltdown_controlbutton disabled" title="" data-original-title="Code"><span unselectable="on">Code</span></li><li class="meltdown_control-highlight meltdown_control meltdown_controlbutton disabled" title="" data-original-title="Highlight"><span unselectable="on">Highlight</span></li><li class="meltdown_control-table meltdown_control meltdown_controlbutton disabled" title="" data-original-title="Table"><span unselectable="on">Table</span></li></ul></div><div class="meltdown_editor-wrap"><div class="meltdown_editor-deco"><textarea name="comment[content]" id="comment_content" placeholder="Leave a comment..." class="js-comment-content tutorial-comment-field meltdown_editor" data-markdown="true" disabled="disabled" style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 120px;"></textarea></div></div><div class="meltdown_preview-wrap"><div class="meltdown_preview-wrap2"><div class="meltdown_preview-error-message">Could not load preview. <a href="#">Try again</a></div><div class="meltdown_preview-loading-message">Loading preview...</div><div class="meltdown_preview content-body"></div></div></div><div class="meltdown_bottommargin"></div></div>
+
+      <div class="log-in-notice "><a href="https://www.digitalocean.com/community/auth/digitalocean">Log In to Comment</a></div>
+
+    <div class="clearfix"></div>
+</form>
+</div>
+
+
+  <div class="comments">
+    <ul class="response-list">
+          <a class="hidden" rel="nofollow" data-remote="true" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04/comments">Load</a>
+    <li id="comment_50682" data-level="0" class="comment-container" style="">
+    <div class="response comment-body-container    " data-highlight="">
+      <div class="comment-upvote-container ">
+        <button name="button" type="button" class="new-upvote-button" data-upvotable-id="50682" data-upvotable-type="Comment" data-include-caret="true"><span class="icon new-upvote-icon"><svg class="svg-icon svg-icon-upvote-empty"><use xlink:href="https://www.digitalocean.com/assets/community/icon-sprite-d76eb75d70ccf8ffb4c0b47b7dbc88ca.svg#icon-upvote-empty"></use></svg></span><span class="new-upvote-count">0</span></button>
+      </div>
+      <div class="ox-auto">
+        <div class="comment-header">
+          <span class="response-name"><a class="username" href="https://www.digitalocean.com/community/users/shiretoko">Shiretoko</a></span>
+          
+          <span class="response-time"><a rel="nofollow" class="post-time-link" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?comment=50682">September  3, 2016</a></span>
+
+          
+        </div>
+
+          <div class="response-body content-body">
+            <div class=""><p>Hi, this is cool tutorials and easy for me to learn ( I'm a beginning )<br>
+but I have a problem about the domain etc,  the url path of avatar <br>
+it show my droplets name like "newgit-ubuntu-1gb-sgp1-01" <br>
+so in my avatar the url like this ==&gt; "<a href="http://newgit-ubuntu-1gb-sgp1-01/uploads/user/avatar/1/avatar.png" rel="nofollow">http://newgit-ubuntu-1gb-sgp1-01/uploads/user/avatar/1/avatar.png</a>"<br>
+where can I edit the config file I can change  "newgit-ubuntu-1gb-sgp1-01" to the right domain .<br>
+Please help ,thank you ( sorry about my english is not well ) </p>
+</div>
+            
+          </div>
+
+        
+
+        <div class="spinner spinner-large">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+  
+</div>
+
+
+        <div class="content-actions">
+  <div class="comment-actions">
+
+    
+
+    
+  </div>
+
+  <div class="comment-moderation-actions">
+    <ul class="comment-moderation-actions-list ">
+      
+
+
+
+
+
+
+
+    </ul>
+  </div>
+</div>
+
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="response-comments">
+      <div class="response_comment commentable comment" id="response_comment_50682">
+
+
+  <div class="comments">
+    <ul class="response-list">
+      
+
+      <li id="comment_50785" data-level="1" class="comment-container">
+    <div class="response comment-body-container    " data-highlight="">
+      <div class="comment-upvote-container comment-reply-container">
+        <button name="button" type="button" class="new-upvote-button" data-upvotable-id="50785" data-upvotable-type="Comment" data-include-caret="true"><span class="icon new-upvote-icon"><svg class="svg-icon svg-icon-upvote-empty"><use xlink:href="https://www.digitalocean.com/assets/community/icon-sprite-d76eb75d70ccf8ffb4c0b47b7dbc88ca.svg#icon-upvote-empty"></use></svg></span><span class="new-upvote-count">3</span></button>
+      </div>
+      <div class="ox-auto">
+        <div class="comment-header">
+          <span class="response-name"><a class="username" href="https://www.digitalocean.com/community/users/jellingwood">jellingwood</a></span>
+          <span class="mod-badge">MOD</span>
+          <span class="response-time"><a rel="nofollow" class="post-time-link" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?comment=50785">September  6, 2016</a></span>
+
+          
+        </div>
+
+          <div class="response-body content-body">
+            <div class=""><p><a href="https://www.digitalocean.com/community/users/shiretoko" class="username-tag">@Shiretoko</a>: You should be able to edit the <code>/etc/gitlab/gitlab.rb</code> file to make the change.  Open the file in your editor:</p>
+<pre class="code-pre command"><code langs=""><ul class="prefixed"><li class="line" prefix="$">sudo nano /etc/gitlab/gitlab.rb
+</li></ul></code></pre>
+<p>Find the <code>external_url</code> setting and modify it to point to your correct domain:</p>
+<div class="code-label " title="/etc/gitlab/gitlab.rb">/etc/gitlab/gitlab.rb</div><pre class="code-pre "><code langs="">. . .
+external_url 'http://<span class="highlight">your_domain_here</span>'
+. . .
+</code></pre>
+<p>Save and close the file.</p>
+
+<p>Afterwards, reconfigure GitLab so that your domain name will 
+propagate to all of the configuration files that GitLab manages 
+internally:</p>
+<pre class="code-pre command"><code langs=""><ul class="prefixed"><li class="line" prefix="$">sudo gitlab-ctl reconfigure
+</li></ul></code></pre>
+<p>You should hopefully be able to access GitLab from your domain name at this point.</p>
+
+<p>Hope that helps!</p>
+</div>
+            
+          </div>
+
+        
+
+        <div class="spinner spinner-large">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+  
+</div>
+
+
+        <div class="content-actions">
+  <div class="comment-actions">
+
+    
+
+    
+  </div>
+
+  <div class="comment-moderation-actions">
+    <ul class="comment-moderation-actions-list ">
+      
+
+
+
+
+
+
+
+    </ul>
+  </div>
+</div>
+
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="response-comments">
+      <div class="response_comment commentable comment" id="response_comment_50785">
+
+
+  <div class="comments">
+    <ul class="response-list">
+      
+
+      <li id="comment_50791" data-level="2" class="comment-container">
+    <div class="response comment-body-container    " data-highlight="">
+      <div class="comment-upvote-container comment-reply-container">
+        <button name="button" type="button" class="new-upvote-button" data-upvotable-id="50791" data-upvotable-type="Comment" data-include-caret="true"><span class="icon new-upvote-icon"><svg class="svg-icon svg-icon-upvote-empty"><use xlink:href="https://www.digitalocean.com/assets/community/icon-sprite-d76eb75d70ccf8ffb4c0b47b7dbc88ca.svg#icon-upvote-empty"></use></svg></span><span class="new-upvote-count">0</span></button>
+      </div>
+      <div class="ox-auto">
+        <div class="comment-header">
+          <span class="response-name"><a class="username" href="https://www.digitalocean.com/community/users/shiretoko">Shiretoko</a></span>
+          
+          <span class="response-time"><a rel="nofollow" class="post-time-link" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?comment=50791">September  6, 2016</a></span>
+
+          
+        </div>
+
+          <div class="response-body content-body">
+            <div class=""><p>It working now ,Thank you so much :D </p>
+</div>
+            
+          </div>
+
+        
+
+        <div class="spinner spinner-large">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+  
+</div>
+
+
+        <div class="content-actions">
+  <div class="comment-actions">
+
+    
+
+    
+  </div>
+
+  <div class="comment-moderation-actions">
+    <ul class="comment-moderation-actions-list ">
+      
+
+
+
+
+
+
+
+    </ul>
+  </div>
+</div>
+
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="response-comments">
+      <div class="response_comment commentable comment" id="response_comment_50791">
+
+
+  <div class="comments">
+    <ul class="response-list">
+      
+
+
+
+    </ul>
+  </div>
+
+
+  <div id="reply_anchor_comment_50791"></div>
+</div>
+    </div>
+
+  </li>
+
+      <li id="comment_52458" data-level="2" class="comment-container">
+    <div class="response comment-body-container    " data-highlight="">
+      <div class="comment-upvote-container comment-reply-container">
+        <button name="button" type="button" class="new-upvote-button" data-upvotable-id="52458" data-upvotable-type="Comment" data-include-caret="true"><span class="icon new-upvote-icon"><svg class="svg-icon svg-icon-upvote-empty"><use xlink:href="https://www.digitalocean.com/assets/community/icon-sprite-d76eb75d70ccf8ffb4c0b47b7dbc88ca.svg#icon-upvote-empty"></use></svg></span><span class="new-upvote-count">0</span></button>
+      </div>
+      <div class="ox-auto">
+        <div class="comment-header">
+          <span class="response-name"><a class="username" href="https://www.digitalocean.com/community/users/robertlvilvert">robertlvilvert</a></span>
+          
+          <span class="response-time"><a rel="nofollow" class="post-time-link" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?comment=52458">October 28, 2016</a></span>
+
+          
+        </div>
+
+          <div class="response-body content-body">
+            <div class=""><p>I had the same problem with avatars.<br>
+But i just changed the host parameter on file /opt/gitlab/embedded/service/gitlab-rails/config/gitlab.yml</p>
+
+<p>Like this,</p>
+
+<p>host : your-machine-name<br>
+TO<br>
+host : your-ip-server or DNS</p>
+
+<p>Great job with the tutorial!</p>
+</div>
+            
+          </div>
+
+        
+
+        <div class="spinner spinner-large">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+  
+</div>
+
+
+        <div class="content-actions">
+  <div class="comment-actions">
+
+    
+
+    
+  </div>
+
+  <div class="comment-moderation-actions">
+    <ul class="comment-moderation-actions-list ">
+      
+
+
+
+
+
+
+
+    </ul>
+  </div>
+</div>
+
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="response-comments">
+      <div class="response_comment commentable comment" id="response_comment_52458">
+
+
+  <div class="comments">
+    <ul class="response-list">
+      
+
+      <li id="comment_56729" data-level="3" class="comment-container">
+    <div class="response comment-body-container    " data-highlight="">
+      <div class="comment-upvote-container comment-reply-container">
+        <button name="button" type="button" class="new-upvote-button" data-upvotable-id="56729" data-upvotable-type="Comment" data-include-caret="true"><span class="icon new-upvote-icon"><svg class="svg-icon svg-icon-upvote-empty"><use xlink:href="https://www.digitalocean.com/assets/community/icon-sprite-d76eb75d70ccf8ffb4c0b47b7dbc88ca.svg#icon-upvote-empty"></use></svg></span><span class="new-upvote-count">0</span></button>
+      </div>
+      <div class="ox-auto">
+        <div class="comment-header">
+          <span class="response-name"><a class="username" href="https://www.digitalocean.com/community/users/thedude">thedude</a></span>
+          
+          <span class="response-time"><a rel="nofollow" class="post-time-link" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?comment=56729">March  4, 2017</a></span>
+
+          
+        </div>
+
+          <div class="response-body content-body">
+            <div class=""><p>Don't mess with the files under <code>/opt/gitlab/</code>, your changes will be deleted after upgrade. Use <code>/etc/gitlab/gitlab.rb</code> to persist your changes.</p>
+</div>
+            
+          </div>
+
+        
+
+        <div class="spinner spinner-large">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+  
+</div>
+
+
+        <div class="content-actions">
+  <div class="comment-actions">
+
+    
+
+    
+  </div>
+
+  <div class="comment-moderation-actions">
+    <ul class="comment-moderation-actions-list ">
+      
+
+
+
+
+
+
+
+    </ul>
+  </div>
+</div>
+
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="response-comments">
+      <div class="response_comment commentable comment" id="response_comment_56729">
+
+
+  <div class="comments">
+    <ul class="response-list">
+      
+
+
+
+    </ul>
+  </div>
+
+
+  <div id="reply_anchor_comment_56729"></div>
+</div>
+    </div>
+
+  </li>
+
+
+
+    </ul>
+  </div>
+
+
+  <div id="reply_anchor_comment_52458"></div>
+</div>
+    </div>
+
+  </li>
+
+
+
+    </ul>
+  </div>
+
+
+  <div id="reply_anchor_comment_50785"></div>
+</div>
+    </div>
+
+  </li>
+
+
+
+    </ul>
+  </div>
+
+
+  <div id="reply_anchor_comment_50682"></div>
+</div>
+    </div>
+
+  </li>
+
+      <li id="comment_52730" data-level="0" class="comment-container" style="">
+    <div class="response comment-body-container    " data-highlight="">
+      <div class="comment-upvote-container ">
+        <button name="button" type="button" class="new-upvote-button" data-upvotable-id="52730" data-upvotable-type="Comment" data-include-caret="true"><span class="icon new-upvote-icon"><svg class="svg-icon svg-icon-upvote-empty"><use xlink:href="https://www.digitalocean.com/assets/community/icon-sprite-d76eb75d70ccf8ffb4c0b47b7dbc88ca.svg#icon-upvote-empty"></use></svg></span><span class="new-upvote-count">0</span></button>
+      </div>
+      <div class="ox-auto">
+        <div class="comment-header">
+          <span class="response-name"><a class="username" href="https://www.digitalocean.com/community/users/yaeykay">yaeykay</a></span>
+          
+          <span class="response-time"><a rel="nofollow" class="post-time-link" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?comment=52730">November  6, 2016</a></span>
+
+          
+        </div>
+
+          <div class="response-body content-body">
+            <div class=""><p>Thank you for this new awesome tutorial <a href="https://www.digitalocean.com/community/users/jellingwood" class="username-tag">@jellingwood</a>. Is there a tutorial like this here in DO about installation and configuration of GitLab Runner for GitLab CI?</p>
+</div>
+            
+          </div>
+
+        
+
+        <div class="spinner spinner-large">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+  
+</div>
+
+
+        <div class="content-actions">
+  <div class="comment-actions">
+
+    
+
+    
+  </div>
+
+  <div class="comment-moderation-actions">
+    <ul class="comment-moderation-actions-list ">
+      
+
+
+
+
+
+
+
+    </ul>
+  </div>
+</div>
+
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="response-comments">
+      <div class="response_comment commentable comment" id="response_comment_52730">
+
+
+  <div class="comments">
+    <ul class="response-list">
+      
+
+      <li id="comment_52777" data-level="1" class="comment-container">
+    <div class="response comment-body-container    " data-highlight="">
+      <div class="comment-upvote-container comment-reply-container">
+        <button name="button" type="button" class="new-upvote-button" data-upvotable-id="52777" data-upvotable-type="Comment" data-include-caret="true"><span class="icon new-upvote-icon"><svg class="svg-icon svg-icon-upvote-empty"><use xlink:href="https://www.digitalocean.com/assets/community/icon-sprite-d76eb75d70ccf8ffb4c0b47b7dbc88ca.svg#icon-upvote-empty"></use></svg></span><span class="new-upvote-count">0</span></button>
+      </div>
+      <div class="ox-auto">
+        <div class="comment-header">
+          <span class="response-name"><a class="username" href="https://www.digitalocean.com/community/users/thedude">thedude</a></span>
+          
+          <span class="response-time"><a rel="nofollow" class="post-time-link" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?comment=52777">November  8, 2016</a></span>
+
+          
+        </div>
+
+          <div class="response-body content-body">
+            <div class=""><p>I don't think there is one yet, but you can use the one hosted on our blog <a href="https://about.gitlab.com/2016/04/19/how-to-set-up-gitlab-runner-on-digitalocean/" rel="nofollow">https://about.gitlab.com/2016/04/19/how-to-set-up-gitlab-runner-on-digitalocean/</a> :)</p>
+
+<p>It might be a good idea to also have this on DO.</p>
+</div>
+            
+          </div>
+
+        
+
+        <div class="spinner spinner-large">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+  
+</div>
+
+
+        <div class="content-actions">
+  <div class="comment-actions">
+
+    
+
+    
+  </div>
+
+  <div class="comment-moderation-actions">
+    <ul class="comment-moderation-actions-list ">
+      
+
+
+
+
+
+
+
+    </ul>
+  </div>
+</div>
+
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="response-comments">
+      <div class="response_comment commentable comment" id="response_comment_52777">
+
+
+  <div class="comments">
+    <ul class="response-list">
+      
+
+      <li id="comment_53903" data-level="2" class="comment-container">
+    <div class="response comment-body-container    " data-highlight="">
+      <div class="comment-upvote-container comment-reply-container">
+        <button name="button" type="button" class="new-upvote-button" data-upvotable-id="53903" data-upvotable-type="Comment" data-include-caret="true"><span class="icon new-upvote-icon"><svg class="svg-icon svg-icon-upvote-empty"><use xlink:href="https://www.digitalocean.com/assets/community/icon-sprite-d76eb75d70ccf8ffb4c0b47b7dbc88ca.svg#icon-upvote-empty"></use></svg></span><span class="new-upvote-count">0</span></button>
+      </div>
+      <div class="ox-auto">
+        <div class="comment-header">
+          <span class="response-name"><a class="username" href="https://www.digitalocean.com/community/users/yaeykay">yaeykay</a></span>
+          
+          <span class="response-time"><a rel="nofollow" class="post-time-link" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?comment=53903">December 17, 2016</a></span>
+
+          
+        </div>
+
+          <div class="response-body content-body">
+            <div class=""><p><a href="https://www.digitalocean.com/community/users/thedude" class="username-tag">@thedude</a> dude Yeah. I already read the blog and still stuck with SSH Permission Denied.</p>
+</div>
+            
+          </div>
+
+        
+
+        <div class="spinner spinner-large">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+  
+</div>
+
+
+        <div class="content-actions">
+  <div class="comment-actions">
+
+    
+
+    
+  </div>
+
+  <div class="comment-moderation-actions">
+    <ul class="comment-moderation-actions-list ">
+      
+
+
+
+
+
+
+
+    </ul>
+  </div>
+</div>
+
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="response-comments">
+      <div class="response_comment commentable comment" id="response_comment_53903">
+
+
+  <div class="comments">
+    <ul class="response-list">
+      
+
+
+
+    </ul>
+  </div>
+
+
+  <div id="reply_anchor_comment_53903"></div>
+</div>
+    </div>
+
+  </li>
+
+
+
+    </ul>
+  </div>
+
+
+  <div id="reply_anchor_comment_52777"></div>
+</div>
+    </div>
+
+  </li>
+
+
+
+    </ul>
+  </div>
+
+
+  <div id="reply_anchor_comment_52730"></div>
+</div>
+    </div>
+
+  </li>
+
+      <li id="comment_52814" data-level="0" class="comment-container" style="">
+    <div class="response comment-body-container    " data-highlight="">
+      <div class="comment-upvote-container ">
+        <button name="button" type="button" class="new-upvote-button" data-upvotable-id="52814" data-upvotable-type="Comment" data-include-caret="true"><span class="icon new-upvote-icon"><svg class="svg-icon svg-icon-upvote-empty"><use xlink:href="https://www.digitalocean.com/assets/community/icon-sprite-d76eb75d70ccf8ffb4c0b47b7dbc88ca.svg#icon-upvote-empty"></use></svg></span><span class="new-upvote-count">0</span></button>
+      </div>
+      <div class="ox-auto">
+        <div class="comment-header">
+          <span class="response-name"><a class="username" href="https://www.digitalocean.com/community/users/ram1976">Ram1976</a></span>
+          
+          <span class="response-time"><a rel="nofollow" class="post-time-link" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?comment=52814">November  9, 2016</a></span>
+
+          
+        </div>
+
+          <div class="response-body content-body">
+            <div class=""><p>@@jellingwood I have followed the steps in 
+the above mentioned blog assuming I do not need any extra script. The 
+only diff is I had my user name and group name as gitadmin. I tried a 
+text only browser links  <a href="http://localhost/" rel="nofollow">http://localhost/</a>
+  . I did ensure that port 80 and the ssh is allowed in ufw. But I am 
+still seeing apache http server default home page instead of landing 
+page of gitlab. Can you tell me what am i missing here.</p>
+</div>
+            
+          </div>
+
+        
+
+        <div class="spinner spinner-large">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+  
+</div>
+
+
+        <div class="content-actions">
+  <div class="comment-actions">
+
+    
+
+    
+  </div>
+
+  <div class="comment-moderation-actions">
+    <ul class="comment-moderation-actions-list ">
+      
+
+
+
+
+
+
+
+    </ul>
+  </div>
+</div>
+
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="response-comments">
+      <div class="response_comment commentable comment" id="response_comment_52814">
+
+
+  <div class="comments">
+    <ul class="response-list">
+      
+
+
+
+    </ul>
+  </div>
+
+
+  <div id="reply_anchor_comment_52814"></div>
+</div>
+    </div>
+
+  </li>
+
+      <li id="comment_54425" data-level="0" class="comment-container" style="">
+    <div class="response comment-body-container    " data-highlight="">
+      <div class="comment-upvote-container ">
+        <button name="button" type="button" class="new-upvote-button" data-upvotable-id="54425" data-upvotable-type="Comment" data-include-caret="true"><span class="icon new-upvote-icon"><svg class="svg-icon svg-icon-upvote-empty"><use xlink:href="https://www.digitalocean.com/assets/community/icon-sprite-d76eb75d70ccf8ffb4c0b47b7dbc88ca.svg#icon-upvote-empty"></use></svg></span><span class="new-upvote-count">0</span></button>
+      </div>
+      <div class="ox-auto">
+        <div class="comment-header">
+          <span class="response-name"><a class="username" href="https://www.digitalocean.com/community/users/mh2924">mh2924</a></span>
+          
+          <span class="response-time"><a rel="nofollow" class="post-time-link" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?comment=54425">January  7, 2017</a></span>
+
+          
+        </div>
+
+          <div class="response-body content-body">
+            <div class=""><p>Is it recommened to install all that on a 
+already running webserver with 2 php projects? The workload is not too 
+much (400+ Visits a day)</p>
+</div>
+            
+          </div>
+
+        
+
+        <div class="spinner spinner-large">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+  
+</div>
+
+
+        <div class="content-actions">
+  <div class="comment-actions">
+
+    
+
+    
+  </div>
+
+  <div class="comment-moderation-actions">
+    <ul class="comment-moderation-actions-list ">
+      
+
+
+
+
+
+
+
+    </ul>
+  </div>
+</div>
+
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="response-comments">
+      <div class="response_comment commentable comment" id="response_comment_54425">
+
+
+  <div class="comments">
+    <ul class="response-list">
+      
+
+      <li id="comment_56730" data-level="1" class="comment-container">
+    <div class="response comment-body-container    " data-highlight="">
+      <div class="comment-upvote-container comment-reply-container">
+        <button name="button" type="button" class="new-upvote-button" data-upvotable-id="56730" data-upvotable-type="Comment" data-include-caret="true"><span class="icon new-upvote-icon"><svg class="svg-icon svg-icon-upvote-empty"><use xlink:href="https://www.digitalocean.com/assets/community/icon-sprite-d76eb75d70ccf8ffb4c0b47b7dbc88ca.svg#icon-upvote-empty"></use></svg></span><span class="new-upvote-count">0</span></button>
+      </div>
+      <div class="ox-auto">
+        <div class="comment-header">
+          <span class="response-name"><a class="username" href="https://www.digitalocean.com/community/users/thedude">thedude</a></span>
+          
+          <span class="response-time"><a rel="nofollow" class="post-time-link" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?comment=56730">March  4, 2017</a></span>
+
+          
+        </div>
+
+          <div class="response-body content-body">
+            <div class=""><p>It depends how beefy your droplet is, check GitLab's requirements here <a href="https://docs.gitlab.com/ce/install/requirements.html#hardware-requirements" rel="nofollow">https://docs.gitlab.com/ce/install/requirements.html#hardware-requirements</a>.</p>
+
+<p>Also, you'll need to configure GitLab to use an external web server as it uses a bundled Nginx by default <a href="https://docs.gitlab.com/omnibus/settings/nginx.html#using-a-non-bundled-web-server" rel="nofollow">https://docs.gitlab.com/omnibus/settings/nginx.html#using-a-non-bundled-web-server</a>. If you don't do that, your other sites will probably be inaccessible.</p>
+</div>
+            
+          </div>
+
+        
+
+        <div class="spinner spinner-large">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+  
+</div>
+
+
+        <div class="content-actions">
+  <div class="comment-actions">
+
+    
+
+    
+  </div>
+
+  <div class="comment-moderation-actions">
+    <ul class="comment-moderation-actions-list ">
+      
+
+
+
+
+
+
+
+    </ul>
+  </div>
+</div>
+
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="response-comments">
+      <div class="response_comment commentable comment" id="response_comment_56730">
+
+
+  <div class="comments">
+    <ul class="response-list">
+      
+
+
+
+    </ul>
+  </div>
+
+
+  <div id="reply_anchor_comment_56730"></div>
+</div>
+    </div>
+
+  </li>
+
+
+
+    </ul>
+  </div>
+
+
+  <div id="reply_anchor_comment_54425"></div>
+</div>
+    </div>
+
+  </li>
+
+      <li id="comment_54501" data-level="0" class="comment-container" style="">
+    <div class="response comment-body-container    " data-highlight="">
+      <div class="comment-upvote-container ">
+        <button name="button" type="button" class="new-upvote-button" data-upvotable-id="54501" data-upvotable-type="Comment" data-include-caret="true"><span class="icon new-upvote-icon"><svg class="svg-icon svg-icon-upvote-empty"><use xlink:href="https://www.digitalocean.com/assets/community/icon-sprite-d76eb75d70ccf8ffb4c0b47b7dbc88ca.svg#icon-upvote-empty"></use></svg></span><span class="new-upvote-count">0</span></button>
+      </div>
+      <div class="ox-auto">
+        <div class="comment-header">
+          <span class="response-name"><a class="username" href="https://www.digitalocean.com/community/users/mroceanms">mroceanms</a></span>
+          
+          <span class="response-time"><a rel="nofollow" class="post-time-link" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?comment=54501">January  9, 2017</a></span>
+
+          
+        </div>
+
+          <div class="response-body content-body">
+            <div class=""><p>i have a problem with the file upload of avatars...it fails every round.</p>
+
+<p>no, there are no firewall restrictions ;-) Firewall ist disabled...</p>
+
+<p>Any idea?</p>
+</div>
+            
+          </div>
+
+        
+
+        <div class="spinner spinner-large">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+  
+</div>
+
+
+        <div class="content-actions">
+  <div class="comment-actions">
+
+    
+
+    
+  </div>
+
+  <div class="comment-moderation-actions">
+    <ul class="comment-moderation-actions-list ">
+      
+
+
+
+
+
+
+
+    </ul>
+  </div>
+</div>
+
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="response-comments">
+      <div class="response_comment commentable comment" id="response_comment_54501">
+
+
+  <div class="comments">
+    <ul class="response-list">
+      
+
+      <li id="comment_54745" data-level="1" class="comment-container">
+    <div class="response comment-body-container    " data-highlight="">
+      <div class="comment-upvote-container comment-reply-container">
+        <button name="button" type="button" class="new-upvote-button" data-upvotable-id="54745" data-upvotable-type="Comment" data-include-caret="true"><span class="icon new-upvote-icon"><svg class="svg-icon svg-icon-upvote-empty"><use xlink:href="https://www.digitalocean.com/assets/community/icon-sprite-d76eb75d70ccf8ffb4c0b47b7dbc88ca.svg#icon-upvote-empty"></use></svg></span><span class="new-upvote-count">0</span></button>
+      </div>
+      <div class="ox-auto">
+        <div class="comment-header">
+          <span class="response-name"><a class="username" href="https://www.digitalocean.com/community/users/martynkeigher">MartynKeigher</a></span>
+          
+          <span class="response-time"><a rel="nofollow" class="post-time-link" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?comment=54745">January 16, 2017</a></span>
+
+          
+        </div>
+
+          <div class="response-body content-body">
+            <div class=""><p>I added a line to my <code>/etc/hosts</code> file to workaround this 'out-of-the-box' known issue for now...</p>
+
+<p>Entry looks like this:</p>
+<pre class="code-pre "><code langs="">/etc/hosts
+
+127.0.0.1       localhost
+127.0.1.1       gitlab.lab.mydomain.com    gitlab
+172.16.10.218    gitlab.mydomain.com    gitlab
+</code></pre>
+<p>Basically: The local IP of the server running gitlab has to point to the externally facing FQDN of itself.</p>
+
+<p>EDIT: Some more info too... be sure to make the edit mentioned above in QnA section regarding the FQDN in the <code>/etc/gitlab/gitlab.rb</code> (line 11!) ;p </p>
+</div>
+            
+          </div>
+
+        
+
+        <div class="spinner spinner-large">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+  
+</div>
+
+
+        <div class="content-actions">
+  <div class="comment-actions">
+
+    
+
+    
+  </div>
+
+  <div class="comment-moderation-actions">
+    <ul class="comment-moderation-actions-list ">
+      
+
+
+
+
+
+
+
+    </ul>
+  </div>
+</div>
+
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="response-comments">
+      <div class="response_comment commentable comment" id="response_comment_54745">
+
+
+  <div class="comments">
+    <ul class="response-list">
+      
+
+
+
+    </ul>
+  </div>
+
+
+  <div id="reply_anchor_comment_54745"></div>
+</div>
+    </div>
+
+  </li>
+
+
+
+    </ul>
+  </div>
+
+
+  <div id="reply_anchor_comment_54501"></div>
+</div>
+    </div>
+
+  </li>
+
+      <li id="comment_55506" data-level="0" class="comment-container" style="">
+    <div class="response comment-body-container    " data-highlight="">
+      <div class="comment-upvote-container ">
+        <button name="button" type="button" class="new-upvote-button" data-upvotable-id="55506" data-upvotable-type="Comment" data-include-caret="true"><span class="icon new-upvote-icon"><svg class="svg-icon svg-icon-upvote-empty"><use xlink:href="https://www.digitalocean.com/assets/community/icon-sprite-d76eb75d70ccf8ffb4c0b47b7dbc88ca.svg#icon-upvote-empty"></use></svg></span><span class="new-upvote-count">0</span></button>
+      </div>
+      <div class="ox-auto">
+        <div class="comment-header">
+          <span class="response-name"><a class="username" href="https://www.digitalocean.com/community/users/ihavenolife">ihavenolife</a></span>
+          
+          <span class="response-time"><a rel="nofollow" class="post-time-link" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?comment=55506">February  4, 2017</a></span>
+
+          
+        </div>
+
+          <div class="response-body content-body">
+            <div class=""><p>Hi,</p>
+
+<p>Great tutorial! Although I have installed using preconfigured image 
+this still is very good and helps to understand the underpinings.</p>
+
+<p>I have a question regarding if it is possible to run side by side web server apache/nginx with GitLab.</p>
+
+<p>I was reading through the manual on GitLab page and it looks like it 
+comes bundled with nginx. But I cannot locate it anywhere. So I'm 
+curious if I'm missing something?</p>
+</div>
+            
+          </div>
+
+        
+
+        <div class="spinner spinner-large">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+  
+</div>
+
+
+        <div class="content-actions">
+  <div class="comment-actions">
+
+    
+
+    
+  </div>
+
+  <div class="comment-moderation-actions">
+    <ul class="comment-moderation-actions-list ">
+      
+
+
+
+
+
+
+
+    </ul>
+  </div>
+</div>
+
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="response-comments">
+      <div class="response_comment commentable comment" id="response_comment_55506">
+
+
+  <div class="comments">
+    <ul class="response-list">
+      
+
+      <li id="comment_56731" data-level="1" class="comment-container">
+    <div class="response comment-body-container    " data-highlight="">
+      <div class="comment-upvote-container comment-reply-container">
+        <button name="button" type="button" class="new-upvote-button" data-upvotable-id="56731" data-upvotable-type="Comment" data-include-caret="true"><span class="icon new-upvote-icon"><svg class="svg-icon svg-icon-upvote-empty"><use xlink:href="https://www.digitalocean.com/assets/community/icon-sprite-d76eb75d70ccf8ffb4c0b47b7dbc88ca.svg#icon-upvote-empty"></use></svg></span><span class="new-upvote-count">0</span></button>
+      </div>
+      <div class="ox-auto">
+        <div class="comment-header">
+          <span class="response-name"><a class="username" href="https://www.digitalocean.com/community/users/thedude">thedude</a></span>
+          
+          <span class="response-time"><a rel="nofollow" class="post-time-link" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?comment=56731">March  4, 2017</a></span>
+
+          
+        </div>
+
+          <div class="response-body content-body">
+            <div class=""><p>You are correct. If you want to use an external web server, check these docs <a href="https://docs.gitlab.com/omnibus/settings/nginx.html#using-a-non-bundled-web-server" rel="nofollow">https://docs.gitlab.com/omnibus/settings/nginx.html#using-a-non-bundled-web-server</a>.</p>
+</div>
+            
+          </div>
+
+        
+
+        <div class="spinner spinner-large">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+  
+</div>
+
+
+        <div class="content-actions">
+  <div class="comment-actions">
+
+    
+
+    
+  </div>
+
+  <div class="comment-moderation-actions">
+    <ul class="comment-moderation-actions-list ">
+      
+
+
+
+
+
+
+
+    </ul>
+  </div>
+</div>
+
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="response-comments">
+      <div class="response_comment commentable comment" id="response_comment_56731">
+
+
+  <div class="comments">
+    <ul class="response-list">
+      
+
+
+
+    </ul>
+  </div>
+
+
+  <div id="reply_anchor_comment_56731"></div>
+</div>
+    </div>
+
+  </li>
+
+
+
+    </ul>
+  </div>
+
+
+  <div id="reply_anchor_comment_55506"></div>
+</div>
+    </div>
+
+  </li>
+
+      <li id="comment_58139" data-level="0" class="comment-container" style="">
+    <div class="response comment-body-container    " data-highlight="">
+      <div class="comment-upvote-container ">
+        <button name="button" type="button" class="new-upvote-button" data-upvotable-id="58139" data-upvotable-type="Comment" data-include-caret="true"><span class="icon new-upvote-icon"><svg class="svg-icon svg-icon-upvote-empty"><use xlink:href="https://www.digitalocean.com/assets/community/icon-sprite-d76eb75d70ccf8ffb4c0b47b7dbc88ca.svg#icon-upvote-empty"></use></svg></span><span class="new-upvote-count">0</span></button>
+      </div>
+      <div class="ox-auto">
+        <div class="comment-header">
+          <span class="response-name"><a class="username" href="https://www.digitalocean.com/community/users/pmamalster">pmamalster</a></span>
+          
+          <span class="response-time"><a rel="nofollow" class="post-time-link" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04?comment=58139">March 30, 2017</a></span>
+
+          
+        </div>
+
+          <div class="response-body content-body">
+            <div class=""><p>[Help] I am getting this error </p>
+
+<p>Error executing action <code>run</code> on resource 'execute[clear the gitlab-rails cache] </p>
+
+<p>after which my installation fails</p>
+
+<p>Running handlers:<br>
+Running handlers complete<br>
+Chef Client failed. 138 resources updated in 01 minutes 56 seconds</p>
+</div>
+            
+          </div>
+
+        
+
+        <div class="spinner spinner-large">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+  
+</div>
+
+
+        <div class="content-actions">
+  <div class="comment-actions">
+
+    
+
+    
+  </div>
+
+  <div class="comment-moderation-actions">
+    <ul class="comment-moderation-actions-list ">
+      
+
+
+
+
+
+
+
+    </ul>
+  </div>
+</div>
+
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="response-comments">
+      <div class="response_comment commentable comment" id="response_comment_58139">
+
+
+  <div class="comments">
+    <ul class="response-list">
+      
+
+
+
+    </ul>
+  </div>
+
+
+  <div id="reply_anchor_comment_58139"></div>
+</div>
+    </div>
+
+  </li></ul>
+
+      <div class="comments-spinner" style="display: none;"><div class="spinner spinner-large">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+  
+</div>
+</div>
+  </div>
+
+  <div class="load-more-container"></div>
+</div>
+
+
+  </div>
+</div>
+
+<div class="creative-commons">
+  <a class="creative-commons-image" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img rel="license" alt="Creative Commons License" src="1.Configure-GitLab-Ubuntu-16.04_files/creativecommons-08b32a9279fcd47fcd78ac6a26331389.png"></a>
+    <div class="license-text">This work is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</div>
+</div>
+
+
+
+
+
+        <div class="clearfix"></div>
+      </div>
+
+      <footer class="Footer">
+  <span class="Footer-logo icon-sammy"></span>
+
+  <div>Copyright © 2017 DigitalOcean™ Inc.</div>
+
+  <ul class="Footer-nav">
+    <li><a href="https://www.digitalocean.com/community">Community</a></li>
+    <li><a href="https://www.digitalocean.com/community/tutorials">Tutorials</a></li>
+    <li><a href="https://www.digitalocean.com/community/questions">Questions</a></li>
+    <li><a href="https://www.digitalocean.com/community/projects">Projects</a></li>
+    <li><a href="https://www.digitalocean.com/community/tags">Tags</a></li>
+    <li><a href="https://www.digitalocean.com/community/newsletter">Newsletter</a></li>
+    <li>
+      <a href="https://www.digitalocean.com/community/tutorials/feed">
+        RSS <span class="icon-rss"></span>
+</a>    </li>
+  </ul>
+
+  <br>
+
+  <ul class="Footer-nav Footer-nav--secondary">
+    <li><a href="https://www.digitalocean.com/features/one-click-apps/">Distros &amp; One-Click Apps</a></li>
+    <li><a href="https://www.digitalocean.com/legal/terms/">Terms, Privacy, &amp; Copyright</a></li>
+    <li><a href="https://www.digitalocean.com/security/">Security</a></li>
+      <li><a data-toggle="modal" data-target="#sign-in-modal" href="#">Report a Bug</a></li>
+    <li><a href="https://www.digitalocean.com/community/get-paid-to-write">Get Paid to Write</a></li>
+    <li><a href="http://store.digitalocean.com/">Shop</a></li>
+  </ul>
+</footer>
+
+
+
+
+
+      <div id="sign-in-modal" class="modal fade mini-modal" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1>Almost there!</h1>
+        <a class="close-button" data-dismiss="modal" aria-label="close" href=""><span class="icon icon-close-light"></span></a>
+      </div>
+      <div class="modal-body">
+        <div class="sign-in-message">Sign into your account, or create a new one, to start interacting.</div>
+
+        <div class="sign-in-modal-actions">
+          <a class="sign-in-link button blue-button" data-default-url="/community/auth/digitalocean" href="https://www.digitalocean.com/community/auth/digitalocean">Log In</a>
+          <a class="sign-up-link button green-button" data-default-url="/community/auth/digitalocean?display=sessionless+register" href="https://www.digitalocean.com/community/auth/digitalocean?display=sessionless+register">Sign Up</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+    
+  <script>
+    $(function() {
+      if (!!window.init_sharing) {
+        window.init_sharing();
+      }
+      new window.NewsletterSignup();
+      new window.GrowableMarkdown({ target: '[data-growable-markdown]' });
+
+      window.Bugsnag.beforeNotify = function(payload, metaData) {
+        // custom logic to determine groupingHash
+        metaData.groupingHash = "tutorialShow";
+      }
+    });
+  </script>
+
+  <div id="report-a-bug-modal" class="modal fade mini-modal" style="display: none;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1>Report a Bug</h1>
+          <a class="close-button" data-dismiss="modal" aria-label="close" href=""><span class="icon icon-close-light"></span></a>
+        </div>
+        <div class="modal-body">
+          <div class="report-a-bug-message text-center">Use this form to report bugs related to the Community</div>
+          <div class="report-a-bug-actions do-form">
+            <div class="form-wrap">
+              <form class="new_bug_report" id="new_bug_report" action="/community/bug_reports" accept-charset="UTF-8" method="post"><input name="utf8" value="✓" type="hidden"><input name="authenticity_token" value="NjhZDMiP40IXkDKTnwGs6/WKWhgk4itjyWjOWIf4N3CARL7PN9Syzie8Lyf0i8Txn0Pwh8wzT/lkt4MtkM2MNg==" type="hidden">
+                <fieldset name="report-a-bug-info">
+                <legend class="sr-only">Report a bug:</legend>
+                  <div class="field">
+                    <label for="bug_reporter_name" class="sr-only">Name</label>
+                    <input placeholder="Name" id="bug_reporter_name" name="bug_report[name]" type="text">
+                  </div>
+                  <div class="field">
+                    <label for="bug_reporter_email" class="sr-only">Email</label>
+                    <input name="Email" placeholder="Email" id="bug_reporter_email" required="required" type="text">
+                  </div>
+                  <div class="field">
+                    <label for="bug_reporter_message" class="sr-only">Message</label>
+                    <textarea name="Message" placeholder="Message" id="bug_reporter_message" required="required" style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 125px;"></textarea>
+                  </div>
+
+                  <div class="field actions">
+                    <input name="commit" value="Submit" class="button" type="submit">
+                  </div>
+                </fieldset>
+</form>            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    
+  
+
+<textarea tabindex="-1" aria-hidden="true" ,="" style="position: absolute; top: -999px; left: 0px; right: auto; bottom: auto; border: 0px none; padding: 0px; box-sizing: content-box; overflow-wrap: break-word; height: 0px ! important; min-height: 0px ! important; overflow: hidden; transition: none 0s ease 0s ; font-family: &quot;proxima-nova&quot;,sans-serif; font-size: 17px; font-weight: 400; font-style: normal; letter-spacing: 0px; text-transform: none; word-spacing: 0px; text-indent: 0px; line-height: 23.8px; width: 58px;" class="autosizejs" id="autosizejs">Message
+</textarea><a id="scrollUp" href="#top" style="position: fixed; z-index: 2147483647; display: none;">Scroll to top</a><div id="scrollUp-active" style="position: absolute; top: 300px; width: 100%; border-top: 1px dotted rgb(0, 255, 255); z-index: 2147483647;"></div><script type="text/javascript" id="">(function(){try{var a=$(document).width(),b=$("#newsletter-signup-dialog");window.analytics&&b&&1024>a&&($("#scrollUp").remove(),$(document).on("scroll.newsletter-signup",function(){500<$(window).scrollTop()&&(analytics.track("Experiment Viewed",{experimentId:"nl_test_mobile",experimentName:"NL Test Mobile",variationId:"b",variationName:"Test (Fixed)"}),$(document).off("scroll.newsletter-signup"),$("#newsletter-signup-dialog").css({position:"fixed",bottom:0,left:"-3px",right:"-3px",width:"auto",padding:"10px",
+"text-align":"center",background:"#e5f0ff",border:"1px solid #0069ff","max-width":"1030px"}).find(".newsletter-signups-dialog-title").css({display:"inline-block","font-size":560>a?"16px":"18px","margin-bottom":0,color:"#0069ff"}).end().find(".newsletter-signups-dialog-description").css({display:"inline-block","font-size":560>a?"14px":"18px","margin-bottom":0}).text("Biweekly sysadmin and open source news").append('\x3cbutton class\x3d"button blue-button" style\x3d"font-size:20px;padding:0 10px;'+
+(560>a?"position:absolute;right:10px;top:10px;":"display:inline-block;margin-left:10px;")+'"\x3e\u00bb\x3c/button\x3e').end().find(".newsletter-signup").hide().end().on("click.expose-email",function(){$(this).off("click.expose-email").find(".newsletter-signup").show().find("button").css({width:"26%",padding:"9px 5px"}).end().end().find(".newsletter-signups-dialog-title, .newsletter-signups-dialog-description").hide().end()}))}))}catch(c){}})();</script><div id="fb-root" class=" fb_reset"><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div><iframe name="fb_xdm_frame_https" allowtransparency="true" allowfullscreen="true" scrolling="no" id="fb_xdm_frame_https" aria-hidden="true" title="Facebook Cross Domain Communication Frame" tabindex="-1" style="border: medium none;" src="1.Configure-GitLab-Ubuntu-16.04_files/Et_DESHn6-L.html" frameborder="0"></iframe></div></div><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div></div></div></div><iframe id="rufous-sandbox" scrolling="no" allowtransparency="true" allowfullscreen="true" style="position: absolute; visibility: hidden; display: none; width: 0px; height: 0px; padding: 0px; border: medium none;" title="Twitter analytics iframe" frameborder="0"></iframe><img style="display:none;" alt="" src="1.Configure-GitLab-Ubuntu-16.04_files/adsct.gif" width="1" height="1">
+<img style="display:none;" alt="" src="1.Configure-GitLab-Ubuntu-16.04_files/adsct_002.gif" width="1" height="1"><script type="text/javascript" id="">(function(){function b(){!1===c&&window.Munchkin&&(c=!0,window.Munchkin.init("937-EID-756",{disableClickDelay:!0,asyncOnly:!0}))}var c=!1,a=document.createElement("script");a.type="text/javascript";a.async=!0;a.src="//munchkin.marketo.net/munchkin.js";a.onreadystatechange=function(){"complete"!=this.readyState&&"loaded"!=this.readyState||b()};a.onload=b;document.getElementsByTagName("head")[0].appendChild(a)})();</script><script type="text/javascript" id="">(function(){try{var e=$($(".tutorial-ctas").get(0)),d={iaan:{style:"",content:[{cta:"Commandline Signup for IAAN"}]},loadBalancer:{style:"background-image:url(https://assets.digitalocean.com/test/commfooter_geninteresttutorials.png); background-color:#1b78f8; background-position:bottom center;",darkBG:!0,content:[{title:"Load Balancers now available on DigitalOcean",desc:" Distribute traffic across your infrastructure, managed from the control panel or API.",cta:"Learn More",url:"/products/load-balancer/"}]},
+monitoring:{style:"background-image:url(https://assets.digitalocean.com/test/commfooter_geninteresttutorials.png); background-color:#1b78f8; background-position:bottom center;",darkBG:!0,content:[{title:"DigitalOcean Monitoring",desc:"Collect metrics, monitor Droplet performance, and receive alerts when \x3cbr\x3eproblems arise in your infrastructure\u2014no configuration required. Coming 2017.",cta:"Signup for early access",url:"/products/monitoring/"}]},refcode:{content:[{title:"Free credit active.",
+desc:"You came to digitalocean.com via someone\x26apos;s referral link in the past month,\x3cbr\x3e making you eligible for $10 credit when you sign up for an account.",cta:"Redeem Credit",url:""}]},deploy:{content:[{title:"Spin up an SSD cloud server in under a minute.",desc:"Simple setup. Full root access. Straightforward pricing.",cta:"Deploy Server",url:"https://cloud.digitalocean.com/registrations/new"}]},oneclickapps:{style:"background-image:url(https://assets.digitalocean.com/test/commfooter_oneclickapps.png), linear-gradient(to bottom, #4e9afb 0%,#0b7fff 100%); background-position:bottom center; padding-top:-10px;",
+darkBG:!0,content:[{title:"Pre-built applications on DigitalOcean",desc:"Get straight to deploying your code using one of our pre-configured images supporting Node.js, Rails, Redis, MongoDB, Cassandra, Docker, and many more.",cta:"View One-Clicks",url:"products/one-click-apps/"}]},recommendation_algo:{style:"background-image:url(https://assets.digitalocean.com/test/commfooter_geninteresttutorials.png); background-color:#1b78f8; background-position:bottom center; overflow:hidden;",darkBG:!0,title:"Related Tutorials:",
+body:'\x3ca style\x3d"width:330px; height:130px; border-radius:3px; padding:12px 15px 15px; float:left; margin-bottom:100px; background-color: #f9fcff; color: #0080ff; border: 1px solid #7fc0ff; text-align:left; position:relative; {FIRST}" href\x3d"/community/tutorials/{SLUG}?utm_medium\x3dbtb_algo"\x3e\x3cstrong style\x3d"font-size:15px; line-height:1.3; width:100%; overflow: hidden; text-overflow: ellipsis; -webkit-box-orient: vertical; display: -webkit-box; -webkit-line-clamp: 2;"\x3e{TITLE}\x3c/strong\x3e\x3chr style\x3d"border-top:1px solid #0080ff; opacity:0.25;"\x3e\x3cspan style\x3d"font-size: 13px; line-height:1.3; width:100%; overflow: hidden; text-overflow: ellipsis; -webkit-box-orient: vertical; display: -webkit-box; -webkit-line-clamp: 2; max-height:2.6em;"\x3e{DESC}\x3c/span\x3e\x3cdiv style\x3d"font-size: 13px; position: absolute; left: 15px; right: 15px; bottom: 10px;"\x3e \x3cspan style\x3d"margin-right: 4px;"\x3e\x3csvg style\x3d"height: 12px; width: 12px; stroke: currentColor; position: relative; top: -1px; color: #0080ff; vertical-align: middle;"\x3e\x3cuse xmlns:xlink\x3d"http://www.w3.org/1999/xlink" xlink:href\x3d"https://www.digitalocean.com/assets/community/icon-sprite-d76eb75d70ccf8ffb4c0b47b7dbc88ca.svg#icon-comment"\x3e\x3c/use\x3e\x3c/svg\x3e {COMMENTS}\x3c/span\x3e \x3cspan style\x3d"margin-right: 4px;"\x3e\x3csvg style\x3d"height: 12px; width: 12px; stroke: currentColor; fill:#0080ff; position: relative; top: -1px; color: #0080ff; vertical-align: middle;"\x3e\x3cuse xmlns:xlink\x3d"http://www.w3.org/1999/xlink" xlink:href\x3d"https://www.digitalocean.com/assets/community/icon-sprite-d76eb75d70ccf8ffb4c0b47b7dbc88ca.svg#icon-heart"\x3e\x3c/use\x3e\x3c/svg\x3e {LIKES}\x3c/span\x3e\x3cspan style\x3d"float:right; opacity:0.5;"\x3e{DATE}\x3c/span\x3e\x3c/div\x3e\x3c/a\x3e'}},
+n=function(b,d,a,f){var e=0,c=window.setInterval(function(){e=$(window).scrollTop();e+$(window).height()>b-d&&(window.clearInterval(c),analytics.track("Experiment Viewed",{experimentId:"below_tutorial_banner",experimentName:"Below Tutorial Banner",variationId:a,variationName:f}))},500)};analytics&&e&&analytics.ready(function(){var b=window.analytics.user(),c=b.traits(),a="deploy";c.vc=c.vc?++c.vc:1;b.traits(c);0<$('a.tag:contains("Monitoring")').length&&.5<=Math.random()?a="monitoring":0<$('a.tag:contains("Load Balancing")').length&&
+.5<=Math.random()?a="loadBalancer":google_tag_manager["GTM-KHWBBT"].macro('gtm4')||google_tag_manager["GTM-KHWBBT"].macro('gtm5')&&"null"!=google_tag_manager["GTM-KHWBBT"].macro('gtm6')||!google_tag_manager["GTM-KHWBBT"].macro('gtm7')?5<=c.vc&&("1"!==google_tag_manager["GTM-KHWBBT"].macro('gtm8')&&.5<=Math.random()?a="iaan":.5<=Math.random()&&(a="oneclickapps")):a="refcode";1===window.location.search.indexOf("btb\x3diaan")&&"1"!==google_tag_manager["GTM-KHWBBT"].macro('gtm9')&&(a="iaan");if((b=document.body.getAttribute("data-tutorial-id"))&&"deploy"===a&&.5<=Math.random()){var f=new XMLHttpRequest;f.open("GET","https://assets.digitalocean.com/labs/tutorial_recommendations/"+
+b+".json?cb\x3d1");f.onload=function(){if(200<=f.status&&400>f.status){a="recommendation_algo";var b=JSON.parse(f.responseText),p=b.length,l,c,k="{SLUG} {TITLE} {DESC} {LIKES} {DATE} {COMMENTS}".split(" "),h="";if(0<p){for(l=0;l<p&&2>l;l++){var g=d[a].body;for(c=0;6>c;c++)g=g.replace(k[c],b[l][c]);h+=g.replace("{FIRST}",0==l?"margin-right:15px;":"")}$("div.related-tutorials").remove();e.attr("style",d[a].style||"").find("h2").text(d[a].title).css({color:d[a].darkBG?"#FFF":"inherit"}).after('\x3cdiv style\x3d"text-align:center; padding:15px 0;"\x3e'+
+h+"\x3c/div\x3e").end().find("p, .cloud-tutorial-cta").remove();n(e.offset().top,e.height(),"dna_algo","dna_algo")}}};f.send(null)}else{b=d[a].content[Math.floor(Math.random()*d[a].content.length)];b.slug=b.cta.toLowerCase().replace(/ /g,"-").replace(/[^\w-]+/g,"");if("iaan"===a){$(".cta-description").html('\x3cdiv class\x3d"iaan_window" style\x3d"margin:1em auto;text-align:left;overflow:hidden;border: 1px solid #0069ff;border-radius:3px;background:#fff;box-shadow: 4px 4px 2px 0 rgba(0,105,255,.5);width:625px;"\x3e \x3cdiv style\x3d"position:relative; padding: 4px 8px; border-bottom: 1px solid #0069ff;"\x3e\x3cdiv style\x3d"display:inline-block;width:10px;height:10px;border:1px solid #0069ff;border-radius:50%;vertical-align:middle;"\x3e\x3c/div\x3e\x3cdiv style\x3d"display:inline-block;width:10px;height:10px;border:1px solid #0069ff;border-radius:50%;vertical-align:middle;margin-left:8px;"\x3e\x3c/div\x3e\x3cdiv style\x3d"display:inline-block;width:10px;height:10px;border:1px solid #0069ff;border-radius:50%;vertical-align:middle;margin-left:8px;"\x3e\x3c/div\x3e\x3cdiv style\x3d"position:absolute;width:100%;top:4px;text-align:center;"\x3e\ud83c\udfe0\x26nbsp; reader \u2014 bash \u2014 70x14\x3c/div\x3e\x3c/div\x3e\x3cdiv class\x3d"iaan_scrollback" style\x3d"font-family:monospace;font-size:14px;position:relative;background:#222;color:#48c1fb!important;height:240px;overflow-y:scroll;overflow-x:hidden;padding:5px 10px;"\x3e\x3cpre style\x3d"margin:0;padding:0;line-height:17px;"\x3e          ___  __        __  ___  __        __  ___       __   ___\n  | |\\ | |__  |__)  /\\  /__`  |  |__) |  | /  `  |  |  | |__) |__   \n  | | \\| |    |  \\ /~~\\ .__/  |  |  \\ \\__/ \\__,  |  \\__/ |  \\ |___  \n      __                   ___       __        ___ ___ ___  ___  __  \n /\\  /__`     /\\     |\\ | |__  |  | /__` |    |__   |   |  |__  |__) \n/~~\\ .__/    /~~\\    | \\| |___ |/\\| .__/ |___ |___  |   |  |___ |  \\\n\nGet our roundup of sysadmin tutorials and open source happenings\ndelivered to your inbox once you sign up and again every two weeks.\n\n - TO SIGNUP, USE: signup [EMAILADDRESS]\n - TO PREVIEW, USE: preview\x3c/pre\x3e\x3clabel for\x3d"iaan_input"\x3ereader@DO:~$ \x3c/label\x3e\x3cinput id\x3d"iaan_input" type\x3d"text" style\x3d"font-family:monospace;width:470px; border:none; background:none; margin:0; padding:0;" maxlength\x3d"50"/\x3e\x3c/div\x3e\x3c/div\x3e');
+$("#newsletter-signup-dialog").hide();var h=$($(".iaan_scrollback")[0]),m=$(h.find("pre")[0]),g=$("#iaan_input"),k=function(b){m.text(m.text()+"\n"+b);h.scrollTop(h.prop("scrollHeight"))};h.click(function(){g.focus()});g.keypress(function(b){if(13==b.which){var a=g.val().toLowerCase();b="";g.val("");0===a.indexOf("signup ")?$("#newsletter_signup_email").length?($("#newsletter_signup_email").val(a.split(" ")[1]),$("#new_newsletter_signup \x3e button").click(),window.setTimeout(function(){k("Subscribing "+
+a.split(" ")[1]+" to newsletter...")},200),window.setTimeout(function(){0<$("#newsletter-signup-dialog .thanks-message").length?k("Successfully signed up! Thanks for subscribing."):k("Error. Please provide a valid email address.")},2E3)):k("..."):0===a.indexOf("preview")?$("#iaan-preview-modal").length?$("#iaan-preview-modal").modal("show"):$.getJSON("https://assets.digitalocean.com/labs/iaan_data.json",function(a){$('\x3cdiv id\x3d"iaan-preview-modal" class\x3d"modal fade" style\x3d"display: none;" aria-hidden\x3d"true"\x3e\x3cdiv class\x3d"modal-dialog" style\x3d"max-width:625px;"\x3e\x3cdiv class\x3d"modal-content"\x3e\x3cdiv class\x3d"modal-header"\x3e\x3ch1\x3e$TITLE\x3c/h1\x3e\x3ca class\x3d"close-button" data-dismiss\x3d"modal" aria-label\x3d"close" href\x3d""\x3e\x3cspan class\x3d"icon icon-close-light"\x3e\x3c/span\x3e\x3c/a\x3e\x3c/div\x3e\x3cdiv class\x3d"modal-body"\x3e\x3cspan class\x3d"note"\x3e$PREVIEWTEXT\x3c/span\x3e$CONTENT\x3c/div\x3e\x3c/div\x3e\x3c/div\x3e\x3c/div\x3e'.replace("$TITLE",
+a.newsletters[0].name+" ("+a.newsletters[0].date+")").replace("$PREVIEWTEXT",a.newsletters[0].previewtext).replace("$CONTENT",a.newsletters[0].content).replace(/<li>/g,'\x3cli style\x3d"list-style:disc"\x3e').replace(/<img/g,'\x3cimg style\x3d"max-width:100%;max-height:100%;" ')).appendTo("body").modal("show")}):0===a.indexOf("help")?b=" - TO SIGNUP, USE: signup [EMAILADDRESS]\n - TO PREVIEW, USE: preview\n":0===a.indexOf("exit")?$(".iaan_window").remove():0===a.indexOf("rm -rf /")?window.setInterval(function(){$("body *:last-child").remove()},
+300):b="-bash: "+a.split(" ")[0].substr(0,20)+(20<a.split(" ")[0].length?"...":"")+": command not found";k("reader@DO:~$ "+a+"\n"+b)}})}else e.attr("style",d[a].style||"").find("h2").text(b.title).css({color:d[a].darkBG?"#FFF":"inherit"}).end().find("p").html(b.desc).css({color:d[a].darkBG?"#FFF":"inherit",padding:"15px 0","line-height":"1.3em"}).end().find(".cloud-tutorial-cta").text(b.cta).attr("style",d[a].darkBG?"background:#FFF;color:#0069FF;":"").attr("href",(0===b.url.indexOf("http")?b.url:
+"https://www.digitalocean.com/"+b.url)+"?utm_medium\x3dbtb_"+a+b.slug);n(e.offset().top,e.height(),a+"_"+b.url+"_"+b.slug,a+"_"+b.url+"_"+b.cta)}})}catch(b){}})();</script><script type="text/javascript" id="">(function(){try{analytics&&analytics.ready(function(){var b=analytics.user().traits(),a=b.recent||[];slug=window.location.pathname.substr(window.location.pathname.lastIndexOf("/")+1);recent_len=a.length;i;for(i=0;i<recent_len;i++)if(a[i]===slug){a.splice(i,1);break}a.unshift(slug);5<=a.length&&a.pop();b.recent=a;analytics.user().traits(b)})}catch(b){}})();</script><script type="text/javascript" id="">"undefined"!==typeof window.analytics&&analytics.track("dwell",{time:"5 minute"});</script></body></html>

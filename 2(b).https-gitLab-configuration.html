@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html class="" lang="en"><head prefix="og: http://ogp.me/ns#">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta content="object" property="og:type">
+<meta content="GitLab" property="og:site_name">
+<meta content="doc/settings/nginx.md · master · GitLab.org / omnibus-gitlab" property="og:title">
+<meta content="This project creates full-stack platform-specific downloadable packages for GitLab." property="og:description">
+<meta content="https://gitlab.com/uploads/project/avatar/20699/omnibus_logo.png" property="og:image">
+<meta content="https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/settings/nginx.md" property="og:url">
+<meta content="summary" property="twitter:card">
+<meta content="doc/settings/nginx.md · master · GitLab.org / omnibus-gitlab" property="twitter:title">
+<meta content="This project creates full-stack platform-specific downloadable packages for GitLab." property="twitter:description">
+<meta content="https://gitlab.com/uploads/project/avatar/20699/omnibus_logo.png" property="twitter:image">
+
+<title>doc/settings/nginx.md · master · GitLab.org / omnibus-gitlab · GitLab</title>
+<meta content="This project creates full-stack platform-specific downloadable packages for GitLab." name="description">
+<link rel="shortcut icon" type="image/x-icon" href="https://gitlab.com/assets/favicon-075eba76312e8421991a0c1f89a89ee81678bcde72319dd3e8047e2a47cd3a42.ico">
+<link rel="stylesheet" media="all" href="2%28b%29.https-gitLab-configuration_files/application-3850d331f06aaf20cf271289e74ddafc6dea83657cb9bd39.css">
+<link rel="stylesheet" media="print" href="2%28b%29.https-gitLab-configuration_files/print-87bb95ae825e1039facb71c62197dad696049012bb8cfeb76bb57c.css">
+<script type="text/javascript" async="" defer="defer" src="2%28b%29.https-gitLab-configuration_files/piwik.js"></script><script src="2%28b%29.https-gitLab-configuration_files/runtime.js"></script>
+<script src="2%28b%29.https-gitLab-configuration_files/common.js"></script>
+<script src="2%28b%29.https-gitLab-configuration_files/main.js"></script>
+
+<meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="rqrHPIDb30MVCmV9eMi3k2bvVh3a9vVVNepZ2rjlIcng1KRpt6Qchc7FPOtpDmdvgJcg83sTeMd7ZJvMuVvFoA==">
+<meta content="origin-when-cross-origin" name="referrer">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+<meta content="#474D57" name="theme-color">
+<link rel="apple-touch-icon" type="image/x-icon" href="https://gitlab.com/assets/touch-icon-iphone-5a9cee0e8a51212e70b90c87c12f382c428870c0ff67d1eb034d884b78d2dae7.png">
+<link rel="apple-touch-icon" type="image/x-icon" href="https://gitlab.com/assets/touch-icon-ipad-a6eec6aeb9da138e507593b464fdac213047e49d3093fc30e90d9a995df83ba3.png" sizes="76x76">
+<link rel="apple-touch-icon" type="image/x-icon" href="https://gitlab.com/assets/touch-icon-iphone-retina-72e2aadf86513a56e050e7f0f2355deaa19cc17ed97bbe5147847f2748e5a3e3.png" sizes="120x120">
+<link rel="apple-touch-icon" type="image/x-icon" href="https://gitlab.com/assets/touch-icon-ipad-retina-8ebe416f5313483d9c1bc772b5bbe03ecad52a54eba443e5215a22caed2a16a2.png" sizes="152x152">
+<link color="rgb(226, 67, 41)" href="https://gitlab.com/assets/logo-d36b5212042cebc89b96df4bf6ac24e43db316143e89926c0db839ff694d2de4.svg" rel="mask-icon">
+<meta content="/assets/msapplication-tile-1196ec67452f618d39cdd85e2e3a542f76574c071051ae7effbfde01710eb17d.png" name="msapplication-TileImage">
+<meta content="#30353E" name="msapplication-TileColor">
+
+
+<!-- Piwik -->
+<script>
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.gitlab.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 1]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.gitlab.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+
+
+</head>
+
+<body class="" data-group="" data-page="projects:blob:show" data-project="omnibus-gitlab">
+<script>
+//<![CDATA[
+window.gon={};gon.api_version="v3";gon.default_avatar_url="https:\/\/gitlab.com\/assets\/no_avatar-849f9c04a3a0d0cea2424ae97b27447dc64a7dbfae83c036c45b403392f0e8ba.png";gon.max_file_size=10;gon.asset_host=null;gon.relative_url_root="";gon.shortcuts_path="\/help\/shortcuts";gon.user_color_scheme="white";gon.katex_css_url="\/assets\/katex-e46cafe9c3fa73920a7c2c063ee8bb0613e0cf85fd96a3aea25f8419c4bfcfba.css";gon.katex_js_url="\/assets\/katex-04bcf56379fcda0ee7c7a63f71d0fc15ffd2e014d017cd9d51fd6554dfccf40a.js";
+//]]>
+</script>
+<header class="navbar navbar-gitlab with-horizontal-nav">
+<a class="sr-only gl-accessibility" href="#content-body" tabindex="1">Skip to content</a>
+<div class="container-fluid">
+<div class="header-content">
+<div class="dropdown global-dropdown">
+<button class="global-dropdown-toggle" data-toggle="dropdown" type="button">
+<span class="sr-only">Toggle navigation</span>
+<i class="fa fa-bars"></i>
+</button>
+<div class="dropdown-menu-nav global-dropdown-menu">
+<ul>
+<li class="home"><a title="Projects" href="https://gitlab.com/explore"><span>
+Projects
+</span>
+</a></li><li class=""><a title="Groups" href="https://gitlab.com/explore/groups"><span>
+Groups
+</span>
+</a></li><li class=""><a title="Snippets" href="https://gitlab.com/explore/snippets"><span>
+Snippets
+</span>
+</a></li><li class=""><a title="Help" href="https://gitlab.com/help"><span>
+Help
+</span>
+</a></li></ul>
+
+</div>
+</div>
+<button class="navbar-toggle" type="button">
+<span class="sr-only">Toggle navigation</span>
+<i class="fa fa-ellipsis-v"></i>
+</button>
+<div class="navbar-collapse collapse">
+<ul class="nav navbar-nav">
+<li class="hidden-sm hidden-xs">
+<div class="has-location-badge search search-form">
+<form class="navbar-form" action="/search" accept-charset="UTF-8" method="get"><input name="utf8" value="✓" type="hidden"><div class="search-input-container">
+<div class="location-badge">This project</div>
+<div class="search-input-wrap">
+<div class="dropdown" data-url="/search/autocomplete">
+<input name="search" id="search" placeholder="Search" class="search-input dropdown-menu-toggle no-outline js-search-dashboard-options disabled" spellcheck="false" tabindex="1" autocomplete="off" data-toggle="dropdown" data-issues-path="https://gitlab.com/dashboard/issues" data-mr-path="https://gitlab.com/dashboard/merge_requests" type="search">
+<div class="dropdown-menu dropdown-select">
+<div class="dropdown-content"><ul>
+<li>
+<a class="is-focused dropdown-menu-empty-link">
+Loading...
+</a>
+</li>
+</ul>
+</div><div class="dropdown-loading"><i class="fa fa-spinner fa-spin"></i></div>
+</div>
+<i class="search-icon"></i>
+<i class="clear-icon js-clear-input"></i>
+</div>
+</div>
+</div>
+<input name="group_id" id="group_id" class="js-search-group-options" type="hidden">
+<input name="project_id" id="search_project_id" value="20699" class="js-search-project-options" data-project-path="omnibus-gitlab" data-name="omnibus-gitlab" data-issues-path="/gitlab-org/omnibus-gitlab/issues" data-mr-path="/gitlab-org/omnibus-gitlab/merge_requests" type="hidden">
+<input name="search_code" id="search_code" value="true" type="hidden">
+<input name="repository_ref" id="repository_ref" value="master" type="hidden">
+
+<div class="search-autocomplete-opts hide" data-autocomplete-path="/search/autocomplete" data-autocomplete-project-id="20699" data-autocomplete-project-ref="master"></div>
+</form></div>
+
+</li>
+<li class="visible-sm-inline-block visible-xs-inline-block">
+<a title="Search" aria-label="Search" data-toggle="tooltip" data-placement="bottom" data-container="body" href="https://gitlab.com/search"><i class="fa fa-search"></i>
+</a></li>
+<li>
+<div>
+<a class="btn btn-sign-in btn-success" href="https://gitlab.com/users/sign_in?redirect_to_referer=yes">Sign in</a>
+</div>
+</li>
+</ul>
+</div>
+<div class="header-logo">
+<a class="home" title="Dashboard" id="logo" href="https://gitlab.com/"><svg width="28" height="28" class="tanuki-logo" viewBox="0 0 36 36">
+  <path class="tanuki-shape tanuki-left-ear" fill="#e24329" d="M2 14l9.38 9v-9l-4-12.28c-.205-.632-1.176-.632-1.38 0z"></path>
+  <path class="tanuki-shape tanuki-right-ear" fill="#e24329" d="M34 14l-9.38 9v-9l4-12.28c.205-.632 1.176-.632 1.38 0z"></path>
+  <path class="tanuki-shape tanuki-nose" fill="#e24329" d="M18,34.38 3,14 33,14 Z"></path>
+  <path class="tanuki-shape tanuki-left-eye" fill="#fc6d26" d="M18,34.38 11.38,14 2,14 6,25Z"></path>
+  <path class="tanuki-shape tanuki-right-eye" fill="#fc6d26" d="M18,34.38 24.62,14 34,14 30,25Z"></path>
+  <path class="tanuki-shape tanuki-left-cheek" fill="#fca326" d="M2 14L.1 20.16c-.18.565 0 1.2.5 1.56l17.42 12.66z"></path>
+  <path class="tanuki-shape tanuki-right-cheek" fill="#fca326" d="M34 14l1.9 6.16c.18.565 0 1.2-.5 1.56L18 34.38z"></path>
+</svg>
+
+</a></div>
+<h1 class="title"><span><a href="https://gitlab.com/gitlab-org">GitLab.org</a></span> / <a class="project-item-select-holder" href="https://gitlab.com/gitlab-org/omnibus-gitlab">omnibus-gitlab</a></h1>
+<div class="js-dropdown-menu-projects">
+<div class="dropdown-menu dropdown-select dropdown-menu-projects">
+<div class="dropdown-title"><span>Go to a project</span><button class="dropdown-title-button dropdown-menu-close" aria-label="Close" type="button"><i class="fa fa-times dropdown-menu-close-icon"></i></button></div>
+<div class="dropdown-input"><input id="" class="dropdown-input-field" placeholder="Search your projects" autocomplete="off" type="search"><i class="fa fa-search dropdown-input-search"></i><i role="button" class="fa fa-times dropdown-input-clear js-dropdown-input-clear"></i></div>
+<div class="dropdown-content"></div>
+<div class="dropdown-loading"><i class="fa fa-spinner fa-spin"></i></div>
+</div>
+</div>
+
+</div>
+</div>
+</header>
+
+<script>
+  var findFileURL = "/gitlab-org/omnibus-gitlab/find_file/master";
+</script>
+
+<div class="page-with-sidebar">
+<div class="layout-nav">
+<div class="container-fluid">
+<div class="scrolling-tabs-container">
+<div class="fade-left">
+<i class="fa fa-angle-left"></i>
+</div>
+<div class="fade-right">
+<i class="fa fa-angle-right"></i>
+</div>
+<ul class="nav-links scrolling-tabs">
+<li class="home"><a title="Project" class="shortcuts-project" href="https://gitlab.com/gitlab-org/omnibus-gitlab"><span>
+Project
+</span>
+</a></li><li class="active"><a title="Repository" class="shortcuts-tree" href="https://gitlab.com/gitlab-org/omnibus-gitlab/tree/master"><span>
+Repository
+</span>
+</a></li><li class=""><a title="Container Registry" class="shortcuts-container-registry" href="https://gitlab.com/gitlab-org/omnibus-gitlab/container_registry"><span>
+Registry
+</span>
+</a></li><li class=""><a title="Issues" class="shortcuts-issues" href="https://gitlab.com/gitlab-org/omnibus-gitlab/issues"><span>
+Issues
+<span class="badge count issue_counter">340</span>
+</span>
+</a></li><li class=""><a title="Merge Requests" class="shortcuts-merge_requests" href="https://gitlab.com/gitlab-org/omnibus-gitlab/merge_requests"><span>
+Merge Requests
+<span class="badge count merge_counter">65</span>
+</span>
+</a></li><li class=""><a title="Pipelines" class="shortcuts-pipelines" href="https://gitlab.com/gitlab-org/omnibus-gitlab/pipelines"><span>
+Pipelines
+</span>
+</a></li><li class=""><a title="Settings" class="shortcuts-tree" href="https://gitlab.com/gitlab-org/omnibus-gitlab/settings/members"><span>
+Settings
+</span>
+</a></li><li class="hidden">
+<a title="Activity" class="shortcuts-project-activity" href="https://gitlab.com/gitlab-org/omnibus-gitlab/activity"><span>
+Activity
+</span>
+</a></li>
+<li class="hidden">
+<a title="Network" class="shortcuts-network" href="https://gitlab.com/gitlab-org/omnibus-gitlab/network/master">Graph
+</a></li>
+<li class="hidden">
+<a title="Charts" class="shortcuts-repository-charts" href="https://gitlab.com/gitlab-org/omnibus-gitlab/graphs/master/charts">Charts
+</a></li>
+<li class="hidden">
+<a class="shortcuts-new-issue" href="https://gitlab.com/gitlab-org/omnibus-gitlab/issues/new">Create a new issue
+</a></li>
+<li class="hidden">
+<a title="Commits" class="shortcuts-commits" href="https://gitlab.com/gitlab-org/omnibus-gitlab/commits/master">Commits
+</a></li>
+<li class="hidden">
+<a title="Issue Boards" class="shortcuts-issue-boards" href="https://gitlab.com/gitlab-org/omnibus-gitlab/boards">Issue Boards</a>
+</li>
+</ul>
+</div>
+
+</div>
+</div>
+<div class="content-wrapper page-with-layout-nav">
+<div class="scrolling-tabs-container sub-nav-scroll">
+<div class="fade-left">
+<i class="fa fa-angle-left"></i>
+</div>
+<div class="fade-right">
+<i class="fa fa-angle-right"></i>
+</div>
+
+<div class="nav-links sub-nav scrolling-tabs">
+<ul class="container-fluid container-limited">
+<li class="active"><a href="https://gitlab.com/gitlab-org/omnibus-gitlab/tree/master">Files
+</a></li><li class=""><a href="https://gitlab.com/gitlab-org/omnibus-gitlab/commits/master">Commits
+</a></li><li class=""><a href="https://gitlab.com/gitlab-org/omnibus-gitlab/branches">Branches
+</a></li><li class=""><a href="https://gitlab.com/gitlab-org/omnibus-gitlab/tags">Tags
+</a></li><li class=""><a href="https://gitlab.com/gitlab-org/omnibus-gitlab/graphs/master">Contributors
+</a></li><li class=""><a href="https://gitlab.com/gitlab-org/omnibus-gitlab/network/master">Graph
+</a></li><li class=""><a href="https://gitlab.com/gitlab-org/omnibus-gitlab/compare?from=master&amp;to=master">Compare
+</a></li><li class=""><a href="https://gitlab.com/gitlab-org/omnibus-gitlab/graphs/master/charts">Charts
+</a></li><li class=""><a href="https://gitlab.com/gitlab-org/omnibus-gitlab/path_locks">Locked Files
+</a></li></ul>
+</div>
+</div>
+
+<div class="alert-wrapper">
+
+
+<div class="flash-container flash-container-page">
+</div>
+
+
+</div>
+<div class=" ">
+<div class="content" id="content-body">
+
+<div class="container-fluid container-limited">
+
+<div class="tree-holder" id="tree-holder">
+<div class="nav-block">
+<div class="tree-ref-holder">
+<form class="project-refs-form" action="/gitlab-org/omnibus-gitlab/refs/switch" accept-charset="UTF-8" method="get"><input name="utf8" value="✓" type="hidden"><input name="destination" id="destination" value="blob" type="hidden">
+<input name="path" id="path" value="doc/settings/nginx.md" type="hidden">
+<div class="dropdown">
+<button class="dropdown-menu-toggle js-project-refs-dropdown" type="button" data-toggle="dropdown" data-selected="master" data-ref="master" data-refs-url="/gitlab-org/omnibus-gitlab/refs" data-field-name="ref" data-submit-form-on-click="true"><span class="dropdown-toggle-text ">master</span><i class="fa fa-chevron-down"></i></button>
+<div class="dropdown-menu dropdown-menu-selectable">
+<div class="dropdown-title"><span>Switch branch/tag</span><button class="dropdown-title-button dropdown-menu-close" aria-label="Close" type="button"><i class="fa fa-times dropdown-menu-close-icon"></i></button></div>
+<div class="dropdown-input"><input id="" class="dropdown-input-field" placeholder="Search branches and tags" autocomplete="off" type="search"><i class="fa fa-search dropdown-input-search"></i><i role="button" class="fa fa-times dropdown-input-clear js-dropdown-input-clear"></i></div>
+<div class="dropdown-content"></div>
+<div class="dropdown-loading"><i class="fa fa-spinner fa-spin"></i></div>
+</div>
+</div>
+</form>
+</div>
+<ul class="breadcrumb repo-breadcrumb">
+<li>
+<a href="https://gitlab.com/gitlab-org/omnibus-gitlab/tree/master">omnibus-gitlab
+</a></li>
+<li>
+<a href="https://gitlab.com/gitlab-org/omnibus-gitlab/tree/master/doc">doc</a>
+
+</li>
+<li>
+<a href="https://gitlab.com/gitlab-org/omnibus-gitlab/tree/master/doc/settings">settings</a>
+
+</li>
+<li>
+<a href="https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/settings/nginx.md"><strong>
+nginx.md
+</strong>
+</a>
+</li>
+</ul>
+</div>
+<ul class="blob-commit-info hidden-xs">
+<li class="commit flex-list js-toggle-container" id="commit-48168cab">
+<div class="avatar-cell hidden-xs">
+<a href="https://gitlab.com/balasankarc"><img class="avatar has-tooltip s36 hidden-xs" alt="Balasankar C's avatar" title="Balasankar C" data-container="body" src="2%28b%29.https-gitLab-configuration_files/balasankarc.png"></a>
+</div>
+<div class="commit-detail">
+<div class="commit-content">
+<a class="commit-row-message item-title" href="https://gitlab.com/gitlab-org/omnibus-gitlab/commit/48168cab93e01dd479ee252c2e8bbeda391bf2df">Make HSTS configuration single-level</a>
+<span class="commit-row-message visible-xs-inline">
+·
+48168cab
+</span>
+<div class="commiter">
+<a class="commit-author-link has-tooltip" title="balasankar@gitlab.com" href="https://gitlab.com/balasankarc">Balasankar C</a>
+committed
+<time class="js-timeago js-timeago-render" title="" datetime="2017-03-23T07:09:58Z" data-toggle="tooltip" data-placement="top" data-container="body" data-original-title="Mar 23, 2017 12:39pm GMT+0530">2 weeks ago</time>
+</div>
+</div>
+<div class="commit-actions flex-row hidden-xs">
+<button class="btn btn-clipboard btn-transparent" data-toggle="tooltip" data-placement="bottom" data-container="body" data-clipboard-text="48168cab93e01dd479ee252c2e8bbeda391bf2df" data-title="Copy commit SHA to clipboard" type="button" title="Copy commit SHA to clipboard"><i aria-hidden="true" class="fa fa-clipboard"></i></button>
+<a class="commit-short-id btn btn-transparent" href="https://gitlab.com/gitlab-org/omnibus-gitlab/commit/48168cab93e01dd479ee252c2e8bbeda391bf2df">48168cab</a>
+
+</div>
+</div>
+</li>
+
+</ul>
+<div class="blob-content-holder" id="blob-content-holder">
+<article class="file-holder">
+<div class="js-file-title file-title-flex-parent">
+<div class="file-header-content">
+<i class="fa fa-file-text-o fa-fw"></i>
+<strong class="file-title-name">
+nginx.md
+</strong>
+<small>
+20.8 KB
+</small>
+</div>
+<div class="file-actions hidden-xs">
+<div class="btn-group" role="group"><a class="btn btn-sm" target="_blank" href="https://gitlab.com/gitlab-org/omnibus-gitlab/raw/master/doc/settings/nginx.md">Raw</a><a class="btn btn-sm" href="https://gitlab.com/gitlab-org/omnibus-gitlab/blame/master/doc/settings/nginx.md">Blame</a><a class="btn btn-sm" href="https://gitlab.com/gitlab-org/omnibus-gitlab/commits/master/doc/settings/nginx.md">History</a><a class="btn btn-sm js-data-file-blob-permalink-url" href="https://gitlab.com/gitlab-org/omnibus-gitlab/blob/7c7c7287deed90aeb29a00fe29281e1ed61e6908/doc/settings/nginx.md">Permalink</a></div>
+<script>
+  PathLocks.init(
+    '/gitlab-org/omnibus-gitlab/path_locks/toggle',
+    'doc/settings/nginx.md'
+  );
+</script>
+
+</div>
+</div>
+<div class="file-content wiki">
+<h1 dir="auto">
+<a id="user-content-nginx-settings" class="anchor" href="#nginx-settings" aria-hidden="true"></a>NGINX settings</h1>
+
+<h2 dir="auto">
+<a id="user-content-enable-https" class="anchor" href="#enable-https" aria-hidden="true"></a>Enable HTTPS</h2>
+
+<h3 dir="auto">
+<a id="user-content-warning" class="anchor" href="#warning" aria-hidden="true"></a>Warning</h3>
+
+<p dir="auto">The Nginx config will tell browsers and clients to only communicate with your
+GitLab instance over a secure connection for the next 24 months. By enabling
+HTTPS you'll need to provide a secure connection to your instance for at least
+the next 24 months.</p>
+
+<p dir="auto">By default, omnibus-gitlab does not use HTTPS. If you want to enable HTTPS for
+gitlab.example.com, add the following statement to <code>/etc/gitlab/gitlab.rb</code>:</p>
+
+<pre class="code highlight js-syntax-highlight ruby white" v-pre="true" lang="ruby"><code><span class="c1"># note the 'https' below</span>
+<span class="n">external_url</span> <span class="s2">"https://gitlab.example.com"</span>
+</code></pre>
+<p dir="auto">Because the hostname in our example is 'gitlab.example.com', omnibus-gitlab
+will look for key and certificate files called
+<code>/etc/gitlab/ssl/gitlab.example.com.key</code> and
+<code>/etc/gitlab/ssl/gitlab.example.com.crt</code>, respectively. Create the
+<code>/etc/gitlab/ssl</code> directory and copy your key and certificate there.</p>
+
+<pre class="code highlight js-syntax-highlight plaintext white" v-pre="true" lang="plaintext"><code>sudo mkdir -p /etc/gitlab/ssl
+sudo chmod 700 /etc/gitlab/ssl
+sudo cp gitlab.example.com.key gitlab.example.com.crt /etc/gitlab/ssl/
+</code></pre>
+<p dir="auto">Now run <code>sudo gitlab-ctl reconfigure</code>. When the reconfigure finishes your
+GitLab instance should be reachable at <code>https://gitlab.example.com</code>.</p>
+
+<p dir="auto">If you are using a firewall you may have to open port 443 to allow inbound
+HTTPS traffic.</p>
+
+<pre class="code highlight js-syntax-highlight plaintext white" v-pre="true" lang="plaintext"><code># UFW example (Debian, Ubuntu)
+sudo ufw allow https
+
+# lokkit example (RedHat, CentOS 6)
+sudo lokkit -s https
+
+# firewall-cmd (RedHat, Centos 7)
+sudo firewall-cmd --permanent --add-service=https
+sudo systemctl reload firewalld
+</code></pre>
+<h2 dir="auto">
+<a id="user-content-redirect-http-requests-to-https" class="anchor" href="#redirect-http-requests-to-https" aria-hidden="true"></a>Redirect <code>HTTP</code> requests to <code>HTTPS</code>
+</h2>
+
+<p dir="auto">By default, when you specify an external_url starting with 'https', Nginx will
+no longer listen for unencrypted HTTP traffic on port 80. If you want to
+redirect all HTTP traffic to HTTPS you can use the <code>redirect_http_to_https</code>
+setting.</p>
+
+<pre class="code highlight js-syntax-highlight ruby white" v-pre="true" lang="ruby"><code><span class="n">external_url</span> <span class="s2">"https://gitlab.example.com"</span>
+<span class="n">nginx</span><span class="p">[</span><span class="s1">'redirect_http_to_https'</span><span class="p">]</span> <span class="o">=</span> <span class="kp">true</span>
+</code></pre>
+<h2 dir="auto">
+<a id="user-content-change-the-default-port-and-the-ssl-certificate-locations" class="anchor" href="#change-the-default-port-and-the-ssl-certificate-locations" aria-hidden="true"></a>Change the default port and the SSL certificate locations</h2>
+
+<p dir="auto">If you need to use an HTTPS port other than the default (443), just specify it
+as part of the external_url.</p>
+
+<pre class="code highlight js-syntax-highlight ruby white" v-pre="true" lang="ruby"><code><span class="n">external_url</span> <span class="s2">"https://gitlab.example.com:2443"</span>
+</code></pre>
+<p dir="auto">To set the location of ssl certificates create <code>/etc/gitlab/ssl</code> directory,
+place the <code>.crt</code> and <code>.key</code> files in the directory and specify the following
+configuration:</p>
+
+<pre class="code highlight js-syntax-highlight ruby white" v-pre="true" lang="ruby"><code><span class="c1"># For GitLab</span>
+<span class="n">nginx</span><span class="p">[</span><span class="s1">'ssl_certificate'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"/etc/gitlab/ssl/gitlab.example.crt"</span>
+<span class="n">nginx</span><span class="p">[</span><span class="s1">'ssl_certificate_key'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"/etc/gitlab/ssl/gitlab.example.com.key"</span>
+</code></pre>
+<p dir="auto">Run <code>sudo gitlab-ctl reconfigure</code> for the change to take effect.</p>
+
+<h2 dir="auto">
+<a id="user-content-change-the-default-proxy-headers" class="anchor" href="#change-the-default-proxy-headers" aria-hidden="true"></a>Change the default proxy headers</h2>
+
+<p dir="auto">By default, when you specify <code>external_url</code> omnibus-gitlab will set a few
+NGINX proxy headers that are assumed to be sane in most environments.</p>
+
+<p dir="auto">For example, omnibus-gitlab will set:</p>
+
+<pre class="code highlight js-syntax-highlight plaintext white" v-pre="true" lang="plaintext"><code>  "X-Forwarded-Proto" =&gt; "https",
+  "X-Forwarded-Ssl" =&gt; "on"
+</code></pre>
+<p dir="auto">if you have specified <code>https</code> schema in the <code>external_url</code>.</p>
+
+<p dir="auto">However, if you have a situation where your GitLab is in a more complex setup
+like behind a reverse proxy, you will need to tweak the proxy headers in order
+to avoid errors like <code>The change you wanted was rejected</code> or
+<code>Can't verify CSRF token authenticity Completed 422 Unprocessable</code>.</p>
+
+<p dir="auto">This can be achieved by overriding the default headers, eg. specify
+in <code>/etc/gitlab/gitlab.rb</code>:</p>
+
+<pre class="code highlight js-syntax-highlight ruby white" v-pre="true" lang="ruby"><code> <span class="n">nginx</span><span class="p">[</span><span class="s1">'proxy_set_headers'</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">"X-Forwarded-Proto"</span> <span class="o">=&gt;</span> <span class="s2">"http"</span><span class="p">,</span>
+  <span class="s2">"CUSTOM_HEADER"</span> <span class="o">=&gt;</span> <span class="s2">"VALUE"</span>
+ <span class="p">}</span>
+</code></pre>
+<p dir="auto">Save the file and <a href="https://docs.gitlab.com/ce/administration/restart_gitlab.html#omnibus-gitlab-reconfigure" rel="nofollow noreferrer" target="_blank">reconfigure GitLab</a>
+for the changes to take effect.</p>
+
+<p dir="auto">This way you can specify any header supported by NGINX you require.</p>
+
+<h2 dir="auto">
+<a id="user-content-configuring-gitlab-trusted_proxies-and-the-nginx-real_ip-module" class="anchor" href="#configuring-gitlab-trusted_proxies-and-the-nginx-real_ip-module" aria-hidden="true"></a>Configuring GitLab <code>trusted_proxies</code> and the NGINX <code>real_ip</code> module</h2>
+
+<p dir="auto">By default, NGINX and GitLab will log the IP address of the connected client.</p>
+
+<p dir="auto">If your GitLab is behind a reverse proxy, you may not want the IP address of
+the proxy to show up as the client address.</p>
+
+<p dir="auto">You can have NGINX look for a different address to use by adding your reverse
+proxy to the <code>real_ip_trusted_addresses</code> list:</p>
+
+<pre class="code highlight js-syntax-highlight ruby white" v-pre="true" lang="ruby"><code><span class="c1"># Each address is added to the the NGINX config as 'set_real_ip_from &lt;address&gt;;'</span>
+<span class="n">nginx</span><span class="p">[</span><span class="s1">'real_ip_trusted_addresses'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">'192.168.1.0/24'</span><span class="p">,</span> <span class="s1">'192.168.2.1'</span><span class="p">,</span> <span class="s1">'2001:0db8::/32'</span> <span class="p">]</span>
+<span class="c1"># other real_ip config options</span>
+<span class="n">nginx</span><span class="p">[</span><span class="s1">'real_ip_header'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'X-Real-IP'</span>
+<span class="n">nginx</span><span class="p">[</span><span class="s1">'real_ip_recursive'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'on'</span>
+</code></pre>
+<p dir="auto">Description of the options:</p>
+
+<ul dir="auto">
+<li><a href="http://nginx.org/en/docs/http/ngx_http_realip_module.html" rel="nofollow noreferrer" target="_blank">http://nginx.org/en/docs/http/ngx_http_realip_module.html</a></li>
+</ul>
+
+<p dir="auto">By default, omnibus-gitlab will use the IP addresses in <code>real_ip_trusted_addresses</code>
+as GitLab's trusted proxies, which will keep users from being listed as signed
+in from those IPs.</p>
+
+<p dir="auto">Save the file and <a href="https://docs.gitlab.com/ce/administration/restart_gitlab.html#omnibus-gitlab-reconfigure" rel="nofollow noreferrer" target="_blank">reconfigure GitLab</a>
+for the changes to take effect.</p>
+
+<h2 dir="auto">
+<a id="user-content-configuring-http2-protocol" class="anchor" href="#configuring-http2-protocol" aria-hidden="true"></a>Configuring HTTP2 protocol</h2>
+
+<p dir="auto">By default, when you specify that your Gitlab instance should be reachable
+through HTTPS by specifying <code>external_url "https://gitlab.example.com"</code>,
+<a href="https://tools.ietf.org/html/rfc7540" rel="nofollow noreferrer" target="_blank">http2 protocol</a> is also enabled.</p>
+
+<p dir="auto">The omnibus-gitlab package sets required ssl_ciphers that are compatible with
+http2 protocol.</p>
+
+<p dir="auto">If you are specifying custom ssl_ciphers in your configuration and a cipher is
+in <a href="https://tools.ietf.org/html/rfc7540#appendix-A" rel="nofollow noreferrer" target="_blank">http2 cipher blacklist</a>, once you try to reach your GitLab instance you will
+be presented with <code>INADEQUATE_SECURITY</code> error in your browser.</p>
+
+<p dir="auto">Consider removing the offending ciphers from the cipher list. Changing ciphers
+is only necessary if you have a very specific custom setup.</p>
+
+<p dir="auto">For more info on why you would want to have http2 protocol enabled, check out
+the <a href="https://assets.wp.nginx.com/wp-content/uploads/2015/09/NGINX_HTTP2_White_Paper_v4.pdf?_ga=1.127086286.212780517.1454411744" rel="nofollow noreferrer" target="_blank">http2 whitepaper</a>.</p>
+
+<p dir="auto">If changing the ciphers is not an option you can disable http2 support by
+specifying in <code>/etc/gitlab/gitlab.rb</code>:</p>
+
+<pre class="code highlight js-syntax-highlight ruby white" v-pre="true" lang="ruby"><code><span class="n">nginx</span><span class="p">[</span><span class="s1">'http2_enabled'</span><span class="p">]</span> <span class="o">=</span> <span class="kp">false</span>
+</code></pre>
+<p dir="auto">Save the file and <a href="https://docs.gitlab.com/ce/administration/restart_gitlab.html#omnibus-gitlab-reconfigure" rel="nofollow noreferrer" target="_blank">reconfigure GitLab</a>
+for the changes to take effect.</p>
+
+<h2 dir="auto">
+<a id="user-content-using-a-non-bundled-web-server" class="anchor" href="#using-a-non-bundled-web-server" aria-hidden="true"></a>Using a non-bundled web-server</h2>
+
+<p dir="auto">By default, omnibus-gitlab installs GitLab with bundled Nginx.
+Omnibus-gitlab allows webserver access through user <code>gitlab-www</code> which resides
+in the group with the same name. To allow an external webserver access to
+GitLab, external webserver user needs to be added <code>gitlab-www</code> group.</p>
+
+<p dir="auto">To use another web server like Apache or an existing Nginx installation you
+will have to perform the following steps:</p>
+
+<ol dir="auto">
+<li>
+<p><strong>Disable bundled Nginx</strong></p>
+
+<p>In <code>/etc/gitlab/gitlab.rb</code> set:</p>
+
+<pre class="code highlight js-syntax-highlight ruby white" v-pre="true" lang="ruby"><code><span class="n">nginx</span><span class="p">[</span><span class="s1">'enable'</span><span class="p">]</span> <span class="o">=</span> <span class="kp">false</span>
+</code></pre>
+</li>
+<li>
+<p><strong>Set the username of the non-bundled web-server user</strong></p>
+
+<p>By default, omnibus-gitlab has no default setting for the external webserver
+user, you have to specify it in the configuration. For Debian/Ubuntu the
+default user is <code>www-data</code> for both Apache/Nginx whereas for RHEL/CentOS
+the Nginx user is <code>nginx</code>.</p>
+
+<p><em>Note: Make sure you have first installed Apache/Nginx so the 
+webserver user is created, otherwise omnibus will fail while 
+reconfiguring.</em></p>
+
+<p>Let's say for example that the webserver user is <code>www-data</code>.
+In <code>/etc/gitlab/gitlab.rb</code> set:</p>
+
+<pre class="code highlight js-syntax-highlight ruby white" v-pre="true" lang="ruby"><code><span class="n">web_server</span><span class="p">[</span><span class="s1">'external_users'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'www-data'</span><span class="p">]</span>
+</code></pre>
+<p><em>Note: This setting is an array so you can specify more than one user to be added to gitlab-www group.</em></p>
+
+<p>Run <code>sudo gitlab-ctl reconfigure</code> for the change to take effect.</p>
+
+<p><em>Note: if you are using SELinux and your web server runs under a restricted SELinux profile you may have to <a href="https://gitlab.com/gitlab-org/gitlab-recipes/tree/master/web-server/apache#selinux-modifications">loosen the restrictions on your web server</a>.</em></p>
+
+<p>*Note: make sure that the webserver user has the correct permissions 
+on all directories used by external web-server, otherwise you will 
+receive <code>failed (XX: Permission denied) while reading upstream</code> errors.</p>
+</li>
+<li>
+<p><strong>Add the non-bundled web-server to the list of trusted proxies</strong></p>
+
+<p>Normally, omnibus-gitlab defaults the list of trusted proxies to the what was
+configured in the real_ip module for the bundled NGINX.</p>
+
+<p>For non-bundled web-servers the list needs to be configured directly, and should
+include the IP address of your web-server if it not on the same machine as GitLab.
+Otherwise users will be shown as being signed in from your web-server's IP address.</p>
+
+<pre class="code highlight js-syntax-highlight ruby white" v-pre="true" lang="ruby"><code><span class="n">gitlab_rails</span><span class="p">[</span><span class="s1">'trusted_proxies'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">'192.168.1.0/24'</span><span class="p">,</span> <span class="s1">'192.168.2.1'</span><span class="p">,</span> <span class="s1">'2001:0db8::/32'</span> <span class="p">]</span>
+</code></pre>
+</li>
+<li>
+<p><strong>(Optional) Set the right gitlab-workhorse settings if using Apache</strong></p>
+
+<p><em>Note: The values below were added in GitLab 8.2, make sure you have the latest version installed.</em></p>
+
+<p>Apache cannot connect to a UNIX socket but instead needs to connect to a
+TCP Port. To allow gitlab-workhorse to listen on TCP (by default port 8181)
+edit <code>/etc/gitlab/gitlab.rb</code>:</p>
+
+<pre class="code highlight js-syntax-highlight plaintext white" v-pre="true" lang="plaintext"><code>gitlab_workhorse['listen_network'] = "tcp"
+gitlab_workhorse['listen_addr'] = "127.0.0.1:8181"
+</code></pre>
+<p>Run <code>sudo gitlab-ctl reconfigure</code> for the change to take effect.</p>
+</li>
+<li>
+<p><strong>Download the right web server configs</strong></p>
+
+<p>Go to <a href="https://gitlab.com/gitlab-org/gitlab-recipes/tree/master/web-server">GitLab recipes repository</a> and look for the omnibus
+configs in the webserver directory of your choice. Make sure you pick the
+right configuration file depending whether you choose to serve GitLab with
+SSL or not. The only thing you need to change is <code>YOUR_SERVER_FQDN</code> with
+your own FQDN and if you use SSL, the location where your SSL keys currently
+reside. You also might need to change the location of your log files.</p>
+</li>
+</ol>
+
+<h2 dir="auto">
+<a id="user-content-setting-the-nginx-listen-address-or-addresses" class="anchor" href="#setting-the-nginx-listen-address-or-addresses" aria-hidden="true"></a>Setting the NGINX listen address or addresses</h2>
+
+<p dir="auto">By default NGINX will accept incoming connections on all local IPv4 addresses.
+You can change the list of addresses in <code>/etc/gitlab/gitlab.rb</code>.</p>
+
+<pre class="code highlight js-syntax-highlight ruby white" v-pre="true" lang="ruby"><code><span class="n">nginx</span><span class="p">[</span><span class="s1">'listen_addresses'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"0.0.0.0"</span><span class="p">,</span> <span class="s2">"[::]"</span><span class="p">]</span> <span class="c1"># listen on all IPv4 and IPv6 addresses</span>
+</code></pre>
+<h2 dir="auto">
+<a id="user-content-setting-the-nginx-listen-port" class="anchor" href="#setting-the-nginx-listen-port" aria-hidden="true"></a>Setting the NGINX listen port</h2>
+
+<p dir="auto">By default NGINX will listen on the port specified in <code>external_url</code> or
+implicitly use the right port (80 for HTTP, 443 for HTTPS). If you are running
+GitLab behind a reverse proxy, you may want to override the listen port to
+something else.  For example, to use port 8081:</p>
+
+<pre class="code highlight js-syntax-highlight ruby white" v-pre="true" lang="ruby"><code><span class="n">nginx</span><span class="p">[</span><span class="s1">'listen_port'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">8081</span>
+</code></pre>
+<h2 dir="auto">
+<a id="user-content-supporting-proxied-ssl" class="anchor" href="#supporting-proxied-ssl" aria-hidden="true"></a>Supporting proxied SSL</h2>
+
+<p dir="auto">By default NGINX will auto-detect whether to use SSL if <code>external_url</code>
+contains <code>https://</code>.  If you are running GitLab behind a reverse proxy, you
+may wish to terminate SSL at another proxy server or load balancer. To do this,
+be sure the <code>external_url</code> contains <code>https://</code> and apply the following
+configuration to <code>gitlab.rb</code>:</p>
+
+<pre class="code highlight js-syntax-highlight ruby white" v-pre="true" lang="ruby"><code><span class="n">nginx</span><span class="p">[</span><span class="s1">'listen_port'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">80</span>
+<span class="n">nginx</span><span class="p">[</span><span class="s1">'listen_https'</span><span class="p">]</span> <span class="o">=</span> <span class="kp">false</span>
+<span class="n">nginx</span><span class="p">[</span><span class="s1">'proxy_set_headers'</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">"X-Forwarded-Proto"</span> <span class="o">=&gt;</span> <span class="s2">"https"</span><span class="p">,</span>
+  <span class="s2">"X-Forwarded-Ssl"</span> <span class="o">=&gt;</span> <span class="s2">"on"</span>
+<span class="p">}</span>
+</code></pre>
+<p dir="auto">Note that you may need to configure your reverse proxy or load balancer to
+forward certain headers (e.g. <code>Host</code>, <code>X-Forwarded-Ssl</code>, <code>X-Forwarded-For</code>,
+<code>X-Forwarded-Port</code>) to GitLab. You may see improper redirections or errors
+(e.g. "422 Unprocessable Entity", "Can't verify CSRF token authenticity") if
+you forget this step. For more information, see:</p>
+
+<ul dir="auto">
+<li><a href="http://stackoverflow.com/questions/16042647/whats-the-de-facto-standard-for-a-reverse-proxy-to-tell-the-backend-ssl-is-used" rel="nofollow noreferrer" target="_blank">http://stackoverflow.com/questions/16042647/whats-the-de-facto-standard-for-a-reverse-proxy-to-tell-the-backend-ssl-is-used</a></li>
+<li><a href="https://wiki.apache.org/couchdb/Nginx_As_a_Reverse_Proxy" rel="nofollow noreferrer" target="_blank">https://wiki.apache.org/couchdb/Nginx_As_a_Reverse_Proxy</a></li>
+</ul>
+
+<h2 dir="auto">
+<a id="user-content-setting-http-strict-transport-security" class="anchor" href="#setting-http-strict-transport-security" aria-hidden="true"></a>Setting HTTP Strict Transport Security</h2>
+
+<p dir="auto">By default GitLab enables Strict Transport Security which informs browsers that
+they should only contact the website using HTTPS. When browser visits
+GitLab instance even once it will remember to no longer attempt insecure connections
+even when user is explicitly entering <code>http://</code> url. Such url will be automatically redirected by the browser to <code>https://</code> variant.</p>
+
+<pre class="code highlight js-syntax-highlight ruby white" v-pre="true" lang="ruby"><code><span class="n">nginx</span><span class="p">[</span><span class="s1">'hsts_max_age'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">31536000</span>
+<span class="n">nginx</span><span class="p">[</span><span class="s1">'hsts_include_subdomains'</span><span class="p">]</span> <span class="o">=</span> <span class="kp">false</span>
+</code></pre>
+<p dir="auto">By default <code>max_age</code> is set for one year, this is how long browser will remember to only connect through HTTPS. 
+Setting <code>max_age</code> to 0 will disable this feature. For more information see:</p>
+
+<ul dir="auto">
+<li><a href="https://www.nginx.com/blog/http-strict-transport-security-hsts-and-nginx/" rel="nofollow noreferrer" target="_blank">https://www.nginx.com/blog/http-strict-transport-security-hsts-and-nginx/</a></li>
+</ul>
+
+<h2 dir="auto">
+<a id="user-content-using-custom-ssl-ciphers" class="anchor" href="#using-custom-ssl-ciphers" aria-hidden="true"></a>Using custom SSL ciphers</h2>
+
+<p dir="auto">By default GitLab is using SSL ciphers that are 
+combination of testing on gitlab.com and various best practices 
+contributed by the GitLab community.</p>
+
+<p dir="auto">However, you can change the ssl ciphers by adding to <code>gitlab.rb</code>:</p>
+
+<pre class="code highlight js-syntax-highlight ruby white" v-pre="true" lang="ruby"><code>  <span class="n">nginx</span><span class="p">[</span><span class="s1">'ssl_ciphers'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"CIPHER:CIPHER1"</span>
+</code></pre>
+<p dir="auto">and running reconfigure.</p>
+
+<p dir="auto">You can also enable <code>ssl_dhparam</code> directive.</p>
+
+<p dir="auto">First, generate <code>dhparams.pem</code> with <code>openssl dhparam -out dhparams.pem 2048</code>. Then, in <code>gitlab.rb</code> add a path to the generated file, for example:</p>
+
+<pre class="code highlight js-syntax-highlight ruby white" v-pre="true" lang="ruby"><code>  <span class="n">nginx</span><span class="p">[</span><span class="s1">'ssl_dhparam'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"/etc/gitlab/ssl/dhparams.pem"</span>
+</code></pre>
+<p dir="auto">After the change run <code>sudo gitlab-ctl reconfigure</code>.</p>
+
+<h2 dir="auto">
+<a id="user-content-enable-2-way-ssl-client-authentication" class="anchor" href="#enable-2-way-ssl-client-authentication" aria-hidden="true"></a>Enable 2-way SSL Client Authentication</h2>
+
+<p dir="auto">To require web clients to authenticate with a trusted certificate, you can enable 2-way SSL by adding to <code>gitlab.rb</code>:</p>
+
+<pre class="code highlight js-syntax-highlight ruby white" v-pre="true" lang="ruby"><code>  <span class="n">nginx</span><span class="p">[</span><span class="s1">'ssl_verify_client'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"on"</span>
+</code></pre>
+<p dir="auto">and running reconfigure.</p>
+
+<p dir="auto">These additional options NGINX supports for configuring SSL client authentication can also be configured:</p>
+
+<pre class="code highlight js-syntax-highlight ruby white" v-pre="true" lang="ruby"><code>  <span class="n">nginx</span><span class="p">[</span><span class="s1">'ssl_client_certificate'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"/etc/pki/tls/certs/root-certs.pem"</span>
+  <span class="n">nginx</span><span class="p">[</span><span class="s1">'ssl_verify_depth'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"2"</span>
+</code></pre>
+<p dir="auto">After making the changes run <code>sudo gitlab-ctl reconfigure</code>.</p>
+
+<h2 dir="auto">
+<a id="user-content-inserting-custom-nginx-settings-into-the-gitlab-server-block" class="anchor" href="#inserting-custom-nginx-settings-into-the-gitlab-server-block" aria-hidden="true"></a>Inserting custom NGINX settings into the GitLab server block</h2>
+
+<p dir="auto">If you need to add custom settings into the NGINX <code>server</code> block for GitLab for
+some reason you can use the following setting.</p>
+
+<pre class="code highlight js-syntax-highlight ruby white" v-pre="true" lang="ruby"><code><span class="c1"># Example: block raw file downloads from a specific repository</span>
+<span class="n">nginx</span><span class="p">[</span><span class="s1">'custom_gitlab_server_config'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"location ^~ /foo-namespace/bar-project/raw/ {</span><span class="se">\n</span><span class="s2"> deny all;</span><span class="se">\n</span><span class="s2">}</span><span class="se">\n</span><span class="s2">"</span>
+</code></pre>
+<p dir="auto">Run <code>gitlab-ctl reconfigure</code> to rewrite the NGINX configuration and restart
+NGINX.</p>
+
+<h2 dir="auto">
+<a id="user-content-inserting-custom-settings-into-the-nginx-config" class="anchor" href="#inserting-custom-settings-into-the-nginx-config" aria-hidden="true"></a>Inserting custom settings into the NGINX config</h2>
+
+<p dir="auto">If you need to add custom settings into the NGINX config, for example to include
+existing server blocks, you can use the following setting.</p>
+
+<pre class="code highlight js-syntax-highlight ruby white" v-pre="true" lang="ruby"><code><span class="c1"># Example: include a directory to scan for additional config files</span>
+<span class="n">nginx</span><span class="p">[</span><span class="s1">'custom_nginx_config'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"include /etc/nginx/conf.d/*.conf;"</span>
+</code></pre>
+<p dir="auto">Run <code>gitlab-ctl reconfigure</code> to rewrite the NGINX configuration and restart
+NGINX.</p>
+
+<h2 dir="auto">
+<a id="user-content-custom-error-pages" class="anchor" href="#custom-error-pages" aria-hidden="true"></a>Custom error pages</h2>
+
+<p dir="auto">You can use <code>custom_error_pages</code> to modify text on the default GitLab error page.
+This can be used for any valid HTTP error code; e.g 404, 502.</p>
+
+<p dir="auto">As an example the following would modify the default 404 error page.</p>
+
+<pre class="code highlight js-syntax-highlight ruby white" v-pre="true" lang="ruby"><code><span class="n">nginx</span><span class="p">[</span><span class="s1">'custom_error_pages'</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">'404'</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="s1">'title'</span> <span class="o">=&gt;</span> <span class="s1">'Example title'</span><span class="p">,</span>
+    <span class="s1">'header'</span> <span class="o">=&gt;</span> <span class="s1">'Example header'</span><span class="p">,</span>
+    <span class="s1">'message'</span> <span class="o">=&gt;</span> <span class="s1">'Example message'</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p dir="auto">This would result in the 404 error page below.</p>
+
+<p dir="auto"><a class="no-attachment-icon" href="https://gitlab.com/gitlab-org/omnibus-gitlab/raw/master/doc/settings/img/error_page_example.png" target="_blank" rel="noopener noreferrer"><img src="2%28b%29.https-gitLab-configuration_files/error_page_example.png" alt="custom 404 error page"></a></p>
+
+<p dir="auto">Run <code>gitlab-ctl reconfigure</code> to rewrite the NGINX configuration and restart
+NGINX.</p>
+
+<h2 dir="auto">
+<a id="user-content-using-an-existing-passengernginx-installation" class="anchor" href="#using-an-existing-passengernginx-installation" aria-hidden="true"></a>Using an existing Passenger/Nginx installation</h2>
+
+<p dir="auto">In some cases you may want to host GitLab using an existing Passenger/Nginx
+installation but still have the convenience of updating and installing using
+the omnibus packages.</p>
+
+<h3 dir="auto">
+<a id="user-content-configuration" class="anchor" href="#configuration" aria-hidden="true"></a>Configuration</h3>
+
+<p dir="auto">First, you'll need to setup your <code>/etc/gitlab/gitlab.rb</code> to disable the built-in
+Nginx and Unicorn:</p>
+
+<pre class="code highlight js-syntax-highlight ruby white" v-pre="true" lang="ruby"><code><span class="c1"># Disable the built-in nginx</span>
+<span class="n">nginx</span><span class="p">[</span><span class="s1">'enable'</span><span class="p">]</span> <span class="o">=</span> <span class="kp">false</span>
+
+<span class="c1"># Disable the built-in unicorn</span>
+<span class="n">unicorn</span><span class="p">[</span><span class="s1">'enable'</span><span class="p">]</span> <span class="o">=</span> <span class="kp">false</span>
+
+<span class="c1"># Set the internal API URL</span>
+<span class="n">gitlab_rails</span><span class="p">[</span><span class="s1">'internal_api_url'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'http://git.yourdomain.com'</span>
+</code></pre>
+<p dir="auto">Make sure you run <code>sudo gitlab-ctl reconfigure</code> for the changes to take effect.</p>
+
+<h3 dir="auto">
+<a id="user-content-vhost-server-block" class="anchor" href="#vhost-server-block" aria-hidden="true"></a>Vhost (server block)</h3>
+
+<p dir="auto">Then, in your custom Passenger/Nginx installation, create the following site
+configuration file:</p>
+
+<pre class="code highlight js-syntax-highlight plaintext white" v-pre="true" lang="plaintext"><code>upstream gitlab-workhorse {
+  server unix://var/opt/gitlab/gitlab-workhorse/socket fail_timeout=0;
+}
+
+server {
+  listen *:80;
+  server_name git.example.com;
+  server_tokens off;
+  root /opt/gitlab/embedded/service/gitlab-rails/public;
+
+  client_max_body_size 250m;
+
+  access_log  /var/log/gitlab/nginx/gitlab_access.log;
+  error_log   /var/log/gitlab/nginx/gitlab_error.log;
+
+  # Ensure Passenger uses the bundled Ruby version
+  passenger_ruby /opt/gitlab/embedded/bin/ruby;
+
+  # Correct the $PATH variable to included packaged executables
+  passenger_env_var PATH "/opt/gitlab/bin:/opt/gitlab/embedded/bin:/usr/local/bin:/usr/bin:/bin";
+
+  # Make sure Passenger runs as the correct user and group to
+  # prevent permission issues
+  passenger_user git;
+  passenger_group git;
+
+  # Enable Passenger &amp; keep at least one instance running at all times
+  passenger_enabled on;
+  passenger_min_instances 1;
+
+  location ~ ^/[\w\.-]+/[\w\.-]+/(info/refs|git-upload-pack|git-receive-pack)$ {
+    # 'Error' 418 is a hack to re-use the @gitlab-workhorse block
+    error_page 418 = @gitlab-workhorse;
+    return 418;
+  }
+
+  location ~ ^/[\w\.-]+/[\w\.-]+/repository/archive {
+    # 'Error' 418 is a hack to re-use the @gitlab-workhorse block
+    error_page 418 = @gitlab-workhorse;
+    return 418;
+  }
+
+  location ~ ^/api/v3/projects/.*/repository/archive {
+    # 'Error' 418 is a hack to re-use the @gitlab-workhorse block
+    error_page 418 = @gitlab-workhorse;
+    return 418;
+  }
+
+  # Build artifacts should be submitted to this location
+  location ~ ^/[\w\.-]+/[\w\.-]+/builds/download {
+      client_max_body_size 0;
+      # 'Error' 418 is a hack to re-use the @gitlab-workhorse block
+      error_page 418 = @gitlab-workhorse;
+      return 418;
+  }
+
+  # Build artifacts should be submitted to this location
+  location ~ /ci/api/v1/builds/[0-9]+/artifacts {
+      client_max_body_size 0;
+      # 'Error' 418 is a hack to re-use the @gitlab-workhorse block
+      error_page 418 = @gitlab-workhorse;
+      return 418;
+  }
+
+  # For protocol upgrades from HTTP/1.0 to HTTP/1.1 we need to provide Host header if its missing
+  if ($http_host = "") {
+  # use one of values defined in server_name
+    set $http_host_with_default "git.example.com";
+  }
+
+  if ($http_host != "") {
+    set $http_host_with_default $http_host;
+  }
+
+  location @gitlab-workhorse {
+
+    ## https://github.com/gitlabhq/gitlabhq/issues/694
+    ## Some requests take more than 30 seconds.
+    proxy_read_timeout      3600;
+    proxy_connect_timeout   300;
+    proxy_redirect          off;
+
+    # Do not buffer Git HTTP responses
+    proxy_buffering off;
+
+    proxy_set_header    Host                $http_host_with_default;
+    proxy_set_header    X-Real-IP           $remote_addr;
+    proxy_set_header    X-Forwarded-For     $proxy_add_x_forwarded_for;
+    proxy_set_header    X-Forwarded-Proto   $scheme;
+
+    proxy_pass http://gitlab-workhorse;
+
+    ## The following settings only work with NGINX 1.7.11 or newer
+    #
+    ## Pass chunked request bodies to gitlab-workhorse as-is
+    # proxy_request_buffering off;
+    # proxy_http_version 1.1;
+  }
+
+  ## Enable gzip compression as per rails guide:
+  ## http://guides.rubyonrails.org/asset_pipeline.html#gzip-compression
+  ## WARNING: If you are using relative urls remove the block below
+  ## See config/application.rb under "Relative url support" for the list of
+  ## other files that need to be changed for relative url support
+  location ~ ^/(assets)/ {
+    root /opt/gitlab/embedded/service/gitlab-rails/public;
+    gzip_static on; # to serve pre-gzipped version
+    expires max;
+    add_header Cache-Control public;
+  }
+
+  error_page 502 /502.html;
+}
+</code></pre>
+<h3 dir="auto">
+<a id="user-content-enablingdisabling-nginx_status" class="anchor" href="#enablingdisabling-nginx_status" aria-hidden="true"></a>Enabling/Disabling nginx_status</h3>
+
+<p dir="auto">By default you will have an nginx health-check endpoint 
+configured at 127.0.0.1:8060/nginx_status to monitor your Nginx server 
+status.</p>
+
+<h4 dir="auto">
+<a id="user-content-the-following-information-will-be-displayed" class="anchor" href="#the-following-information-will-be-displayed" aria-hidden="true"></a>The following information will be displayed:</h4>
+
+<pre class="code highlight js-syntax-highlight plaintext white" v-pre="true" lang="plaintext"><code>Active connections: 1
+server accepts handled requests
+ 18 18 36
+Reading: 0 Writing: 1 Waiting: 0
+</code></pre>
+<ul dir="auto">
+<li>Active connections – Open connections in total.</li>
+<li>3 figures are shown.
+
+<ul>
+<li>All accepted connections.</li>
+<li>All handled connections.</li>
+<li>Total number of handled requests.</li>
+</ul>
+</li>
+<li>Reading: Nginx reads request headers</li>
+<li>Writing: Nginx reads request bodies, processes requests, or writes responses to a client</li>
+<li>Waiting: Keep-alive connections. This number depends on the keepalive-timeout.</li>
+</ul>
+
+<h2 dir="auto">
+<a id="user-content-configuration-1" class="anchor" href="#configuration-1" aria-hidden="true"></a>Configuration</h2>
+
+<p dir="auto">Edit <code>/etc/gitlab/gitlab.rb</code>:</p>
+
+<pre class="code highlight js-syntax-highlight plaintext white" v-pre="true" lang="plaintext"><code>nginx['status'] = {
+  "listen_addresses" =&gt; ["127.0.0.1"],
+  "fqdn" =&gt; "dev.example.com",
+  "port" =&gt; 9999,
+  "options" =&gt; {
+    "stub_status" =&gt; "on", # Turn on stats
+    "access_log" =&gt; "on", # Disable logs for stats
+    "allow" =&gt; "127.0.0.1", # Only allow access from localhost
+    "deny" =&gt; "all" # Deny access to anyone else
+  }
+}
+</code></pre>
+<p dir="auto">If you don't find this service useful for your current infrastructure you can disable it with:</p>
+
+<pre class="code highlight js-syntax-highlight ruby white" v-pre="true" lang="ruby"><code><span class="n">nginx</span><span class="p">[</span><span class="s1">'status'</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">'enable'</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+<span class="p">}</span>
+</code></pre>
+<p dir="auto">Make sure you run sudo gitlab-ctl reconfigure for the changes to take effect.</p>
+
+<h4 dir="auto">
+<a id="user-content-warning-1" class="anchor" href="#warning-1" aria-hidden="true"></a>Warning</h4>
+
+<p dir="auto">To ensure that user uploads are accessible your Nginx user (usually <code>www-data</code>)
+should be added to the <code>gitlab-www</code> group. This can be done using the following command:</p>
+
+<pre class="code highlight js-syntax-highlight shell white" v-pre="true" lang="shell"><code>sudo usermod -aG gitlab-www www-data
+</code></pre>
+<h4 dir="auto">
+<a id="user-content-templates" class="anchor" href="#templates" aria-hidden="true"></a>Templates</h4>
+
+<p dir="auto">Other than the Passenger configuration in place of Unicorn and the lack of HTTPS
+(although this could be enabled) these files are mostly identical to :</p>
+
+<ul dir="auto">
+<li><a href="https://gitlab.com/gitlab-org/omnibus-gitlab/tree/master/files/gitlab-cookbooks/gitlab/templates/default/nginx-gitlab-http.conf.erb">bundled Gitlab Nginx configuration</a></li>
+</ul>
+
+<p dir="auto">Don't forget to restart Nginx to load the new configuration (on Debian-based
+systems <code>sudo service nginx restart</code>).</p>
+</div>
+
+</article>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+<div class="device-xs visible-xs"></div><div class="device-sm visible-sm"></div><div class="device-md visible-md"></div><div class="device-lg visible-lg"></div></body></html>
