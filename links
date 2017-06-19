@@ -3,6 +3,7 @@ installation >>
 https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-gitlab-on-ubuntu-16-04
 
 security >>
+https://www.digitalocean.com/community/tutorials/how-to-secure-gitlab-with-let-s-encrypt-on-ubuntu-16-04
 https://futurestud.io/tutorials/how-to-run-gitlab-with-self-signed-ssl-certificate
 https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/settings/nginx.md#enable-https
 
