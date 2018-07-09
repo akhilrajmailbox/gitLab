@@ -29,3 +29,7 @@ git local configuration >>
 https://www.digitalocean.com/community/tutorials/how-to-use-git-branches
 https://www.rosehosting.com/blog/how-to-install-configure-and-use-git-on-an-ubuntu-14-04-lts-vps/
 
+
+
+Clear the docker private registry data automatically (blobs)
+gitlab-ctl registry-garbage-collect
